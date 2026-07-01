@@ -19,6 +19,7 @@ import { Route as ShowcaseNavigationRouteImport } from './routes/_showcase.navig
 import { Route as ShowcaseMotionRouteImport } from './routes/_showcase.motion'
 import { Route as ShowcaseLoadingRouteImport } from './routes/_showcase.loading'
 import { Route as ShowcaseInputsRouteImport } from './routes/_showcase.inputs'
+import { Route as ShowcaseIconographyRouteImport } from './routes/_showcase.iconography'
 import { Route as ShowcaseDataVizRouteImport } from './routes/_showcase.data-viz'
 import { Route as ShowcaseColorsRouteImport } from './routes/_showcase.colors'
 import { Route as ShowcaseCardsRouteImport } from './routes/_showcase.cards'
@@ -76,6 +77,11 @@ const ShowcaseInputsRoute = ShowcaseInputsRouteImport.update({
   path: '/inputs',
   getParentRoute: () => ShowcaseRoute,
 } as any)
+const ShowcaseIconographyRoute = ShowcaseIconographyRouteImport.update({
+  id: '/iconography',
+  path: '/iconography',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
 const ShowcaseDataVizRoute = ShowcaseDataVizRouteImport.update({
   id: '/data-viz',
   path: '/data-viz',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/cards': typeof ShowcaseCardsRoute
   '/colors': typeof ShowcaseColorsRoute
   '/data-viz': typeof ShowcaseDataVizRoute
+  '/iconography': typeof ShowcaseIconographyRoute
   '/inputs': typeof ShowcaseInputsRoute
   '/loading': typeof ShowcaseLoadingRoute
   '/motion': typeof ShowcaseMotionRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/cards': typeof ShowcaseCardsRoute
   '/colors': typeof ShowcaseColorsRoute
   '/data-viz': typeof ShowcaseDataVizRoute
+  '/iconography': typeof ShowcaseIconographyRoute
   '/inputs': typeof ShowcaseInputsRoute
   '/loading': typeof ShowcaseLoadingRoute
   '/motion': typeof ShowcaseMotionRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/_showcase/cards': typeof ShowcaseCardsRoute
   '/_showcase/colors': typeof ShowcaseColorsRoute
   '/_showcase/data-viz': typeof ShowcaseDataVizRoute
+  '/_showcase/iconography': typeof ShowcaseIconographyRoute
   '/_showcase/inputs': typeof ShowcaseInputsRoute
   '/_showcase/loading': typeof ShowcaseLoadingRoute
   '/_showcase/motion': typeof ShowcaseMotionRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/cards'
     | '/colors'
     | '/data-viz'
+    | '/iconography'
     | '/inputs'
     | '/loading'
     | '/motion'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/cards'
     | '/colors'
     | '/data-viz'
+    | '/iconography'
     | '/inputs'
     | '/loading'
     | '/motion'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/_showcase/cards'
     | '/_showcase/colors'
     | '/_showcase/data-viz'
+    | '/_showcase/iconography'
     | '/_showcase/inputs'
     | '/_showcase/loading'
     | '/_showcase/motion'
@@ -302,6 +314,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseInputsRouteImport
       parentRoute: typeof ShowcaseRoute
     }
+    '/_showcase/iconography': {
+      id: '/_showcase/iconography'
+      path: '/iconography'
+      fullPath: '/iconography'
+      preLoaderRoute: typeof ShowcaseIconographyRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
     '/_showcase/data-viz': {
       id: '/_showcase/data-viz'
       path: '/data-viz'
@@ -362,6 +381,7 @@ interface ShowcaseRouteChildren {
   ShowcaseCardsRoute: typeof ShowcaseCardsRoute
   ShowcaseColorsRoute: typeof ShowcaseColorsRoute
   ShowcaseDataVizRoute: typeof ShowcaseDataVizRoute
+  ShowcaseIconographyRoute: typeof ShowcaseIconographyRoute
   ShowcaseInputsRoute: typeof ShowcaseInputsRoute
   ShowcaseLoadingRoute: typeof ShowcaseLoadingRoute
   ShowcaseMotionRoute: typeof ShowcaseMotionRoute
@@ -381,6 +401,7 @@ const ShowcaseRouteChildren: ShowcaseRouteChildren = {
   ShowcaseCardsRoute: ShowcaseCardsRoute,
   ShowcaseColorsRoute: ShowcaseColorsRoute,
   ShowcaseDataVizRoute: ShowcaseDataVizRoute,
+  ShowcaseIconographyRoute: ShowcaseIconographyRoute,
   ShowcaseInputsRoute: ShowcaseInputsRoute,
   ShowcaseLoadingRoute: ShowcaseLoadingRoute,
   ShowcaseMotionRoute: ShowcaseMotionRoute,
