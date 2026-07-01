@@ -15,6 +15,7 @@ import { Route as ShowcaseTypographyRouteImport } from './routes/_showcase.typog
 import { Route as ShowcaseSpacingRouteImport } from './routes/_showcase.spacing'
 import { Route as ShowcaseSelectionRouteImport } from './routes/_showcase.selection'
 import { Route as ShowcaseOverlaysRouteImport } from './routes/_showcase.overlays'
+import { Route as ShowcaseNavigationRouteImport } from './routes/_showcase.navigation'
 import { Route as ShowcaseLoadingRouteImport } from './routes/_showcase.loading'
 import { Route as ShowcaseInputsRouteImport } from './routes/_showcase.inputs'
 import { Route as ShowcaseColorsRouteImport } from './routes/_showcase.colors'
@@ -51,6 +52,11 @@ const ShowcaseSelectionRoute = ShowcaseSelectionRouteImport.update({
 const ShowcaseOverlaysRoute = ShowcaseOverlaysRouteImport.update({
   id: '/overlays',
   path: '/overlays',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseNavigationRoute = ShowcaseNavigationRouteImport.update({
+  id: '/navigation',
+  path: '/navigation',
   getParentRoute: () => ShowcaseRoute,
 } as any)
 const ShowcaseLoadingRoute = ShowcaseLoadingRouteImport.update({
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/colors': typeof ShowcaseColorsRoute
   '/inputs': typeof ShowcaseInputsRoute
   '/loading': typeof ShowcaseLoadingRoute
+  '/navigation': typeof ShowcaseNavigationRoute
   '/overlays': typeof ShowcaseOverlaysRoute
   '/selection': typeof ShowcaseSelectionRoute
   '/spacing': typeof ShowcaseSpacingRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/colors': typeof ShowcaseColorsRoute
   '/inputs': typeof ShowcaseInputsRoute
   '/loading': typeof ShowcaseLoadingRoute
+  '/navigation': typeof ShowcaseNavigationRoute
   '/overlays': typeof ShowcaseOverlaysRoute
   '/selection': typeof ShowcaseSelectionRoute
   '/spacing': typeof ShowcaseSpacingRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/_showcase/colors': typeof ShowcaseColorsRoute
   '/_showcase/inputs': typeof ShowcaseInputsRoute
   '/_showcase/loading': typeof ShowcaseLoadingRoute
+  '/_showcase/navigation': typeof ShowcaseNavigationRoute
   '/_showcase/overlays': typeof ShowcaseOverlaysRoute
   '/_showcase/selection': typeof ShowcaseSelectionRoute
   '/_showcase/spacing': typeof ShowcaseSpacingRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/colors'
     | '/inputs'
     | '/loading'
+    | '/navigation'
     | '/overlays'
     | '/selection'
     | '/spacing'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
     | '/colors'
     | '/inputs'
     | '/loading'
+    | '/navigation'
     | '/overlays'
     | '/selection'
     | '/spacing'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/_showcase/colors'
     | '/_showcase/inputs'
     | '/_showcase/loading'
+    | '/_showcase/navigation'
     | '/_showcase/overlays'
     | '/_showcase/selection'
     | '/_showcase/spacing'
@@ -236,6 +248,13 @@ declare module '@tanstack/react-router' {
       path: '/overlays'
       fullPath: '/overlays'
       preLoaderRoute: typeof ShowcaseOverlaysRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/navigation': {
+      id: '/_showcase/navigation'
+      path: '/navigation'
+      fullPath: '/navigation'
+      preLoaderRoute: typeof ShowcaseNavigationRouteImport
       parentRoute: typeof ShowcaseRoute
     }
     '/_showcase/loading': {
@@ -306,6 +325,7 @@ interface ShowcaseRouteChildren {
   ShowcaseColorsRoute: typeof ShowcaseColorsRoute
   ShowcaseInputsRoute: typeof ShowcaseInputsRoute
   ShowcaseLoadingRoute: typeof ShowcaseLoadingRoute
+  ShowcaseNavigationRoute: typeof ShowcaseNavigationRoute
   ShowcaseOverlaysRoute: typeof ShowcaseOverlaysRoute
   ShowcaseSelectionRoute: typeof ShowcaseSelectionRoute
   ShowcaseSpacingRoute: typeof ShowcaseSpacingRoute
@@ -322,6 +342,7 @@ const ShowcaseRouteChildren: ShowcaseRouteChildren = {
   ShowcaseColorsRoute: ShowcaseColorsRoute,
   ShowcaseInputsRoute: ShowcaseInputsRoute,
   ShowcaseLoadingRoute: ShowcaseLoadingRoute,
+  ShowcaseNavigationRoute: ShowcaseNavigationRoute,
   ShowcaseOverlaysRoute: ShowcaseOverlaysRoute,
   ShowcaseSelectionRoute: ShowcaseSelectionRoute,
   ShowcaseSpacingRoute: ShowcaseSpacingRoute,
