@@ -111,6 +111,111 @@ function CardsPage() {
             </Button>
           </CardFooter>
         </Card>
+      <Section title="Interactive cards" hint="BorderGlow · move your cursor near the edges">
+        <div className="grid gap-7 [grid-template-columns:repeat(auto-fit,minmax(248px,1fr))]">
+          <BorderGlow colors={["#3657FF", "#FB00C8", "#22D3EE"]} glowColor="248 90 70">
+            <div className="p-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                Asset
+              </p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+                NeosPower BESS
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                215 kWh · 92% round-trip · &lt;200ms response.
+              </p>
+            </div>
+          </BorderGlow>
+
+          <BorderGlow animated glowColor="312 100 62" colors={["#FB00C8", "#3657FF", "#7C5CFF"]}>
+            <div className="p-6">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                Annual saving
+              </span>
+              <div className="mt-3 text-5xl font-semibold text-gradient-brand">€48,200</div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Intro sweep plays once on mount.
+              </p>
+            </div>
+          </BorderGlow>
+
+          <BorderGlow
+            glowColor="188 92 60"
+            colors={["#22D3EE", "#3657FF", "#7C5CFF"]}
+            edgeSensitivity={10}
+            coneSpread={40}
+          >
+            <div className="p-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                Grid signal
+              </p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+                Frequency stable
+              </h3>
+              <div className="mt-3 font-mono text-3xl tabular-nums text-foreground">
+                50.02<span className="text-lg text-muted-foreground"> Hz</span>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Wider cone, higher sensitivity.
+              </p>
+            </div>
+          </BorderGlow>
+
+          <BorderGlow
+            glowColor="150 84 55"
+            colors={["#34E29B", "#22D3EE", "#3657FF"]}
+            glowRadius={64}
+            glowIntensity={1.2}
+          >
+            <div className="p-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-success">
+                Dispatch OK
+              </p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+                Rotterdam · 042
+              </h3>
+              <div className="mt-3 font-mono text-3xl tabular-nums text-foreground">
+                184.2 <span className="text-lg text-muted-foreground">MWh</span>
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">Larger halo, brighter tint.</p>
+            </div>
+          </BorderGlow>
+
+          <BorderGlow
+            glowColor="12 96 60"
+            colors={["#FF5C3A", "#FB00C8", "#7C5CFF"]}
+            coneSpread={12}
+            fillOpacity={0.35}
+          >
+            <div className="p-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-destructive">
+                Alert
+              </p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+                Peak imbalance
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Narrow cone traces the pointer more precisely.
+              </p>
+            </div>
+          </BorderGlow>
+
+          <BorderGlow
+            glowColor="268 88 70"
+            colors={["#7C5CFF", "#3657FF", "#FB00C8"]}
+            borderRadius={28}
+          >
+            <div className="p-6">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                Portfolio
+              </p>
+              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
+                42 sites · 1.2 GWh
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">Softer 28px radius.</p>
+            </div>
+          </BorderGlow>
+        </div>
       </Section>
     </DocPage>
   );
