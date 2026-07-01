@@ -18,6 +18,7 @@ import { Route as ShowcaseOverlaysRouteImport } from './routes/_showcase.overlay
 import { Route as ShowcaseNavigationRouteImport } from './routes/_showcase.navigation'
 import { Route as ShowcaseLoadingRouteImport } from './routes/_showcase.loading'
 import { Route as ShowcaseInputsRouteImport } from './routes/_showcase.inputs'
+import { Route as ShowcaseDataVizRouteImport } from './routes/_showcase.data-viz'
 import { Route as ShowcaseColorsRouteImport } from './routes/_showcase.colors'
 import { Route as ShowcaseCardsRouteImport } from './routes/_showcase.cards'
 import { Route as ShowcaseButtonsRouteImport } from './routes/_showcase.buttons'
@@ -69,6 +70,11 @@ const ShowcaseInputsRoute = ShowcaseInputsRouteImport.update({
   path: '/inputs',
   getParentRoute: () => ShowcaseRoute,
 } as any)
+const ShowcaseDataVizRoute = ShowcaseDataVizRouteImport.update({
+  id: '/data-viz',
+  path: '/data-viz',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
 const ShowcaseColorsRoute = ShowcaseColorsRouteImport.update({
   id: '/colors',
   path: '/colors',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/buttons': typeof ShowcaseButtonsRoute
   '/cards': typeof ShowcaseCardsRoute
   '/colors': typeof ShowcaseColorsRoute
+  '/data-viz': typeof ShowcaseDataVizRoute
   '/inputs': typeof ShowcaseInputsRoute
   '/loading': typeof ShowcaseLoadingRoute
   '/navigation': typeof ShowcaseNavigationRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/buttons': typeof ShowcaseButtonsRoute
   '/cards': typeof ShowcaseCardsRoute
   '/colors': typeof ShowcaseColorsRoute
+  '/data-viz': typeof ShowcaseDataVizRoute
   '/inputs': typeof ShowcaseInputsRoute
   '/loading': typeof ShowcaseLoadingRoute
   '/navigation': typeof ShowcaseNavigationRoute
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/_showcase/buttons': typeof ShowcaseButtonsRoute
   '/_showcase/cards': typeof ShowcaseCardsRoute
   '/_showcase/colors': typeof ShowcaseColorsRoute
+  '/_showcase/data-viz': typeof ShowcaseDataVizRoute
   '/_showcase/inputs': typeof ShowcaseInputsRoute
   '/_showcase/loading': typeof ShowcaseLoadingRoute
   '/_showcase/navigation': typeof ShowcaseNavigationRoute
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/buttons'
     | '/cards'
     | '/colors'
+    | '/data-viz'
     | '/inputs'
     | '/loading'
     | '/navigation'
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/buttons'
     | '/cards'
     | '/colors'
+    | '/data-viz'
     | '/inputs'
     | '/loading'
     | '/navigation'
@@ -192,6 +203,7 @@ export interface FileRouteTypes {
     | '/_showcase/buttons'
     | '/_showcase/cards'
     | '/_showcase/colors'
+    | '/_showcase/data-viz'
     | '/_showcase/inputs'
     | '/_showcase/loading'
     | '/_showcase/navigation'
@@ -271,6 +283,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseInputsRouteImport
       parentRoute: typeof ShowcaseRoute
     }
+    '/_showcase/data-viz': {
+      id: '/_showcase/data-viz'
+      path: '/data-viz'
+      fullPath: '/data-viz'
+      preLoaderRoute: typeof ShowcaseDataVizRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
     '/_showcase/colors': {
       id: '/_showcase/colors'
       path: '/colors'
@@ -323,6 +342,7 @@ interface ShowcaseRouteChildren {
   ShowcaseButtonsRoute: typeof ShowcaseButtonsRoute
   ShowcaseCardsRoute: typeof ShowcaseCardsRoute
   ShowcaseColorsRoute: typeof ShowcaseColorsRoute
+  ShowcaseDataVizRoute: typeof ShowcaseDataVizRoute
   ShowcaseInputsRoute: typeof ShowcaseInputsRoute
   ShowcaseLoadingRoute: typeof ShowcaseLoadingRoute
   ShowcaseNavigationRoute: typeof ShowcaseNavigationRoute
@@ -340,6 +360,7 @@ const ShowcaseRouteChildren: ShowcaseRouteChildren = {
   ShowcaseButtonsRoute: ShowcaseButtonsRoute,
   ShowcaseCardsRoute: ShowcaseCardsRoute,
   ShowcaseColorsRoute: ShowcaseColorsRoute,
+  ShowcaseDataVizRoute: ShowcaseDataVizRoute,
   ShowcaseInputsRoute: ShowcaseInputsRoute,
   ShowcaseLoadingRoute: ShowcaseLoadingRoute,
   ShowcaseNavigationRoute: ShowcaseNavigationRoute,
