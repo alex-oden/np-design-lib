@@ -111,6 +111,8 @@ function CardsPage() {
             </Button>
           </CardFooter>
         </Card>
+      </Section>
+
       <Section title="Interactive cards" hint="BorderGlow · move your cursor near the edges">
         <div className="grid gap-7 [grid-template-columns:repeat(auto-fit,minmax(248px,1fr))]">
           <BorderGlow colors={["#3657FF", "#FB00C8", "#22D3EE"]} glowColor="248 90 70">
