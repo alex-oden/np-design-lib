@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bolt } from "lucide-react";
 import { cn } from "@/lib/utils";
+import neosLogo from "@/assets/neospower-logo.svg";
 
 type NavItem = { to: string; label: string };
 type NavGroup = { label?: string; items: NavItem[] };
@@ -55,13 +55,9 @@ export function ShowcaseSidebar({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <nav className="flex h-full flex-col gap-6 px-5 py-6" aria-label="Design system sections">
-      <Link to="/" className="flex items-center gap-2.5" onClick={onNavigate}>
-        <span className="grid size-8 place-items-center rounded-lg bg-brand-gradient shadow-[0_8px_24px_-10px_hsl(var(--brand-start)/0.7)]">
-          <Bolt className="size-4 text-primary-foreground" />
-        </span>
-        <span className="font-mono text-[12px] tracking-[0.14em] text-foreground">
-          NEOSPOWER<span className="text-muted-foreground/70">/UI</span>
-        </span>
+      <Link to="/" className="flex items-center gap-2" onClick={onNavigate} aria-label="NeosPower UI — home">
+        <img src={neosLogo} alt="NeosPower" className="h-6 w-auto" />
+        <span className="font-mono text-[11px] tracking-[0.18em] text-muted-foreground/70">/UI</span>
       </Link>
 
       <div className="flex flex-col gap-6 overflow-y-auto pr-1">
