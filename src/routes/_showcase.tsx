@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { ShowcaseSidebar } from "@/components/showcase-sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import neosLogo from "@/assets/neospower-logo.svg";
 
 export const Route = createFileRoute("/_showcase")({
   component: ShowcaseLayout,
@@ -66,9 +67,8 @@ function ShowcaseLayout() {
               >
                 {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
               </button>
-              <span className="font-mono text-[12px] tracking-[0.14em] text-muted-foreground">
-                NEOSPOWER/UI
-              </span>
+              <img src={neosLogo} alt="NeosPower" className="h-5 w-auto" />
+              <span className="font-mono text-[11px] tracking-[0.18em] text-muted-foreground/70">/UI</span>
             </header>
 
             <main>

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DocPage, Section } from "@/components/showcase-page";
 import { BorderGlow } from "@/components/ui/border-glow";
+import neosLogo from "@/assets/neospower-logo.svg";
 
 export const Route = createFileRoute("/_showcase/brand")({
   head: () => ({
@@ -29,10 +30,8 @@ function BrandPage() {
       intro="The brand rests on one load-bearing asset: the blue-to-magenta gradient. Everything else — wordmark, halo, glow — orbits it. Deploy sparingly so it keeps its charge."
     >
       <Section title="Wordmark">
-        <div className="flex items-center justify-center rounded-[var(--radius)] border border-border/60 bg-card/50 py-14">
-          <span className="font-mono text-3xl tracking-[0.32em] text-foreground">
-            NEOS<span className="bg-brand-gradient bg-clip-text text-transparent">POWER</span>
-          </span>
+        <div className="flex items-center justify-center rounded-[var(--radius)] border border-border/60 bg-card/50 px-8 py-14">
+          <img src={neosLogo} alt="NeosPower wordmark" className="h-14 w-auto md:h-16" />
         </div>
       </Section>
 
