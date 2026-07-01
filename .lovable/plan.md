@@ -1,67 +1,85 @@
+
 ## Goal
 
-Adopt **NeosPower UI** as the app's design system: dark-first, token-driven, Geist typography, single blue→magenta brand gradient, with the signature `BorderGlow` card. Replace the current oklch shadcn tokens and re-theme the whole app.
+Replace the single-page showcase with a proper documentation site for the NeosPower design system. Each section from your reference sidebar becomes its own route with dedicated SEO metadata. All existing NeosPower components stay as-is — this is purely a showcase/presentation change.
 
-## 1. Tokens — `src/styles.css`
+## Route structure
 
-Rewrite the `:root` / `.dark` blocks with NeosPower's HSL variables (shadcn `H S% L%` convention). Because Tailwind v4 needs values inlined for utilities like `bg-primary`, keep `@theme inline` mapping tokens to `hsl(var(--x))`.
+All routes live under a shared `_showcase` layout (pathless — URLs stay clean):
 
-- Add tokens: `success`, `success-foreground`, `warning`, `warning-foreground`, `info`, `info-foreground`, `brand-start`, `brand-end`, `brand-cyan`, `brand-border`.
-- Add radius scale (`sm/md/lg/xl` per spec), shadow tokens (`--shadow-card`, `--shadow-glow`, `--shadow-ring`), and a `--gradient-brand` var.
-- Register a `bg-brand-gradient` utility via `@utility` (Tailwind v4 replacement for the v3 `backgroundImage` config) plus a `text-gradient-brand` utility (clipped text).
-- Add keyframes + `@utility animate-np-*` (spin, pulse, bounce, shimmer, indeterminate, toast-in) — v4 replacement for `tailwindcss-animate` keyframes referenced by NeosPower.
-- Dark values become the defaults (the system is dark-first); keep a light `.dark` inversion optional / minimal.
+```
+src/routes/
+  __root.tsx                       (unchanged shell)
+  _showcase.tsx                    (sidebar + <Outlet />)
+  _showcase.index.tsx              (/  — overview / hero landing)
+  _showcase.colors.tsx             (/colors)
+  _showcase.typography.tsx         (/typography)
+  _showcase.spacing.tsx            (/spacing)
+  _showcase.buttons.tsx            (/buttons)
+  _showcase.button-states.tsx      (/button-states)
+  _showcase.inputs.tsx             (/inputs)
+  _showcase.selection.tsx          (/selection)
+  _showcase.cards.tsx              (/cards)
+  _showcase.badges.tsx             (/badges)
+  _showcase.alerts.tsx             (/alerts)
+  _showcase.overlays.tsx           (/overlays)
+  _showcase.loading.tsx            (/loading)
+  _showcase.navigation.tsx         (/navigation)
+  _showcase.data-viz.tsx           (/data-viz)
+  _showcase.motion.tsx             (/motion)
+  _showcase.iconography.tsx        (/iconography)
+  _showcase.brand.tsx              (/brand)
+```
 
-## 2. Fonts
+Delete the current monolithic `src/routes/index.tsx` content and replace with a compact overview landing (hero + section grid linking to each doc page).
 
-Load **Geist** + **Geist Mono** via `<link>` tags in `src/routes/__root.tsx` `head()` (project rule: no `@import` of remote URLs). Add `--font-sans: "Geist", …` and `--font-mono: "Geist Mono", …` in `@theme`.
+## Sidebar
 
-## 3. Dependencies
+New `src/components/showcase-sidebar.tsx` built on shadcn `Sidebar` primitives (already in the project). Grouped exactly like your screenshot:
 
-`bun add` the missing Radix packages the NeosPower components need beyond what's in the current tree:
-`@radix-ui/react-checkbox @radix-ui/react-radio-group @radix-ui/react-switch @radix-ui/react-progress` (dialog, popover, dropdown, tooltip, label, slot are already installed via existing shadcn).
+- **Foundations** — Colors, Typography, Spacing & shadows
+- **Components** — Buttons, Button states, Inputs & fields, Selection controls, Cards, Badges & status
+- **Feedback & overlays** — Alerts & banners, Overlays, Loading & progress
+- **Layout** — Navigation
+- **Expression** — Data viz, Motion, Iconography, Brand
 
-## 4. Components — full swap
+Active-route highlight via `useRouterState` + `Link activeProps`. Active pill styled with `bg-brand-gradient-soft` + brand-cyan dot to match the reference. `SidebarTrigger` in a slim top bar so it collapses to an icon rail on mobile.
 
-Port all 25 files from `neospower-ds/src/components/` into this project's `src/components/ui/` (same folder shadcn already uses so downstream imports keep working):
+## Section content
 
-button, input, textarea, select, label, field, checkbox, radio-group, switch, segmented, badge (+ Count), card, alert, banner, spinner (+ Dots), progress, skeleton, dialog, sheet, tooltip, popover, dropdown-menu, toast, border-glow (+ co-located `border-glow.css`).
+Each route exports `head()` with unique title/description/og tags and a `<section>` block that:
 
-Adaptations during port:
-- Keep shadcn file names so existing imports (`@/components/ui/button`, etc.) resolve to the new NeosPower versions.
-- Add new-file exports for NeosPower-only pieces not in the current ui/: `field`, `segmented`, `banner`, `border-glow`, and re-export `Count`, `Dots` from their sibling files.
-- Replace any `tailwindcss-animate` class refs with the `animate-np-*` utilities defined in styles.css.
-- Keep `React.forwardRef` + `cva` + `cn()` structure verbatim. Enforce the crisp-gradient-edge rule (`border-brand-border` + `[background-clip:padding-box]`) on Checkbox/Radio/Switch/Segmented/solid Badge.
-- Delete shadcn components that NeosPower doesn't cover only if unused; leave others (accordion, table, etc.) in place — they'll re-theme via the shared tokens.
+- Opens with an H1 + one-line intro (Geist sans).
+- Shows live examples grouped by variant/state.
+- Includes an "Anatomy" or "Usage" note using `font-mono` for prop names.
+- Wraps code snippets in a token-driven `<pre>` block (bg-secondary, border-border/60).
 
-## 5. `cn()` + utils
+Existing component sections (Buttons, Inputs, Cards, etc.) get expanded coverage — every variant, size, and state from the NeosPower archive, not just a sampler.
 
-Already present at `src/lib/utils.ts`. Verify signature matches (`twMerge(clsx(inputs))`) — no change expected.
+## Missing sections (token-driven demos)
 
-## 6. Home page showcase — `src/routes/index.tsx`
+- **Data viz** — a small bar chart + line chart using `recharts` (already installed) themed with `--color-chart-1..5` (brand start/end/cyan/success/warning). Plus a KPI stat card grid using `font-mono` numerals.
+- **Motion** — live tiles demonstrating `animate-np-spin`, `animate-np-pulse`, `animate-np-bounce`, `animate-np-shimmer`, `animate-np-indeterminate`, `animate-np-toast-in`, each with its duration/easing shown in mono.
+- **Iconography** — a searchable grid of ~40 curated `lucide-react` icons at 16/20/24 sizes showing muted-foreground → foreground → brand-gradient tinting rules.
+- **Brand** — brand mark built from `bg-brand-gradient` on a rounded square, wordmark using `text-gradient-brand`, a palette strip of `--brand-start / --brand-end / --brand-cyan / --brand-border`, and do/don't cards for gradient-fill edge treatment (the "crisp edge" rule with `[background-clip:padding-box]`).
 
-Replace the placeholder with a dark showcase route:
+## SEO / metadata
 
-- Root `<TooltipProvider>` wrap.
-- Hero: `BorderGlow` card with headline in `text-gradient-brand`, one primary `Button` (gradient), one `Button variant="ghost"`.
-- Sections (each in a `Card variant="glass"`): Buttons (all variants/sizes/loading), Forms (Field + Input/Textarea/Select/Checkbox/Radio/Switch/Segmented), Status (Badge/Count/Alert/Banner/Progress/Skeleton/Spinner/Dots), Overlays (Dialog + Sheet + Popover + DropdownMenu + Tooltip triggers).
-- Data blocks use `font-mono` per NeosPower rules.
-- Update `head()` on the route with a real app-specific title / description / og tags (kill the "Lovable App" defaults on `__root.tsx` too).
-
-## 7. Verification
-
-- Build passes (`routeTree.gen.ts` unaffected — only route content changes).
-- Visual check via Playwright screenshot of `/` at 1280×1800: dark navy background, gradient hero, crisp checked-state edges on Checkbox/Switch, focus ring visible on tab.
-- Toggle a token in `src/styles.css` mentally-verify (no hardcoded hex in components).
+- `__root.tsx` head keeps site-wide title template + description; **no og:image** at root (leaf routes own it).
+- Each leaf route sets its own `title`, `description`, `og:title`, `og:description`, `og:type=article`, `twitter:card=summary_large_image`.
+- No og:image URLs until we have real hero images — omit rather than use placeholders.
 
 ## Technical notes
 
-- Tailwind v4 has no `tailwind.config.ts`; every token/utility/animation from NeosPower's v3 config is re-expressed inside `src/styles.css` (`@theme`, `@utility`, `@keyframes`).
-- `border-glow.css` stays co-located and is imported by `border-glow.tsx` (component-scoped CSS import is fine in Vite).
-- No backend / server-function work; all changes are frontend/presentation.
-- Existing routes and shadcn consumers keep working because ui/ file paths and export names are preserved.
+- Uses TanStack file-based routing with `_showcase` pathless layout — URLs like `/colors` (no `/showcase/` prefix).
+- `<Outlet />` in `_showcase.tsx` renders the active child.
+- Sidebar width uses `w-[var(--sidebar-width)]` per Tailwind v4 rules.
+- `recharts` is already in the shadcn `chart.tsx` component — reuse it for Data viz.
+- No new npm packages required.
+- No changes to `src/styles.css`, tokens, or any `src/components/ui/*` component.
 
 ## Out of scope
 
-- No changes to auth, routing beyond `index.tsx` `head()`, server code, or `routeTree.gen.ts`.
-- No light theme polish beyond keeping `.dark` variant hookable — NeosPower ships as dark-default.
+- No changes to design tokens, component APIs, or the NeosPower components themselves.
+- No dark/light toggle (project is dark-first per the DS).
+- No search / command palette (can be added later if wanted).

@@ -9,50 +9,311 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShowcaseRouteImport } from './routes/_showcase'
+import { Route as ShowcaseIndexRouteImport } from './routes/_showcase.index'
+import { Route as ShowcaseTypographyRouteImport } from './routes/_showcase.typography'
+import { Route as ShowcaseSpacingRouteImport } from './routes/_showcase.spacing'
+import { Route as ShowcaseSelectionRouteImport } from './routes/_showcase.selection'
+import { Route as ShowcaseOverlaysRouteImport } from './routes/_showcase.overlays'
+import { Route as ShowcaseInputsRouteImport } from './routes/_showcase.inputs'
+import { Route as ShowcaseColorsRouteImport } from './routes/_showcase.colors'
+import { Route as ShowcaseCardsRouteImport } from './routes/_showcase.cards'
+import { Route as ShowcaseButtonsRouteImport } from './routes/_showcase.buttons'
+import { Route as ShowcaseButtonStatesRouteImport } from './routes/_showcase.button-states'
+import { Route as ShowcaseBadgesRouteImport } from './routes/_showcase.badges'
+import { Route as ShowcaseAlertsRouteImport } from './routes/_showcase.alerts'
 
-const IndexRoute = IndexRouteImport.update({
+const ShowcaseRoute = ShowcaseRouteImport.update({
+  id: '/_showcase',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShowcaseIndexRoute = ShowcaseIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseTypographyRoute = ShowcaseTypographyRouteImport.update({
+  id: '/typography',
+  path: '/typography',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseSpacingRoute = ShowcaseSpacingRouteImport.update({
+  id: '/spacing',
+  path: '/spacing',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseSelectionRoute = ShowcaseSelectionRouteImport.update({
+  id: '/selection',
+  path: '/selection',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseOverlaysRoute = ShowcaseOverlaysRouteImport.update({
+  id: '/overlays',
+  path: '/overlays',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseInputsRoute = ShowcaseInputsRouteImport.update({
+  id: '/inputs',
+  path: '/inputs',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseColorsRoute = ShowcaseColorsRouteImport.update({
+  id: '/colors',
+  path: '/colors',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseCardsRoute = ShowcaseCardsRouteImport.update({
+  id: '/cards',
+  path: '/cards',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseButtonsRoute = ShowcaseButtonsRouteImport.update({
+  id: '/buttons',
+  path: '/buttons',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseButtonStatesRoute = ShowcaseButtonStatesRouteImport.update({
+  id: '/button-states',
+  path: '/button-states',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseBadgesRoute = ShowcaseBadgesRouteImport.update({
+  id: '/badges',
+  path: '/badges',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
+const ShowcaseAlertsRoute = ShowcaseAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
+  getParentRoute: () => ShowcaseRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof ShowcaseIndexRoute
+  '/alerts': typeof ShowcaseAlertsRoute
+  '/badges': typeof ShowcaseBadgesRoute
+  '/button-states': typeof ShowcaseButtonStatesRoute
+  '/buttons': typeof ShowcaseButtonsRoute
+  '/cards': typeof ShowcaseCardsRoute
+  '/colors': typeof ShowcaseColorsRoute
+  '/inputs': typeof ShowcaseInputsRoute
+  '/overlays': typeof ShowcaseOverlaysRoute
+  '/selection': typeof ShowcaseSelectionRoute
+  '/spacing': typeof ShowcaseSpacingRoute
+  '/typography': typeof ShowcaseTypographyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/alerts': typeof ShowcaseAlertsRoute
+  '/badges': typeof ShowcaseBadgesRoute
+  '/button-states': typeof ShowcaseButtonStatesRoute
+  '/buttons': typeof ShowcaseButtonsRoute
+  '/cards': typeof ShowcaseCardsRoute
+  '/colors': typeof ShowcaseColorsRoute
+  '/inputs': typeof ShowcaseInputsRoute
+  '/overlays': typeof ShowcaseOverlaysRoute
+  '/selection': typeof ShowcaseSelectionRoute
+  '/spacing': typeof ShowcaseSpacingRoute
+  '/typography': typeof ShowcaseTypographyRoute
+  '/': typeof ShowcaseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_showcase': typeof ShowcaseRouteWithChildren
+  '/_showcase/alerts': typeof ShowcaseAlertsRoute
+  '/_showcase/badges': typeof ShowcaseBadgesRoute
+  '/_showcase/button-states': typeof ShowcaseButtonStatesRoute
+  '/_showcase/buttons': typeof ShowcaseButtonsRoute
+  '/_showcase/cards': typeof ShowcaseCardsRoute
+  '/_showcase/colors': typeof ShowcaseColorsRoute
+  '/_showcase/inputs': typeof ShowcaseInputsRoute
+  '/_showcase/overlays': typeof ShowcaseOverlaysRoute
+  '/_showcase/selection': typeof ShowcaseSelectionRoute
+  '/_showcase/spacing': typeof ShowcaseSpacingRoute
+  '/_showcase/typography': typeof ShowcaseTypographyRoute
+  '/_showcase/': typeof ShowcaseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/alerts'
+    | '/badges'
+    | '/button-states'
+    | '/buttons'
+    | '/cards'
+    | '/colors'
+    | '/inputs'
+    | '/overlays'
+    | '/selection'
+    | '/spacing'
+    | '/typography'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/alerts'
+    | '/badges'
+    | '/button-states'
+    | '/buttons'
+    | '/cards'
+    | '/colors'
+    | '/inputs'
+    | '/overlays'
+    | '/selection'
+    | '/spacing'
+    | '/typography'
+    | '/'
+  id:
+    | '__root__'
+    | '/_showcase'
+    | '/_showcase/alerts'
+    | '/_showcase/badges'
+    | '/_showcase/button-states'
+    | '/_showcase/buttons'
+    | '/_showcase/cards'
+    | '/_showcase/colors'
+    | '/_showcase/inputs'
+    | '/_showcase/overlays'
+    | '/_showcase/selection'
+    | '/_showcase/spacing'
+    | '/_showcase/typography'
+    | '/_showcase/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  ShowcaseRoute: typeof ShowcaseRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_showcase': {
+      id: '/_showcase'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ShowcaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_showcase/': {
+      id: '/_showcase/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ShowcaseIndexRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/typography': {
+      id: '/_showcase/typography'
+      path: '/typography'
+      fullPath: '/typography'
+      preLoaderRoute: typeof ShowcaseTypographyRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/spacing': {
+      id: '/_showcase/spacing'
+      path: '/spacing'
+      fullPath: '/spacing'
+      preLoaderRoute: typeof ShowcaseSpacingRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/selection': {
+      id: '/_showcase/selection'
+      path: '/selection'
+      fullPath: '/selection'
+      preLoaderRoute: typeof ShowcaseSelectionRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/overlays': {
+      id: '/_showcase/overlays'
+      path: '/overlays'
+      fullPath: '/overlays'
+      preLoaderRoute: typeof ShowcaseOverlaysRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/inputs': {
+      id: '/_showcase/inputs'
+      path: '/inputs'
+      fullPath: '/inputs'
+      preLoaderRoute: typeof ShowcaseInputsRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/colors': {
+      id: '/_showcase/colors'
+      path: '/colors'
+      fullPath: '/colors'
+      preLoaderRoute: typeof ShowcaseColorsRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/cards': {
+      id: '/_showcase/cards'
+      path: '/cards'
+      fullPath: '/cards'
+      preLoaderRoute: typeof ShowcaseCardsRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/buttons': {
+      id: '/_showcase/buttons'
+      path: '/buttons'
+      fullPath: '/buttons'
+      preLoaderRoute: typeof ShowcaseButtonsRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/button-states': {
+      id: '/_showcase/button-states'
+      path: '/button-states'
+      fullPath: '/button-states'
+      preLoaderRoute: typeof ShowcaseButtonStatesRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/badges': {
+      id: '/_showcase/badges'
+      path: '/badges'
+      fullPath: '/badges'
+      preLoaderRoute: typeof ShowcaseBadgesRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
+    '/_showcase/alerts': {
+      id: '/_showcase/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof ShowcaseAlertsRouteImport
+      parentRoute: typeof ShowcaseRoute
     }
   }
 }
 
+interface ShowcaseRouteChildren {
+  ShowcaseAlertsRoute: typeof ShowcaseAlertsRoute
+  ShowcaseBadgesRoute: typeof ShowcaseBadgesRoute
+  ShowcaseButtonStatesRoute: typeof ShowcaseButtonStatesRoute
+  ShowcaseButtonsRoute: typeof ShowcaseButtonsRoute
+  ShowcaseCardsRoute: typeof ShowcaseCardsRoute
+  ShowcaseColorsRoute: typeof ShowcaseColorsRoute
+  ShowcaseInputsRoute: typeof ShowcaseInputsRoute
+  ShowcaseOverlaysRoute: typeof ShowcaseOverlaysRoute
+  ShowcaseSelectionRoute: typeof ShowcaseSelectionRoute
+  ShowcaseSpacingRoute: typeof ShowcaseSpacingRoute
+  ShowcaseTypographyRoute: typeof ShowcaseTypographyRoute
+  ShowcaseIndexRoute: typeof ShowcaseIndexRoute
+}
+
+const ShowcaseRouteChildren: ShowcaseRouteChildren = {
+  ShowcaseAlertsRoute: ShowcaseAlertsRoute,
+  ShowcaseBadgesRoute: ShowcaseBadgesRoute,
+  ShowcaseButtonStatesRoute: ShowcaseButtonStatesRoute,
+  ShowcaseButtonsRoute: ShowcaseButtonsRoute,
+  ShowcaseCardsRoute: ShowcaseCardsRoute,
+  ShowcaseColorsRoute: ShowcaseColorsRoute,
+  ShowcaseInputsRoute: ShowcaseInputsRoute,
+  ShowcaseOverlaysRoute: ShowcaseOverlaysRoute,
+  ShowcaseSelectionRoute: ShowcaseSelectionRoute,
+  ShowcaseSpacingRoute: ShowcaseSpacingRoute,
+  ShowcaseTypographyRoute: ShowcaseTypographyRoute,
+  ShowcaseIndexRoute: ShowcaseIndexRoute,
+}
+
+const ShowcaseRouteWithChildren = ShowcaseRoute._addFileChildren(
+  ShowcaseRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  ShowcaseRoute: ShowcaseRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
