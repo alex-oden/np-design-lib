@@ -1,85 +1,41 @@
 
 ## Goal
 
-Replace the single-page showcase with a proper documentation site for the NeosPower design system. Each section from your reference sidebar becomes its own route with dedicated SEO metadata. All existing NeosPower components stay as-is — this is purely a showcase/presentation change.
+Produce a single machine-readable reference file that another AI agent can ingest to understand every component shipped in this NeosPower UI project — what it is, which tech powers it, and how to import it. No UI changes.
 
-## Route structure
+## Deliverable
 
-All routes live under a shared `_showcase` layout (pathless — URLs stay clean):
+Create `docs/neospower-components.md` (new file, ~250 lines). Structure:
 
-```
-src/routes/
-  __root.tsx                       (unchanged shell)
-  _showcase.tsx                    (sidebar + <Outlet />)
-  _showcase.index.tsx              (/  — overview / hero landing)
-  _showcase.colors.tsx             (/colors)
-  _showcase.typography.tsx         (/typography)
-  _showcase.spacing.tsx            (/spacing)
-  _showcase.buttons.tsx            (/buttons)
-  _showcase.button-states.tsx      (/button-states)
-  _showcase.inputs.tsx             (/inputs)
-  _showcase.selection.tsx          (/selection)
-  _showcase.cards.tsx              (/cards)
-  _showcase.badges.tsx             (/badges)
-  _showcase.alerts.tsx             (/alerts)
-  _showcase.overlays.tsx           (/overlays)
-  _showcase.loading.tsx            (/loading)
-  _showcase.navigation.tsx         (/navigation)
-  _showcase.data-viz.tsx           (/data-viz)
-  _showcase.motion.tsx             (/motion)
-  _showcase.iconography.tsx        (/iconography)
-  _showcase.brand.tsx              (/brand)
-```
+### 1. Stack summary (top of file)
+One short block: React 19 + TypeScript, TanStack Start v1 (file-based routing under `src/routes/`), Tailwind CSS v4 (tokens in `src/styles.css` via `@theme` + `@utility`), shadcn/ui conventions, Radix UI primitives, `lucide-react` icons, `recharts` for data viz, `class-variance-authority` + `tailwind-merge` (`cn`) for variant styling. Dark-first, HSL semantic tokens, brand gradient `bg-brand-gradient` (blue → magenta) with crisp-edge rule (`[background-clip:padding-box]` + opaque border).
 
-Delete the current monolithic `src/routes/index.tsx` content and replace with a compact overview landing (hero + section grid linking to each doc page).
+### 2. Component table
+One row per file in `src/components/ui/`. Columns: `import path` · `exports` · `primitive/tech` · `one-line description` · `key props/variants`.
 
-## Sidebar
+Grouped to match the docs sidebar:
 
-New `src/components/showcase-sidebar.tsx` built on shadcn `Sidebar` primitives (already in the project). Grouped exactly like your screenshot:
+- **Foundational controls** — `button` (CVA variants: default/secondary/ghost/outline/destructive/link, sizes sm/default/lg/icon, `loading`, `asChild` via Radix Slot), `badge` (variants + `dot`, `live` pulse), `spinner` (SVG, `animate-np-spin`).
+- **Inputs & fields** — `input` (leading/trailing icon slots, `aria-invalid` styling), `textarea`, `select` (native styled + ChevronDown), `label` (Radix Label, `required` star), `field` (composed Label + control + hint/error wrapper), `checkbox` (Radix), `radio-group` (Radix, brand-gradient fill), `switch` (Radix), `segmented` (custom, sliding brand thumb via `useLayoutEffect` measuring offsets), `slider` (Radix), `input-otp` (input-otp lib).
+- **Surfaces** — `card` (CardHeader/Title/Description/Content/Footer, `glass` variant), `border-glow` (custom: pointermove sets `--cursor-angle` + `--edge-proximity` CSS vars, styled by `border-glow.css`; props: `glowColor`, `animated`, `borderRadius`, `intensity`, `coneSpread`, `sensitivity`, `fillOpacity`), `separator` (Radix), `aspect-ratio` (Radix), `skeleton` (`animate-np-shimmer`), `scroll-area` (Radix), `resizable` (react-resizable-panels), `avatar` (Radix).
+- **Feedback** — `alert` (variants: default/info/success/warning/destructive), `banner` (page-width, dismissible, `BannerProps`), `toast` + `sonner` (sonner lib, `animate-np-toast-in`), `progress` (Radix, `indeterminate` mode via `animate-np-indeterminate`).
+- **Overlays** — `dialog`, `alert-dialog`, `sheet`, `drawer` (vaul), `popover`, `hover-card`, `tooltip` (all Radix; glass surfaces via `bg-popover/95 glass`), `dropdown-menu`, `context-menu`, `menubar` (all Radix).
+- **Navigation & layout** — `sidebar` (shadcn composite), `navigation-menu` (Radix), `breadcrumb`, `pagination`, `tabs` (Radix), `toggle` + `toggle-group` (Radix), `command` (cmdk), `accordion` (Radix), `collapsible` (Radix).
+- **Data & pickers** — `table` (semantic wrappers), `calendar` (react-day-picker), `carousel` (embla), `chart` (recharts wrapper themed with `--color-chart-1..5`), `form` (react-hook-form + zod resolver).
 
-- **Foundations** — Colors, Typography, Spacing & shadows
-- **Components** — Buttons, Button states, Inputs & fields, Selection controls, Cards, Badges & status
-- **Feedback & overlays** — Alerts & banners, Overlays, Loading & progress
-- **Layout** — Navigation
-- **Expression** — Data viz, Motion, Iconography, Brand
+### 3. Showcase routes map
+Short list mapping each route file `src/routes/_showcase.*.tsx` → URL → purpose. Note the `_showcase` pathless layout in `src/routes/_showcase.tsx` (sidebar + Outlet, TooltipProvider), the sidebar component `src/components/showcase-sidebar.tsx`, and the shared page helpers in `src/components/showcase-page.tsx`.
 
-Active-route highlight via `useRouterState` + `Link activeProps`. Active pill styled with `bg-brand-gradient-soft` + brand-cyan dot to match the reference. `SidebarTrigger` in a slim top bar so it collapses to an icon rail on mobile.
+### 4. Token & utility cheat sheet
+- Semantic HSL tokens: `--background`, `--foreground`, `--card`, `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`, `--brand-start`, `--brand-end`, `--brand-cyan`, `--brand-border`, `--radius`.
+- Utilities: `bg-brand-gradient`, `bg-brand-gradient-soft`, `text-gradient-brand`, `glass`, `shadow-glow`, `shadow-card`.
+- Animations: `animate-np-spin`, `animate-np-pulse`, `animate-np-bounce`, `animate-np-shimmer`, `animate-np-indeterminate`, `animate-np-toast-in`.
+- Typography: `font-sans` = Geist, `font-mono` = Geist Mono (loaded via `<link>` in `__root.tsx`). Rule: mono for numbers/data/keys/status, sans for prose.
+- Crisp-edge rule: any control filled with `bg-brand-gradient` must add `[background-clip:padding-box]` + opaque border color to prevent gradient bleeding through the border.
 
-## Section content
-
-Each route exports `head()` with unique title/description/og tags and a `<section>` block that:
-
-- Opens with an H1 + one-line intro (Geist sans).
-- Shows live examples grouped by variant/state.
-- Includes an "Anatomy" or "Usage" note using `font-mono` for prop names.
-- Wraps code snippets in a token-driven `<pre>` block (bg-secondary, border-border/60).
-
-Existing component sections (Buttons, Inputs, Cards, etc.) get expanded coverage — every variant, size, and state from the NeosPower archive, not just a sampler.
-
-## Missing sections (token-driven demos)
-
-- **Data viz** — a small bar chart + line chart using `recharts` (already installed) themed with `--color-chart-1..5` (brand start/end/cyan/success/warning). Plus a KPI stat card grid using `font-mono` numerals.
-- **Motion** — live tiles demonstrating `animate-np-spin`, `animate-np-pulse`, `animate-np-bounce`, `animate-np-shimmer`, `animate-np-indeterminate`, `animate-np-toast-in`, each with its duration/easing shown in mono.
-- **Iconography** — a searchable grid of ~40 curated `lucide-react` icons at 16/20/24 sizes showing muted-foreground → foreground → brand-gradient tinting rules.
-- **Brand** — brand mark built from `bg-brand-gradient` on a rounded square, wordmark using `text-gradient-brand`, a palette strip of `--brand-start / --brand-end / --brand-cyan / --brand-border`, and do/don't cards for gradient-fill edge treatment (the "crisp edge" rule with `[background-clip:padding-box]`).
-
-## SEO / metadata
-
-- `__root.tsx` head keeps site-wide title template + description; **no og:image** at root (leaf routes own it).
-- Each leaf route sets its own `title`, `description`, `og:title`, `og:description`, `og:type=article`, `twitter:card=summary_large_image`.
-- No og:image URLs until we have real hero images — omit rather than use placeholders.
-
-## Technical notes
-
-- Uses TanStack file-based routing with `_showcase` pathless layout — URLs like `/colors` (no `/showcase/` prefix).
-- `<Outlet />` in `_showcase.tsx` renders the active child.
-- Sidebar width uses `w-[var(--sidebar-width)]` per Tailwind v4 rules.
-- `recharts` is already in the shadcn `chart.tsx` component — reuse it for Data viz.
-- No new npm packages required.
-- No changes to `src/styles.css`, tokens, or any `src/components/ui/*` component.
+### 5. Consumption example
+One 10-line TSX snippet showing correct imports (`@/components/ui/*`), a `BorderGlow`-wrapped `Card` with a mono metric and a brand `Button`, so another agent has a copy-paste starting point.
 
 ## Out of scope
 
-- No changes to design tokens, component APIs, or the NeosPower components themselves.
-- No dark/light toggle (project is dark-first per the DS).
-- No search / command palette (can be added later if wanted).
+No changes to components, tokens, routes, or the showcase. Documentation only.
