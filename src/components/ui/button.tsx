@@ -50,6 +50,24 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
+    // When asChild is used, Slot requires a single child element. Wrap the
+    // spinner + original child so the slotted element still receives all
+    // props while Slot only sees one child.
+    const content = asChild ? (
+      React.cloneElement(
+        children as React.ReactElement<{ children?: React.ReactNode }>,
+        undefined,
+        <>
+          {loading && <Loader2 className="animate-np-spin" />}
+          {(children as React.ReactElement<{ children?: React.ReactNode }>).props.children}
+        </>,
+      )
+    ) : (
+      <>
+        {loading && <Loader2 className="animate-np-spin" />}
+        {children}
+      </>
+    );
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -58,8 +76,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         data-loading={loading || undefined}
         {...props}
       >
-        {loading && <Loader2 className="animate-np-spin" />}
-        {children}
+        {content}
       </Comp>
     );
   },
