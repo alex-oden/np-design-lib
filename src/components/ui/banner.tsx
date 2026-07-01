@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
  * Banner — page-level message with a brand gradient edge. Put a title +
  * text on the left; actions (e.g. a Button) as children on the right.
  */
-export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BannerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   title?: React.ReactNode;
   description?: React.ReactNode;
 }
