@@ -1,27 +1,36 @@
 import * as React from "react";
-import * as SwitchPrimitives from "@radix-ui/react-switch";
-
+import * as SwitchPrimitive from "@radix-ui/react-switch";
 import { cn } from "@/lib/utils";
 
+/**
+ * Switch — brand-gradient track when on, sliding white thumb.
+ * Opaque border on the checked track keeps the edge crisp.
+ */
 const Switch = React.forwardRef<
-  React.ElementRef<typeof SwitchPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+  React.ElementRef<typeof SwitchPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <SwitchPrimitives.Root
+  <SwitchPrimitive.Root
+    ref={ref}
     className={cn(
-      "peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
+      "peer inline-flex h-[26px] w-11 shrink-0 cursor-pointer items-center rounded-full border p-0.5 [background-clip:padding-box]",
+      "transition-[background-color,border-color,box-shadow] duration-200 outline-none",
+      "border-border/60 bg-[hsl(230_24%_22%)]",
+      "focus-visible:ring-2 focus-visible:ring-ring/50",
+      "disabled:cursor-not-allowed disabled:opacity-45",
+      "data-[state=checked]:border-brand-border data-[state=checked]:bg-brand-gradient data-[state=unchecked]:hover:border-border",
       className,
     )}
     {...props}
-    ref={ref}
   >
-    <SwitchPrimitives.Thumb
+    <SwitchPrimitive.Thumb
       className={cn(
-        "pointer-events-none block h-4 w-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0",
+        "pointer-events-none block size-[18px] rounded-full bg-muted-foreground shadow-sm transition-transform duration-200",
+        "data-[state=checked]:translate-x-[18px] data-[state=checked]:bg-white data-[state=unchecked]:translate-x-0",
       )}
     />
-  </SwitchPrimitives.Root>
+  </SwitchPrimitive.Root>
 ));
-Switch.displayName = SwitchPrimitives.Root.displayName;
+Switch.displayName = SwitchPrimitive.Root.displayName;
 
 export { Switch };

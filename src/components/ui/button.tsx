@@ -1,46 +1,66 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+/**
+ * Button — the primary action element.
+ *
+ * variant: default (brand gradient) · secondary · ghost · destructive · outline · link
+ * size:    sm · default · lg · xl · icon
+ * loading: shows a spinner and disables the button
+ */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium cursor-pointer transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius)] text-sm font-medium tracking-[-0.01em] transition-[background-position,background-color,border-color,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:translate-y-px select-none",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        default:
+          "text-primary-foreground bg-brand-gradient [background-size:150%_150%] [background-position:0%_50%] hover:[background-position:100%_50%] shadow-[0_8px_24px_-10px_hsl(var(--brand-start)/0.6)] duration-500",
+        secondary:
+          "bg-white/[0.04] text-foreground border border-border/60 hover:bg-white/[0.08] hover:border-border",
+        ghost:
+          "text-muted-foreground hover:bg-white/[0.05] hover:text-foreground",
+        destructive:
+          "text-destructive bg-destructive/15 border border-destructive/40 hover:bg-destructive/25 hover:border-destructive/60",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+          "border border-border text-foreground hover:bg-white/[0.05] hover:border-border",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        sm: "h-[30px] px-3 text-xs rounded-[calc(var(--radius)-4px)]",
+        default: "h-[38px] px-4",
+        lg: "h-[46px] px-[22px] text-sm",
+        xl: "h-[52px] px-[26px] text-[15px] rounded-[calc(var(--radius)+1px)]",
+        icon: "h-[38px] w-[38px] p-0",
       },
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
+    defaultVariants: { variant: "default", size: "default" },
   },
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
-      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        disabled={disabled || loading}
+        data-loading={loading || undefined}
+        {...props}
+      >
+        {loading && <Loader2 className="animate-np-spin" />}
+        {children}
+      </Comp>
     );
   },
 );
