@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { DocPage, Section } from "@/components/showcase-page";
 import { Badge } from "@/components/ui/badge";
+import { BorderGlow } from "@/components/ui/border-glow";
 import {
   Card,
   CardContent,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+
 
 export const Route = createFileRoute("/_showcase/cards")({
   head: () => ({
