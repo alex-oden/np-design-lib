@@ -1,41 +1,127 @@
+# Ship `@neospower/ui` as a GitHub-installable package
 
-## Goal
+Restructure the repo so it serves double duty: the existing Lovable showcase site keeps working exactly as-is, and the same source tree also builds a distributable npm package (`@neospower/ui`) that downstream Vite + Tailwind v4 + React 19 apps can install straight from a GitHub tag.
 
-Produce a single machine-readable reference file that another AI agent can ingest to understand every component shipped in this NeosPower UI project — what it is, which tech powers it, and how to import it. No UI changes.
+No component moves, no token renames, no visual changes. Additive only.
 
-## Deliverable
+---
 
-Create `docs/neospower-components.md` (new file, ~250 lines). Structure:
+## 1. Package manifest (`package.json`)
 
-### 1. Stack summary (top of file)
-One short block: React 19 + TypeScript, TanStack Start v1 (file-based routing under `src/routes/`), Tailwind CSS v4 (tokens in `src/styles.css` via `@theme` + `@utility`), shadcn/ui conventions, Radix UI primitives, `lucide-react` icons, `recharts` for data viz, `class-variance-authority` + `tailwind-merge` (`cn`) for variant styling. Dark-first, HSL semantic tokens, brand gradient `bg-brand-gradient` (blue → magenta) with crisp-edge rule (`[background-clip:padding-box]` + opaque border).
+Rewrite metadata and dependency layout:
 
-### 2. Component table
-One row per file in `src/components/ui/`. Columns: `import path` · `exports` · `primitive/tech` · `one-line description` · `key props/variants`.
+- `name`: `@neospower/ui`, `version`: `1.0.0`, `type`: `module`, `sideEffects`: `["**/*.css"]`, `files`: `["dist"]`.
+- `main` / `module` → `./dist/index.js`, `types` → `./dist/index.d.ts`.
+- `exports` map:
+  - `.` → `{ types: ./dist/index.d.ts, import: ./dist/index.js }`
+  - `./styles.css` → `./dist/styles.css`
+  - `./tokens.css` → `./dist/tokens.css`
+  - `./components/*` → mirrored `.d.ts` + `.js` per component
+- `peerDependencies`: `react ^19`, `react-dom ^19`, `tailwindcss ^4`.
+- Move into `dependencies` (must ship with the package):
+  every `@radix-ui/*`, `lucide-react`, `class-variance-authority`, `clsx`, `tailwind-merge`, `sonner`, `embla-carousel-react`, `cmdk`, `vaul`, `input-otp`, `react-hook-form`, `zod`, `@hookform/resolvers`, `react-day-picker`, `react-resizable-panels`, `recharts`, `tw-animate-css`, `input-otp`.
+- Keep Vite, TanStack Start, ESLint, tsgo, etc. in `devDependencies`.
+- Scripts:
+  - `build` — unchanged app build
+  - `build:lib` — `vite build --config vite.lib.config.ts`
+  - `typecheck` — `tsgo -p tsconfig.lib.json`
+  - `prepack` — `bun run build:lib`
 
-Grouped to match the docs sidebar:
+## 2. Library entry point (`src/lib-entry.ts`)
 
-- **Foundational controls** — `button` (CVA variants: default/secondary/ghost/outline/destructive/link, sizes sm/default/lg/icon, `loading`, `asChild` via Radix Slot), `badge` (variants + `dot`, `live` pulse), `spinner` (SVG, `animate-np-spin`).
-- **Inputs & fields** — `input` (leading/trailing icon slots, `aria-invalid` styling), `textarea`, `select` (native styled + ChevronDown), `label` (Radix Label, `required` star), `field` (composed Label + control + hint/error wrapper), `checkbox` (Radix), `radio-group` (Radix, brand-gradient fill), `switch` (Radix), `segmented` (custom, sliding brand thumb via `useLayoutEffect` measuring offsets), `slider` (Radix), `input-otp` (input-otp lib).
-- **Surfaces** — `card` (CardHeader/Title/Description/Content/Footer, `glass` variant), `border-glow` (custom: pointermove sets `--cursor-angle` + `--edge-proximity` CSS vars, styled by `border-glow.css`; props: `glowColor`, `animated`, `borderRadius`, `intensity`, `coneSpread`, `sensitivity`, `fillOpacity`), `separator` (Radix), `aspect-ratio` (Radix), `skeleton` (`animate-np-shimmer`), `scroll-area` (Radix), `resizable` (react-resizable-panels), `avatar` (Radix).
-- **Feedback** — `alert` (variants: default/info/success/warning/destructive), `banner` (page-width, dismissible, `BannerProps`), `toast` + `sonner` (sonner lib, `animate-np-toast-in`), `progress` (Radix, `indeterminate` mode via `animate-np-indeterminate`).
-- **Overlays** — `dialog`, `alert-dialog`, `sheet`, `drawer` (vaul), `popover`, `hover-card`, `tooltip` (all Radix; glass surfaces via `bg-popover/95 glass`), `dropdown-menu`, `context-menu`, `menubar` (all Radix).
-- **Navigation & layout** — `sidebar` (shadcn composite), `navigation-menu` (Radix), `breadcrumb`, `pagination`, `tabs` (Radix), `toggle` + `toggle-group` (Radix), `command` (cmdk), `accordion` (Radix), `collapsible` (Radix).
-- **Data & pickers** — `table` (semantic wrappers), `calendar` (react-day-picker), `carousel` (embla), `chart` (recharts wrapper themed with `--color-chart-1..5`), `form` (react-hook-form + zod resolver).
+New file re-exporting every reusable primitive:
 
-### 3. Showcase routes map
-Short list mapping each route file `src/routes/_showcase.*.tsx` → URL → purpose. Note the `_showcase` pathless layout in `src/routes/_showcase.tsx` (sidebar + Outlet, TooltipProvider), the sidebar component `src/components/showcase-sidebar.tsx`, and the shared page helpers in `src/components/showcase-page.tsx`.
+- `export * from "./lib/utils"` (for `cn`)
+- One line per file in `src/components/ui/*` (all 40+ components: accordion, alert, alert-dialog, aspect-ratio, avatar, badge, banner, border-glow, breadcrumb, button, calendar, card, carousel, chart, checkbox, collapsible, command, context-menu, dialog, drawer, dropdown-menu, field, form, hover-card, input, input-otp, label, menubar, navigation-menu, pagination, popover, progress, radio-group, resizable, scroll-area, segmented, select, separator, sheet, sidebar, skeleton, slider, sonner, spinner, switch, table, tabs, textarea, toast, toggle, toggle-group, tooltip).
+- No showcase files, no routes, no `src/components/showcase-*`.
 
-### 4. Token & utility cheat sheet
-- Semantic HSL tokens: `--background`, `--foreground`, `--card`, `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--border`, `--input`, `--ring`, `--brand-start`, `--brand-end`, `--brand-cyan`, `--brand-border`, `--radius`.
-- Utilities: `bg-brand-gradient`, `bg-brand-gradient-soft`, `text-gradient-brand`, `glass`, `shadow-glow`, `shadow-card`.
-- Animations: `animate-np-spin`, `animate-np-pulse`, `animate-np-bounce`, `animate-np-shimmer`, `animate-np-indeterminate`, `animate-np-toast-in`.
-- Typography: `font-sans` = Geist, `font-mono` = Geist Mono (loaded via `<link>` in `__root.tsx`). Rule: mono for numbers/data/keys/status, sans for prose.
-- Crisp-edge rule: any control filled with `bg-brand-gradient` must add `[background-clip:padding-box]` + opaque border color to prevent gradient bleeding through the border.
+## 3. Library build config
 
-### 5. Consumption example
-One 10-line TSX snippet showing correct imports (`@/components/ui/*`), a `BorderGlow`-wrapped `Card` with a mono metric and a brand `Button`, so another agent has a copy-paste starting point.
+**`vite.lib.config.ts`** — separate from app config, plain `vite` (not the Lovable TanStack wrapper):
+
+- `build.lib`: entry `src/lib-entry.ts`, formats `["es"]`, `fileName: "index"`.
+- `build.outDir: "dist"`, `emptyOutDir: true`.
+- `build.rollupOptions.output.preserveModules: true`, `preserveModulesRoot: "src"` → mirrors `components/ui/*` into `dist/components/ui/*`.
+- `external`: regex matching `^react`, `^react-dom`, `^react/jsx-runtime`, plus every peer + runtime dep (`^@radix-ui/`, `^lucide-react`, `^class-variance-authority`, `^clsx`, `^tailwind-merge`, `^sonner`, `^embla-carousel-react`, `^cmdk`, `^vaul`, `^input-otp`, `^react-hook-form`, `^zod`, `^@hookform/`, `^react-day-picker`, `^react-resizable-panels`, `^recharts`, `^tw-animate-css`) so nested imports stay external.
+- Plugins:
+  - `vite-plugin-dts` (added as devDependency) — emits `.d.ts` next to `.js`, respects `preserveModules`.
+  - Small inline plugin (`closeBundle` hook) that:
+    - Copies `src/styles.css` verbatim to `dist/styles.css`.
+    - Writes `dist/tokens.css` = `src/styles.css` with the `@import "tailwindcss"`, `@source`, and `@import "tw-animate-css"` lines stripped. Keeps `@theme`, `@theme inline`, `:root`, `.light`, `@utility`, `@keyframes`, `@layer base`, `@custom-variant`.
+    - Copies `src/components/ui/border-glow.css` into the mirrored `dist/components/ui/`.
+- Path alias `@` → `src` so component imports resolve during library build.
+
+**`tsconfig.lib.json`** — extends base:
+
+- `compilerOptions`: `declaration: true`, `emitDeclarationOnly: false`, `noEmit: false`, `outDir: "dist"`, `rootDir: "src"`, keeps `paths` alias.
+- `include`: `["src/lib-entry.ts", "src/components/ui/**/*", "src/lib/utils.ts"]`.
+- `exclude`: routes, server files, showcase components.
+
+## 4. `README.md` (overwrite)
+
+Consumer-facing install + wire-up + component table. Structure:
+
+```text
+# @neospower/ui
+
+## Install
+bun add github:<org>/neospower-ui#v1.0.0
+
+## Tailwind v4 wire-up
+# src/styles.css
+@import "tailwindcss";
+@import "@neospower/ui/tokens.css";
+@source "../node_modules/@neospower/ui/dist";
+
+## Usage
+import { Button, Card, Field } from "@neospower/ui";
+import "@neospower/ui/styles.css"; // optional full stylesheet
+
+## Fonts
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono/index.css" />
+
+## Components
+| Name | Import | Description |
+| ---- | ------ | ----------- |
+| Button | `import { Button } from "@neospower/ui"` | Brand-gradient CTA with variants |
+| ... (auto-generated for all 40+ components)
+```
+
+Table rows derived by reading each file's top JSDoc / export list.
+
+## 5. Versioning & release
+
+- **`CHANGELOG.md`** seeded with `## 1.0.0 — Initial package release` and a bullet list of shipped primitives.
+- **`.github/workflows/release.yml`** — on `push: tags: ['v*']`:
+  1. `actions/checkout@v4`
+  2. `oven-sh/setup-bun@v2`
+  3. `bun install --frozen-lockfile`
+  4. `bun run typecheck`
+  5. `bun run build:lib`
+  6. `softprops/action-gh-release@v2` uploading `dist/**`.
+  - No `npm publish` step.
+
+## 6. Guardrails / verification
+
+- Showcase routes, tokens, prop APIs, and file locations unchanged.
+- Radix stays external — verified via `rollupOptions.external` regex.
+- After `bun run build:lib`, confirm `dist/` contains `index.js`, `index.d.ts`, `styles.css`, `tokens.css`, and a mirrored `components/ui/*.js` + `*.d.ts` tree.
+- Report the final `dist/` tree (`find dist -type f | sort`) in the response.
+- If Rollup warns about unresolved externals, extend the regex until clean.
 
 ## Out of scope
 
-No changes to components, tokens, routes, or the showcase. Documentation only.
+No npm publish, no monorepo split, no showcase content changes, no token renames.
+
+---
+
+## Technical notes
+
+- Vite library mode with `preserveModules` gives per-component chunks → satisfies the `./components/*` subpath export.
+- `vite-plugin-dts` (rollup=`preserveModules`-aware) produces the parallel `.d.ts` tree in one pass.
+- `tokens.css` must omit `@import "tailwindcss"` because the consumer app owns that import (avoids Tailwind being registered twice / Lightning-CSS conflicts).
+- `@source "../node_modules/@neospower/ui/dist"` in the consumer's `styles.css` is required so Tailwind v4's Lightning-CSS scanner sees the utility classes used inside compiled component JS.
+- `sideEffects: ["**/*.css"]` lets bundlers tree-shake JS but keep CSS side effects.
+- `prepack` ensures `bun pack` / GitHub tarball installs get a built `dist/`.
+- `peerDependencies` on Tailwind v4 (not a `dependency`) prevents version drift with the host app.
