@@ -76,7 +76,7 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.lib.json",
       entryRoot: "src",
-      include: ["src/lib-entry.ts", "src/components/ui/**/*", "src/lib/utils.ts"],
+      include: ["src/lib-entry.ts", "src/components/ui/**/*", "src/lib/utils.ts", "src/hooks/**/*"],
       exclude: ["src/routes/**", "src/server.ts", "src/start.ts", "src/router.tsx"],
       insertTypesEntry: true,
     }),
