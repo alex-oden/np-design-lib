@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import "./border-glow.css";
+import "./border-glow.styles.css";
 
 /**
  * BorderGlow — an interactive card whose edges light up as the cursor

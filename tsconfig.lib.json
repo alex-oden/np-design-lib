@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "outDir": "dist",
+    "rootDir": "src",
+    "allowImportingTsExtensions": false,
+    "types": ["node"]
+  },
+  "include": [
+    "src/lib-entry.ts",
+    "src/components/ui/**/*",
+    "src/lib/utils.ts",
+    "src/hooks/**/*"
+  ],
+  "exclude": [
+    "src/routes/**",
+    "src/server.ts",
+    "src/start.ts",
+    "src/router.tsx",
+    "src/components/showcase-*"
+  ]
+}
