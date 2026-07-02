@@ -57,8 +57,8 @@ function emitCssAssets() {
       writeFileSync(resolve(outDir, "tokens.css"), tokens);
 
       // Copy border-glow.css alongside its component
-      const borderGlowSrc = resolve(__dirname, "src/components/ui/border-glow.css");
-      const borderGlowDest = resolve(outDir, "components/ui/border-glow.css");
+      const borderGlowSrc = resolve(__dirname, "src/components/ui/border-glow.styles.css");
+      const borderGlowDest = resolve(outDir, "components/ui/border-glow.styles.css");
       if (existsSync(borderGlowSrc)) {
         mkdirSync(resolve(outDir, "components/ui"), { recursive: true });
         copyFileSync(borderGlowSrc, borderGlowDest);
