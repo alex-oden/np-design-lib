@@ -9,9 +9,9 @@ Tailwind v4 project. Radix under the hood, HSL tokens on top, dark-first.
 Install straight from a GitHub tag — no npm registry required.
 
 ```bash
-bun add github:<org>/neospower-ui#v1.0.0
-# or: pnpm add github:<org>/neospower-ui#v1.0.0
-# or: npm  i   github:<org>/neospower-ui#v1.0.0
+bun add github:neospower/np-design-lib#v1.0.0
+# or: pnpm add github:neospower/np-design-lib#v1.0.0
+# or: npm  i   github:neospower/np-design-lib#v1.0.0
 ```
 
 Peer dependencies (make sure your app already has them):
@@ -87,13 +87,13 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | `alert` | Alert, AlertDescription, AlertProps, AlertTitle, Variants | Alert — inline message. Pair the icon slot with an AlertTitle + AlertDescription. varian |
 | `aspect-ratio` | AspectRatio |  |
 | `avatar` | Avatar, AvatarFallback, AvatarImage |  |
-| `badge` | Badge, BadgeProps, Count, Variants | Badge — compact status signal in monospace. variant: default (soft) · solid (brand grad |
+| `badge` | Badge, BadgeProps, Count, Variants | Badge — compact status signal in monospace. variant: default (soft) Â· solid (brand grad |
 | `banner` | Banner, BannerProps, HTMLAttributes, HTMLDivElement, Omit, React | Banner — page-level message with a brand gradient edge. Put a title + text on the left;  |
 | `border-glow` | BorderGlow, BorderGlowProps, HTMLAttributes, HTMLDivElement, React | BorderGlow — an interactive card whose edges light up as the cursor approaches them. Ada |
 | `breadcrumb` |  |  |
-| `button` | Button, ButtonProps, Variants | Button — the primary action element. variant: default (brand gradient) · secondary · g |
+| `button` | Button, ButtonProps, Variants | Button — the primary action element. variant: default (brand gradient) Â· secondary Â· g |
 | `calendar` | Calendar, CalendarDayButton |  |
-| `card` | Card, CardContent, CardDescription, CardFooter, CardHeader, CardProps | Card — the workhorse surface. `variant`: default (flat) · glass (blurred translucent) � |
+| `card` | Card, CardContent, CardDescription, CardFooter, CardHeader, CardProps | Card — the workhorse surface. `variant`: default (flat) Â· glass (blurred translucent) Â |
 | `carousel` |  |  |
 | `chart` | ChartConfig |  |
 | `checkbox` | Checkbox | Checkbox — brand-gradient fill when checked. Uses an OPAQUE border (--brand-border) so t |
@@ -113,7 +113,7 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | `navigation-menu` |  |  |
 | `pagination` |  |  |
 | `popover` | Popover, PopoverAnchor, PopoverContent, PopoverTrigger |  |
-| `progress` | Progress, ProgressProps | Progress — brand-filled bar. Pass `value` (0–100) for determinate, or `indeterminate`  |
+| `progress` | Progress, ProgressProps | Progress — brand-filled bar. Pass `value` (0â100) for determinate, or `indeterminate`  |
 | `radio-group` | RadioGroup, RadioGroupItem | RadioGroupItem — brand-gradient fill + white dot when selected. Opaque border keeps the  |
 | `resizable` | ResizableHandle, ResizablePanel, ResizablePanelGroup |  |
 | `scroll-area` | ScrollArea, ScrollBar |  |
