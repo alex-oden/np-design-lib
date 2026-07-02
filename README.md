@@ -6,7 +6,7 @@ Tailwind v4 project. Radix under the hood, HSL tokens on top, dark-first.
 
 ## Install
 
-Install straight from a GitHub tag â no npm registry required.
+Install straight from a GitHub tag — no npm registry required.
 
 ```bash
 bun add github:neospower/np-design-lib#v1.0.0
@@ -32,7 +32,7 @@ In your app's `src/styles.css`, keep imports at the very top, before any
 ```
 
 - `tokens.css` registers the NeosPower theme (`@theme`, `:root`, keyframes,
-  `@utility` helpers, `@custom-variant dark`) â no Tailwind entry inside, so
+  `@utility` helpers, `@custom-variant dark`) — no Tailwind entry inside, so
   your app owns `@import "tailwindcss"`.
 - `@source` tells Tailwind v4's Lightning-CSS scanner to inspect the compiled
   component JS so utility classes used inside the library are kept.
@@ -64,7 +64,7 @@ import { Button } from "@neospower/ui/components/ui/button";
 ## Fonts
 
 The tokens declare `Geist` (sans) and `Geist Mono`. Load them via
-`<link>` tags in your root document â never `@import` a remote font URL
+`<link>` tags in your root document — never `@import` a remote font URL
 inside `src/styles.css` (Lightning-CSS resolves imports from disk).
 
 ```html
@@ -84,26 +84,26 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | --------- | ------- | ----------- |
 | `accordion` | Accordion, AccordionContent, AccordionItem, AccordionTrigger |  |
 | `alert-dialog` |  |  |
-| `alert` | Alert, AlertDescription, AlertProps, AlertTitle, Variants | Alert â inline message. Pair the icon slot with an AlertTitle + AlertDescription. varian |
+| `alert` | Alert, AlertDescription, AlertProps, AlertTitle, Variants | Alert — inline message. Pair the icon slot with an AlertTitle + AlertDescription. varian |
 | `aspect-ratio` | AspectRatio |  |
 | `avatar` | Avatar, AvatarFallback, AvatarImage |  |
-| `badge` | Badge, BadgeProps, Count, Variants | Badge â compact status signal in monospace. variant: default (soft) Â· solid (brand grad |
-| `banner` | Banner, BannerProps, HTMLAttributes, HTMLDivElement, Omit, React | Banner â page-level message with a brand gradient edge. Put a title + text on the left;  |
-| `border-glow` | BorderGlow, BorderGlowProps, HTMLAttributes, HTMLDivElement, React | BorderGlow â an interactive card whose edges light up as the cursor approaches them. Ada |
+| `badge` | Badge, BadgeProps, Count, Variants | Badge — compact status signal in monospace. variant: default (soft) Â· solid (brand grad |
+| `banner` | Banner, BannerProps, HTMLAttributes, HTMLDivElement, Omit, React | Banner — page-level message with a brand gradient edge. Put a title + text on the left;  |
+| `border-glow` | BorderGlow, BorderGlowProps, HTMLAttributes, HTMLDivElement, React | BorderGlow — an interactive card whose edges light up as the cursor approaches them. Ada |
 | `breadcrumb` |  |  |
-| `button` | Button, ButtonProps, Variants | Button â the primary action element. variant: default (brand gradient) Â· secondary Â· g |
+| `button` | Button, ButtonProps, Variants | Button — the primary action element. variant: default (brand gradient) Â· secondary Â· g |
 | `calendar` | Calendar, CalendarDayButton |  |
-| `card` | Card, CardContent, CardDescription, CardFooter, CardHeader, CardProps | Card â the workhorse surface. `variant`: default (flat) Â· glass (blurred translucent) Â |
+| `card` | Card, CardContent, CardDescription, CardFooter, CardHeader, CardProps | Card — the workhorse surface. `variant`: default (flat) Â· glass (blurred translucent) Â |
 | `carousel` |  |  |
 | `chart` | ChartConfig |  |
-| `checkbox` | Checkbox | Checkbox â brand-gradient fill when checked. Uses an OPAQUE border (--brand-border) so t |
+| `checkbox` | Checkbox | Checkbox — brand-gradient fill when checked. Uses an OPAQUE border (--brand-border) so t |
 | `collapsible` | Collapsible, CollapsibleContent, CollapsibleTrigger |  |
 | `command` |  |  |
 | `context-menu` |  |  |
 | `dialog` |  |  |
 | `drawer` |  |  |
 | `dropdown-menu` |  |  |
-| `field` | Field, FieldProps, HTMLAttributes, HTMLDivElement, React | Field â composes a Label, a control, an optional hint, and an optional validation messag |
+| `field` | Field, FieldProps, HTMLAttributes, HTMLDivElement, React | Field — composes a Label, a control, an optional hint, and an optional validation messag |
 | `form` |  |  |
 | `hover-card` | HoverCard, HoverCardContent, HoverCardTrigger |  |
 | `input-otp` | InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot |  |
@@ -113,24 +113,24 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | `navigation-menu` |  |  |
 | `pagination` |  |  |
 | `popover` | Popover, PopoverAnchor, PopoverContent, PopoverTrigger |  |
-| `progress` | Progress, ProgressProps | Progress â brand-filled bar. Pass `value` (0â100) for determinate, or `indeterminate`  |
-| `radio-group` | RadioGroup, RadioGroupItem | RadioGroupItem â brand-gradient fill + white dot when selected. Opaque border keeps the  |
+| `progress` | Progress, ProgressProps | Progress — brand-filled bar. Pass `value` (0â100) for determinate, or `indeterminate`  |
+| `radio-group` | RadioGroup, RadioGroupItem | RadioGroupItem — brand-gradient fill + white dot when selected. Opaque border keeps the  |
 | `resizable` | ResizableHandle, ResizablePanel, ResizablePanelGroup |  |
 | `scroll-area` | ScrollArea, ScrollBar |  |
-| `segmented` | Segmented, SegmentedOption, SegmentedProps | Segmented â a compact single-choice control with a sliding brand thumb. Controlled: pass |
-| `select` | HTMLSelectElement, React, Select, SelectHTMLAttributes, SelectProps | Select â native styled select. (For a listbox with search/multi-select, use a Radix-base |
+| `segmented` | Segmented, SegmentedOption, SegmentedProps | Segmented — a compact single-choice control with a sliding brand thumb. Controlled: pass |
+| `select` | HTMLSelectElement, React, Select, SelectHTMLAttributes, SelectProps | Select — native styled select. (For a listbox with search/multi-select, use a Radix-base |
 | `separator` | Separator |  |
-| `sheet` |  | Sheet â a Dialog that slides in from an edge (drawer). Built on Radix Dialog for focus-t |
+| `sheet` |  | Sheet — a Dialog that slides in from an edge (drawer). Built on Radix Dialog for focus-t |
 | `sidebar` |  |  |
 | `skeleton` | Skeleton | function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) { return  |
 | `slider` | Slider |  |
 | `sonner` | Toaster |  |
 | `spinner` | Dots, HTMLAttributes, HTMLSpanElement, React, Spinner, SpinnerProps | export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> { brand?: bool |
-| `switch` | Switch | Switch â brand-gradient track when on, sliding white thumb. Opaque border on the checked |
+| `switch` | Switch | Switch — brand-gradient track when on, sliding white thumb. Opaque border on the checked |
 | `table` | Table, TableBody, TableCaption, TableCell, TableFooter, TableHead |  |
 | `tabs` | Tabs, TabsContent, TabsList, TabsTrigger |  |
 | `textarea` | HTMLTextAreaElement, React, Textarea, TextareaHTMLAttributes, TextareaProps | const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>( ({ className, ...pr |
-| `toast` | Toast, ToastProps, Variants | Toast â presentational transient notification. Pair with your app's toast manager (e.g.  |
+| `toast` | Toast, ToastProps, Variants | Toast — presentational transient notification. Pair with your app's toast manager (e.g.  |
 | `toggle-group` | ToggleGroup, ToggleGroupItem |  |
 | `toggle` | Toggle, Variants |  |
 | `tooltip` | Tooltip, TooltipContent, TooltipProvider, TooltipTrigger |  |
@@ -142,7 +142,7 @@ re-exported from the package root.
 
 The tokens file defines the full palette as HSL triplets on `:root`, plus
 semantic color tokens (`--color-*`), radius scale, shadows, and animations.
-Everything is override-friendly â drop your own values on `:root` to
+Everything is override-friendly — drop your own values on `:root` to
 re-theme without forking.
 
 Key utilities you get for free:
