@@ -101,6 +101,7 @@ export default defineConfig({
           if (chunk.name === "lib-entry") return "index.js";
           return "[name].js";
         },
+        assetFileNames: "assets/[name][extname]",
       },
     },
   },
