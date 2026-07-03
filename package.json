@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "build:lib": "vite build --config vite.lib.config.ts",
     "typecheck": "tsgo -p tsconfig.lib.json",
-    "prepare": "bun run build:lib"
+    "prepare": "npm run build:lib"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
