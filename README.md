@@ -1,4 +1,4 @@
-# @neospower/ui
+# @alex-oden/ui
 
 React 19 component library that ships every primitive from the NeosPower
 design system as tree-shakeable ES modules, ready to drop into any Vite +
@@ -27,8 +27,8 @@ In your app's `src/styles.css`, keep imports at the very top, before any
 
 ```css
 @import "tailwindcss";
-@import "@neospower/ui/tokens.css";
-@source "../node_modules/@neospower/ui/dist";
+@import "@alex-oden/ui/tokens.css";
+@source "../node_modules/@alex-oden/ui/dist";
 ```
 
 - `tokens.css` registers the NeosPower theme (`@theme`, `:root`, keyframes,
@@ -40,8 +40,8 @@ In your app's `src/styles.css`, keep imports at the very top, before any
 ## Use
 
 ```tsx
-import { Button, Card, Field, Input } from "@neospower/ui";
-import "@neospower/ui/styles.css"; // optional: full stylesheet incl. Tailwind base
+import { Button, Card, Field, Input } from "@alex-oden/ui";
+import "@alex-oden/ui/styles.css"; // optional: full stylesheet incl. Tailwind base
 
 export function Example() {
   return (
@@ -58,7 +58,7 @@ export function Example() {
 Per-component subpath imports are also available:
 
 ```ts
-import { Button } from "@neospower/ui/components/ui/button";
+import { Button } from "@alex-oden/ui/components/ui/button";
 ```
 
 ## Fonts
@@ -135,7 +135,7 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | `toggle` | Toggle, Variants |  |
 | `tooltip` | Tooltip, TooltipContent, TooltipProvider, TooltipTrigger |  |
 
-All components live under `@neospower/ui/components/ui/*` and are also
+All components live under `@alex-oden/ui/components/ui/*` and are also
 re-exported from the package root.
 
 ## Design tokens

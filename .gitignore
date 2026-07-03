@@ -20,6 +20,9 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# npm auth — never commit a token-bearing .npmrc
+.npmrc
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

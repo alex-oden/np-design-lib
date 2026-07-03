@@ -2,7 +2,7 @@
 
 ## 1.0.0 — Initial package release
 
-First public release of `@neospower/ui`. Ships every primitive from the
+First public release of `@alex-oden/ui`. Ships every primitive from the
 NeosPower design system as a tree-shakeable ES module library, along with
 the design tokens and utilities from the showcase site.
 
@@ -20,5 +20,5 @@ Tooltip.
 ### Also exported
 
 - `cn` (clsx + tailwind-merge) helper.
-- `@neospower/ui/styles.css` — full stylesheet.
-- `@neospower/ui/tokens.css` — tokens, utilities, keyframes only.
+- `@alex-oden/ui/styles.css` — full stylesheet.
+- `@alex-oden/ui/tokens.css` — tokens, utilities, keyframes only.

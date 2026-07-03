@@ -1,5 +1,5 @@
 {
-  "name": "@neospower/ui",
+  "name": "@alex-oden/ui",
   "private": false,
   "sideEffects": [
     "**/*.css"
@@ -91,6 +91,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

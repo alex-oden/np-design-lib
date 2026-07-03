@@ -1,6 +1,6 @@
-# Ship `@neospower/ui` as a GitHub-installable package
+# Ship `@alex-oden/ui` as a GitHub-installable package
 
-Restructure the repo so it serves double duty: the existing Lovable showcase site keeps working exactly as-is, and the same source tree also builds a distributable npm package (`@neospower/ui`) that downstream Vite + Tailwind v4 + React 19 apps can install straight from a GitHub tag.
+Restructure the repo so it serves double duty: the existing Lovable showcase site keeps working exactly as-is, and the same source tree also builds a distributable npm package (`@alex-oden/ui`) that downstream Vite + Tailwind v4 + React 19 apps can install straight from a GitHub tag.
 
 No component moves, no token renames, no visual changes. Additive only.
 
@@ -10,7 +10,7 @@ No component moves, no token renames, no visual changes. Additive only.
 
 Rewrite metadata and dependency layout:
 
-- `name`: `@neospower/ui`, `version`: `1.0.0`, `type`: `module`, `sideEffects`: `["**/*.css"]`, `files`: `["dist"]`.
+- `name`: `@alex-oden/ui`, `version`: `1.0.0`, `type`: `module`, `sideEffects`: `["**/*.css"]`, `files`: `["dist"]`.
 - `main` / `module` → `./dist/index.js`, `types` → `./dist/index.d.ts`.
 - `exports` map:
   - `.` → `{ types: ./dist/index.d.ts, import: ./dist/index.js }`
@@ -62,7 +62,7 @@ New file re-exporting every reusable primitive:
 Consumer-facing install + wire-up + component table. Structure:
 
 ```text
-# @neospower/ui
+# @alex-oden/ui
 
 ## Install
 bun add github:<org>/neospower-ui#v1.0.0
@@ -70,12 +70,12 @@ bun add github:<org>/neospower-ui#v1.0.0
 ## Tailwind v4 wire-up
 # src/styles.css
 @import "tailwindcss";
-@import "@neospower/ui/tokens.css";
-@source "../node_modules/@neospower/ui/dist";
+@import "@alex-oden/ui/tokens.css";
+@source "../node_modules/@alex-oden/ui/dist";
 
 ## Usage
-import { Button, Card, Field } from "@neospower/ui";
-import "@neospower/ui/styles.css"; // optional full stylesheet
+import { Button, Card, Field } from "@alex-oden/ui";
+import "@alex-oden/ui/styles.css"; // optional full stylesheet
 
 ## Fonts
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans/index.css" />
@@ -84,7 +84,7 @@ import "@neospower/ui/styles.css"; // optional full stylesheet
 ## Components
 | Name | Import | Description |
 | ---- | ------ | ----------- |
-| Button | `import { Button } from "@neospower/ui"` | Brand-gradient CTA with variants |
+| Button | `import { Button } from "@alex-oden/ui"` | Brand-gradient CTA with variants |
 | ... (auto-generated for all 40+ components)
 ```
 
@@ -121,7 +121,7 @@ No npm publish, no monorepo split, no showcase content changes, no token renames
 - Vite library mode with `preserveModules` gives per-component chunks → satisfies the `./components/*` subpath export.
 - `vite-plugin-dts` (rollup=`preserveModules`-aware) produces the parallel `.d.ts` tree in one pass.
 - `tokens.css` must omit `@import "tailwindcss"` because the consumer app owns that import (avoids Tailwind being registered twice / Lightning-CSS conflicts).
-- `@source "../node_modules/@neospower/ui/dist"` in the consumer's `styles.css` is required so Tailwind v4's Lightning-CSS scanner sees the utility classes used inside compiled component JS.
+- `@source "../node_modules/@alex-oden/ui/dist"` in the consumer's `styles.css` is required so Tailwind v4's Lightning-CSS scanner sees the utility classes used inside compiled component JS.
 - `sideEffects: ["**/*.css"]` lets bundlers tree-shake JS but keep CSS side effects.
 - `prepack` ensures `bun pack` / GitHub tarball installs get a built `dist/`.
 - `peerDependencies` on Tailwind v4 (not a `dependency`) prevents version drift with the host app.

@@ -5,7 +5,7 @@ import { resolve } from "node:path";
 import { readFileSync, writeFileSync, copyFileSync, mkdirSync, existsSync } from "node:fs";
 
 /**
- * Library build config for @neospower/ui.
+ * Library build config for @alex-oden/ui.
  * Emits an ES-module tree under dist/ mirroring src/, plus styles.css and tokens.css.
  */
 
