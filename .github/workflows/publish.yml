@@ -1,0 +1,28 @@
+name: Publish package
+
+# Publishes @alex-oden/ui to GitHub Packages.
+# Run it from the GitHub UI: Actions tab -> "Publish package" -> "Run workflow".
+# Uses the built-in GITHUB_TOKEN (no personal token needed).
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: "@alex-oden"
+      # dist/ is committed, so we publish it as-is. --ignore-scripts skips the
+      # bun-based "prepare" hook, which isn't available on the runner.
+      - run: npm publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
