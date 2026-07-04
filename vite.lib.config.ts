@@ -2,14 +2,16 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { resolve } from "node:path";
-import { readFileSync, writeFileSync, copyFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 
 /**
- * Library build config for @alex-oden/ui.
- * Emits an ES-module tree under dist/ mirroring src/, plus styles.css and tokens.css.
+ * Library build for @alex-oden/ui.
+ * ESM-only, single bundle at dist/index.js.
+ * Emits dist/styles.css (full Tailwind v4 stylesheet) and dist/tokens.css
+ * (design tokens only — no Tailwind entry, no @source).
  */
 
-const runtimeExternal = [
+const externalPatterns = [
   /^react($|\/)/,
   /^react-dom($|\/)/,
   /^@radix-ui\//,
@@ -32,18 +34,25 @@ const runtimeExternal = [
   /^date-fns($|\/)/,
 ];
 
-function emitCssAssets() {
+function emitLibraryCss() {
   return {
-    name: "neospower-emit-css",
+    name: "alex-oden-emit-css",
     apply: "build" as const,
     closeBundle() {
       const outDir = resolve(__dirname, "dist");
       const src = readFileSync(resolve(__dirname, "src/styles.css"), "utf8");
 
-      // Full stylesheet (opt-in for consumers)
-      writeFileSync(resolve(outDir, "styles.css"), src);
+      // Inline component-scoped stylesheet(s) so consumers only import styles.css.
+      const borderGlowPath = resolve(__dirname, "src/components/ui/border-glow.styles.css");
+      const extras = existsSync(borderGlowPath)
+        ? "\n/* border-glow component styles */\n" + readFileSync(borderGlowPath, "utf8")
+        : "";
 
-      // Tokens-only: strip tailwind entry + @source + tw-animate-css imports.
+      // Full stylesheet — Tailwind v4 entry + tokens + utilities.
+      writeFileSync(resolve(outDir, "styles.css"), src + extras);
+
+      // Tokens-only — strip Tailwind entry and @source so it can be layered
+      // into a consumer that already has its own Tailwind setup.
       const tokens = src
         .split("\n")
         .filter((line) => {
@@ -55,14 +64,6 @@ function emitCssAssets() {
         })
         .join("\n");
       writeFileSync(resolve(outDir, "tokens.css"), tokens);
-
-      // Copy border-glow.css alongside its component
-      const borderGlowSrc = resolve(__dirname, "src/components/ui/border-glow.styles.css");
-      const borderGlowDest = resolve(outDir, "components/ui/border-glow.styles.css");
-      if (existsSync(borderGlowSrc)) {
-        mkdirSync(resolve(outDir, "components/ui"), { recursive: true });
-        copyFileSync(borderGlowSrc, borderGlowDest);
-      }
     },
   };
 }
@@ -76,11 +77,20 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.lib.json",
       entryRoot: "src",
-      include: ["src/lib-entry.ts", "src/components/ui/**/*", "src/lib/utils.ts", "src/hooks/**/*"],
-      exclude: ["src/routes/**", "src/server.ts", "src/start.ts", "src/router.tsx"],
+      include: ["src/index.ts", "src/components/ui/**/*", "src/lib/utils.ts"],
+      exclude: [
+        "src/routes/**",
+        "src/server.ts",
+        "src/start.ts",
+        "src/router.tsx",
+        "src/hooks/**",
+        "src/components/showcase-*",
+        "src/**/*.test.*",
+        "src/**/*.stories.*",
+      ],
       insertTypesEntry: true,
     }),
-    emitCssAssets(),
+    emitLibraryCss(),
   ],
   build: {
     outDir: "dist",
@@ -88,20 +98,23 @@ export default defineConfig({
     sourcemap: true,
     target: "es2022",
     minify: false,
+    cssCodeSplit: false,
     lib: {
-      entry: resolve(__dirname, "src/lib-entry.ts"),
+      entry: resolve(__dirname, "src/index.ts"),
       formats: ["es"],
+      fileName: () => "index.js",
     },
     rollupOptions: {
-      external: runtimeExternal,
+      external: externalPatterns,
       output: {
-        preserveModules: true,
-        preserveModulesRoot: "src",
-        entryFileNames: (chunk) => {
-          if (chunk.name === "lib-entry") return "index.js";
-          return "[name].js";
-        },
-        assetFileNames: "assets/[name][extname]",
+        entryFileNames: "index.js",
+        chunkFileNames: "chunks/[name]-[hash].js",
+        // Route any emitted CSS asset to a discardable name — we write
+        // styles.css / tokens.css ourselves in the plugin above.
+        assetFileNames: (asset) =>
+          asset.name && asset.name.endsWith(".css")
+            ? "assets/inline-[name][extname]"
+            : "assets/[name][extname]",
       },
     },
   },
