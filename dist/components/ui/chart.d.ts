@@ -23,7 +23,7 @@ declare const ChartContainer: React.ForwardRefExoticComponent<Omit<React.ClassAt
 declare const ChartStyle: ({ id, config }: {
     id: string;
     config: ChartConfig;
-}) => React.JSX.Element | null;
+}) => import("react/jsx-runtime").JSX.Element | null;
 declare const ChartTooltip: typeof RechartsPrimitive.Tooltip;
 declare const ChartTooltipContent: React.ForwardRefExoticComponent<Omit<RechartsPrimitive.DefaultTooltipContentProps<import('recharts/types/component/DefaultTooltipContent').ValueType, import('recharts/types/component/DefaultTooltipContent').NameType> & {
     accessibilityLayer?: boolean;
@@ -55,7 +55,7 @@ declare const ChartTooltipContent: React.ForwardRefExoticComponent<Omit<Recharts
     labelKey?: string;
 }, "ref"> & React.RefAttributes<HTMLDivElement>>;
 declare const ChartLegend: typeof RechartsPrimitive.Legend;
-declare const ChartLegendContent: React.ForwardRefExoticComponent<Omit<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+declare const ChartLegendContent: React.ForwardRefExoticComponent<Omit<React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement> & Pick<RechartsPrimitive.LegendProps, "verticalAlign" | "payload"> & {
     hideIcon?: boolean;
     nameKey?: string;
 }, "ref"> & React.RefAttributes<HTMLDivElement>>;

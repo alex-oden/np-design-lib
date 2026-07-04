@@ -11,16 +11,16 @@
     "types": ["node"]
   },
   "include": [
-    "src/lib-entry.ts",
+    "src/index.ts",
     "src/components/ui/**/*",
-    "src/lib/utils.ts",
-    "src/hooks/**/*"
+    "src/lib/utils.ts"
   ],
   "exclude": [
     "src/routes/**",
     "src/server.ts",
     "src/start.ts",
     "src/router.tsx",
+    "src/hooks/**",
     "src/components/showcase-*"
   ]
 }
