@@ -12,8 +12,8 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement>, Varia
     dot?: boolean;
     live?: boolean;
 }
-declare function Badge({ className, variant, dot, live, children, ...props }: BadgeProps): React.JSX.Element;
+declare function Badge({ className, variant, dot, live, children, ...props }: BadgeProps): import("react/jsx-runtime").JSX.Element;
 /** Count — numeric pill for notification badges. */
-declare function Count({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element;
+declare function Count({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>): import("react/jsx-runtime").JSX.Element;
 export { Badge, Count, badgeVariants };
 //# sourceMappingURL=badge.d.ts.map

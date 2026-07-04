@@ -21,7 +21,7 @@ declare const ContextMenuLabel: React.ForwardRefExoticComponent<Omit<ContextMenu
 } & React.RefAttributes<HTMLDivElement>>;
 declare const ContextMenuSeparator: React.ForwardRefExoticComponent<Omit<ContextMenuPrimitive.ContextMenuSeparatorProps & React.RefAttributes<HTMLDivElement>, "ref"> & React.RefAttributes<HTMLDivElement>>;
 declare const ContextMenuShortcut: {
-    ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>): React.JSX.Element;
+    ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };
 export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuGroup, ContextMenuPortal, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuRadioGroup, };
