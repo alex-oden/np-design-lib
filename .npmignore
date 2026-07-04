@@ -1,0 +1,16 @@
+# Safety net — only ship dist/, package.json, README.md.
+*
+!dist/**
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
+# Belt-and-suspenders: never publish app artifacts even if they leak into dist/
+dist/hooks/**
+dist/lib-entry.*
+dist/routes/**
+dist/router.*
+dist/server.*
+dist/start.*
+**/*.tsbuildinfo
+**/favicon.ico
