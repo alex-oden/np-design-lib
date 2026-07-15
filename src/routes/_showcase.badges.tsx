@@ -35,7 +35,7 @@ function BadgesPage() {
           <Badge variant="success">HEALTHY</Badge>
           <Badge variant="warning">DEGRADED</Badge>
           <Badge variant="destructive">DOWN</Badge>
-          <Badge variant="info">v1.0.0</Badge>
+          <Badge variant="info">v1.2.0</Badge>
         </div>
       </Section>
 
