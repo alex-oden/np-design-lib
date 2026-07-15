@@ -6,12 +6,12 @@ Tailwind v4 project. Radix under the hood, HSL tokens on top, dark-first.
 
 ## Install
 
-Install straight from a GitHub tag — no npm registry required.
+Published on the public npm registry:
 
 ```bash
-bun add github:neospower/np-design-lib#v1.0.0
-# or: pnpm add github:neospower/np-design-lib#v1.0.0
-# or: npm  i   github:neospower/np-design-lib#v1.0.0
+npm i @alex-oden/ui
+# or: bun add @alex-oden/ui
+# or: pnpm add @alex-oden/ui
 ```
 
 Peer dependencies (make sure your app already has them):
@@ -155,8 +155,8 @@ Key utilities you get for free:
 
 ## Versioning
 
-Follows semver. See [CHANGELOG.md](./CHANGELOG.md). Consumers pin to a tag
-(`#v1.0.0`) rather than the default branch.
+Follows semver. See [CHANGELOG.md](./CHANGELOG.md). Pin an exact version
+(e.g. `@alex-oden/ui@1.2.0`) for reproducible installs.
 
 ## License
 
