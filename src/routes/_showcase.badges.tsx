@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DocPage, Section } from "@/components/showcase-page";
 import { Badge, Count } from "@/components/ui/badge";
+import { APP_VERSION_FULL } from "@/lib/version";
 
 export const Route = createFileRoute("/_showcase/badges")({
   head: () => ({
@@ -35,7 +36,7 @@ function BadgesPage() {
           <Badge variant="success">HEALTHY</Badge>
           <Badge variant="warning">DEGRADED</Badge>
           <Badge variant="destructive">DOWN</Badge>
-          <Badge variant="info">v1.2.0</Badge>
+          <Badge variant="info">{APP_VERSION_FULL}</Badge>
         </div>
       </Section>
 
