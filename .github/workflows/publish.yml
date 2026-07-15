@@ -1,15 +1,14 @@
 name: Publish package
 
-# Publishes @alex-oden/ui to GitHub Packages.
+# Publishes @alex-oden/ui to the public npm registry (npmjs.com).
 # Run it from the GitHub UI: Actions tab -> "Publish package" -> "Run workflow".
-# Uses the built-in GITHUB_TOKEN (no personal token needed).
+# Requires the repo secret NPM_TOKEN (npmjs.com -> Access Tokens -> Automation).
 
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   publish:
@@ -19,12 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://npm.pkg.github.com
+          registry-url: https://registry.npmjs.org
           scope: "@alex-oden"
-      # Install deps (skipping the "prepare" hook) so vite is available, then
-      # build dist/ fresh and publish it.
       - run: npm install --no-audit --no-fund --ignore-scripts
       - run: npm run build:lib
-      - run: npm publish
+      - run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
