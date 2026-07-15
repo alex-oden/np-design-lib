@@ -3,6 +3,7 @@ import { ArrowUpRight, Sparkles, Zap } from "lucide-react";
 import { BorderGlow } from "@/components/ui/border-glow";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { APP_VERSION_SHORT } from "@/lib/version";
 
 export const Route = createFileRoute("/_showcase/")({
   head: () => ({
@@ -49,7 +50,7 @@ function Overview() {
         <div className="space-y-6 p-10 md:p-14">
           <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/[0.03] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
             <Sparkles className="size-3" />
-            Design system · v1.0
+            Design system · {APP_VERSION_SHORT}
           </span>
           <h1 className="max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-[54px]">
             Build energy-tech UI that{" "}
@@ -76,7 +77,7 @@ function Overview() {
         <div className="flex items-baseline justify-between">
           <h2 className="text-xl font-semibold tracking-[-0.02em]">Sections</h2>
           <Badge variant="default" dot live>
-            v1.0 live
+            {APP_VERSION_SHORT} live
           </Badge>
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
