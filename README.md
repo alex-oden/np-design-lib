@@ -20,10 +20,43 @@ Peer dependencies (make sure your app already has them):
 - `react-dom` ^19
 - `tailwindcss` ^4
 
-## Wire up (Tailwind v4)
+## Quick start in a consumer project
 
-In your app's `src/styles.css`, keep imports at the very top, before any
-`@theme`, `@utility`, or selector rules:
+These four files are enough to render a working page with `@alex-oden/ui`.
+
+### 1. `package.json`
+
+```json
+{
+  "name": "my-consumer-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@alex-oden/ui": "^1.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.8.3",
+    "vite": "^6.0.0"
+  }
+}
+```
+
+### 2. `src/styles.css`
+
+Keep the two `@import` lines at the very top of the file, before any `@theme` or selector rules:
 
 ```css
 @import "tailwindcss";
@@ -31,34 +64,50 @@ In your app's `src/styles.css`, keep imports at the very top, before any
 @source "../node_modules/@alex-oden/ui/dist";
 ```
 
-- `tokens.css` registers the NeosPower theme (`@theme`, `:root`, keyframes,
-  `@utility` helpers, `@custom-variant dark`) — no Tailwind entry inside, so
-  your app owns `@import "tailwindcss"`.
-- `@source` tells Tailwind v4's Lightning-CSS scanner to inspect the compiled
-  component JS so utility classes used inside the library are kept.
+- `tokens.css` registers the NeosPower theme (`@theme`, `:root`, keyframes, utilities, dark mode).
+- `@source` tells Tailwind v4 to scan the compiled library so the utility classes used inside components are kept.
 
-## Use
+If you prefer the library to also bring in Tailwind's base (so you can skip `@import "tailwindcss"` in your own file), use `@import "@alex-oden/ui/styles.css"` instead.
+
+### 3. `src/App.tsx`
 
 ```tsx
 import { Button, Card, Field, Input } from "@alex-oden/ui";
-import "@alex-oden/ui/styles.css"; // optional: full stylesheet incl. Tailwind base
 
-export function Example() {
+export function App() {
   return (
-    <Card className="p-6">
+    <Card className="max-w-md p-6 mx-auto mt-12">
       <Field label="Email">
         <Input type="email" placeholder="you@example.com" />
       </Field>
-      <Button className="mt-4">Continue</Button>
+      <Button className="mt-4 w-full">Continue</Button>
     </Card>
   );
 }
 ```
 
-Per-component subpath imports are also available:
+### 4. `index.html`
+
+Load the `Geist` and `Geist Mono` fonts with `<link>` tags in the `<head>`:
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+/>
+```
+
+After `bun install` (or `npm install`) and `bun run dev`, the app should render the example card.
+
+## Per-component imports
+
+If you only need a few components, subpath imports keep the import list short:
 
 ```ts
 import { Button } from "@alex-oden/ui/components/ui/button";
+import { Card } from "@alex-oden/ui/components/ui/card";
 ```
 
 ## Fonts
