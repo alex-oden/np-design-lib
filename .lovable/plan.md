@@ -1,31 +1,24 @@
+Пользователь не хочет отдельный example-проект, но просит четкую инструкцию, что писать в другом проекте. Сейчас в README есть разделы, но они разбросаны. План: собрать один краткий, готовый к копированию раздел "Quick start in a consumer project" прямо в README.
 
-## Problem
+Что сделать:
 
-Version strings in the UI are hardcoded — the home page still shows `Design system · v1.0` and `v1.0 live` even though `package.json` is at `1.2.0`. My last pass only fixed docs/changelog and one badge, not the showcase.
+1. **Открыть `README.md`** — перенести/дополнить существующие разделы Install + Wire up + Use в один блок "Quick start".
 
-## Fix
+2. **Добавить copy-paste ready файлы:**
+   - `package.json` — зависимости `@alex-oden/ui`, `react`, `react-dom`, `tailwindcss`.
+   - `src/styles.css` — `@import "tailwindcss"`, `@import "@alex-oden/ui/tokens.css"`, `@source "../node_modules/@alex-oden/ui/dist"`.
+   - `src/App.tsx` — пример с `Button`, `Card`, `Field`, `Input` и `cn`.
+   - `index.html` — `<link>` для Google Fonts `Geist` + `Geist Mono`.
 
-Create a single source of truth and wire it into every UI reference so future bumps propagate automatically.
+3. **Оставить альтернативу `styles.css` вместо `tokens.css`** — одной строкой отметить, когда использовать полный бандл.
 
-### 1. `src/lib/version.ts` (new)
-```ts
-import pkg from "../../package.json" with { type: "json" };
-export const APP_VERSION = pkg.version;           // "1.2.0"
-export const APP_VERSION_SHORT = `v${pkg.version.split(".").slice(0, 2).join(".")}`; // "v1.2"
-export const APP_VERSION_FULL = `v${pkg.version}`; // "v1.2.0"
-```
-Uses Vite's built-in JSON import — no build config change.
+4. **Сохранить существующий компонентный таблицу и токены** — не удалять, только добавить раздел выше.
 
-### 2. Replace hardcoded strings
-- `src/routes/_showcase.index.tsx:52` → `Design system · {APP_VERSION_SHORT}`
-- `src/routes/_showcase.index.tsx:79` → `{APP_VERSION_SHORT} live`
-- `src/routes/_showcase.badges.tsx:38` → `{APP_VERSION_FULL}` (replaces the just-hardcoded `v1.2.0`)
+5. **Проверить, что все версийные упоминания используют `APP_VERSION`** — уже настроено в `src/lib/version.ts`, в README версии пишутся текстом, их трогать не нужно.
 
-### 3. Sidebar / other places
-Grep confirms only the three occurrences above; sidebar wordmark doesn't display a version. Nothing else to change.
+Результат: пользователь сможет скопировать 4 блока из README и получить рабочий проект-потребитель без отдельного example-репо.
 
-## Result
-Bumping `package.json` version is now the only edit needed — every visible version chip updates on the next build.
-
-## Out of scope
-CHANGELOG entries stay manual (they describe release-specific changes).
+Технические детали:
+- Без изменений в `package.json`, `vite.lib.config.ts`, workflow.
+- Только документация, zero risk для публикации пакета.
+- Не создаем `examples/` — по ответу пользователя это не требуется.
