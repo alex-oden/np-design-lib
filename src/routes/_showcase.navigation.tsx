@@ -579,15 +579,15 @@ function HeaderMarketing() {
 
 function HeaderApp() {
   return (
-    <header className="flex h-14 items-center gap-4 border-b border-border/60 bg-background/70 px-4 backdrop-blur-md">
-      <Wordmark compact />
+    <header className="flex h-14 items-center gap-3 border-b border-border/60 bg-background/70 px-4 backdrop-blur-md">
+      <Wordmark size="sm" />
       <Separator orientation="vertical" className="h-6" />
-      <Select defaultValue="rotterdam" className="h-8 w-[200px] text-[12.5px]">
+      <Select defaultValue="rotterdam" className="h-8 w-[180px] shrink-0 text-[12.5px]">
         <option value="rotterdam">Site 042 · Rotterdam</option>
         <option value="hamburg">Site 118 · Hamburg</option>
         <option value="oslo">Site 204 · Oslo</option>
       </Select>
-      <div className="mx-auto flex w-full max-w-md items-center">
+      <div className="mx-auto flex w-full max-w-sm items-center">
         <button
           type="button"
           className="group flex w-full items-center gap-2 rounded-md border border-border/60 bg-secondary/50 px-3 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-secondary"
@@ -597,7 +597,7 @@ function HeaderApp() {
           <Kbd>⌘K</Kbd>
         </button>
       </div>
-      <div className="ml-auto flex items-center gap-1">
+      <div className="ml-auto flex shrink-0 items-center gap-1">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
@@ -609,13 +609,13 @@ function HeaderApp() {
         </Tooltip>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="ml-1 flex items-center gap-2 rounded-full border border-border/60 bg-secondary/60 py-1 pl-1 pr-2 text-[12px] hover:bg-secondary">
+            <button className="ml-1 flex items-center gap-2 whitespace-nowrap rounded-full border border-border/60 bg-secondary/60 py-1 pl-1 pr-2 text-[12px] hover:bg-secondary">
               <Avatar className="size-6">
                 <AvatarFallback className="bg-brand-gradient text-[10px] text-white">
                   AO
                 </AvatarFallback>
               </Avatar>
-              <span className="text-foreground">A. Oden</span>
+              <span className="hidden text-foreground md:inline">A. Oden</span>
               <ChevronDown className="size-3 text-muted-foreground" />
             </button>
           </DropdownMenuTrigger>
