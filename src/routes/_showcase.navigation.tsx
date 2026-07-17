@@ -1106,8 +1106,8 @@ function SidebarIconRail() {
   return (
     <div className="flex h-64">
       <aside className="flex w-14 shrink-0 flex-col items-center gap-1 border-r border-border/60 bg-card/40 py-3">
-        <div className="mb-1 grid size-8 place-items-center rounded-md bg-brand-gradient text-[11px] font-semibold text-white">
-          N
+        <div className="mb-1 grid size-8 place-items-center rounded-md bg-brand-gradient-soft">
+          <img src={neosMark} alt="NeosPower" className="size-4" />
         </div>
         {items.map((it) => (
           <Tooltip key={it.l}>
