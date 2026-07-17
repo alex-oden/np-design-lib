@@ -17,7 +17,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "text-primary-foreground bg-brand-gradient [background-size:150%_150%] [background-position:0%_50%] hover:[background-position:100%_50%] shadow-[0_8px_24px_-10px_hsl(var(--brand-start)/0.6)] duration-500",
+          "text-primary-foreground bg-brand-gradient [background-size:150%_150%] [background-position:0%_50%] hover:[background-position:100%_50%] shadow-[inset_0_1px_0_hsl(0_0%_100%/0.35),inset_0_-1px_0_hsl(0_0%_0%/0.25),0_10px_30px_-8px_hsl(var(--brand-start)/0.55),0_18px_50px_-12px_hsl(var(--brand-end)/0.45)] hover:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.45),inset_0_-1px_0_hsl(0_0%_0%/0.28),0_14px_38px_-8px_hsl(var(--brand-start)/0.7),0_24px_60px_-12px_hsl(var(--brand-end)/0.6)] hover:-translate-y-px active:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.25),inset_0_-1px_0_hsl(0_0%_0%/0.2),0_6px_18px_-8px_hsl(var(--brand-start)/0.5)] duration-500",
         secondary:
           "bg-white/[0.04] text-foreground border border-border/60 hover:bg-white/[0.08] hover:border-border",
         ghost:

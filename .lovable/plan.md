@@ -1,22 +1,27 @@
-## Add subtle brand gradient background + hover glow to `FeatureCard`
+# Button 3D + ambient glow refinement
 
-Reference screenshot shows FeatureCards with a soft radial/linear brand-tinted gradient sitting on top of the dark card surface, brightening on hover.
+Reference images show a gradient pill with:
+1. A soft inner top highlight (subtle white bevel) giving a 3D lift.
+2. An ambient colored (brand) shadow spreading below the button.
 
-### Scope
-Only `src/components/ui/feature-card.tsx`. No changes to other card types, tokens, or the showcase.
+## Changes
 
-### Changes
-- Wrap the card in `relative isolate` and add a `::before` layer (via an absolutely-positioned `<span aria-hidden>`) painted with a soft brand gradient:
-  `background: radial-gradient(120% 90% at 100% 0%, hsl(var(--brand-end)/.10), transparent 60%), linear-gradient(180deg, hsl(var(--brand-start)/.06), transparent 55%)`
-  At rest: opacity ~0.7. On hover: opacity 1 + slightly stronger stops, transitioned over ~500ms with the same easing used elsewhere (`cubic-bezier(0.22,0.61,0.36,1)`).
-- Keep existing lift + border/shadow hover, but drop the redundant `bg-card/70` swap since the gradient now handles the "lighting up".
-- Ensure content sits above the gradient (`relative z-10` wrapper for icon/title/description/children).
-- Keep `motion-reduce` guard so the gradient is present but doesn't animate.
+**`src/components/ui/button.tsx`** — enhance the `default` (brand gradient) variant only, leaving other variants untouched.
 
-### Verification
-- Playwright screenshot on `/cards` (Features section) at rest and on hover to confirm the gradient is visible and brightens smoothly.
-- Confirm the card still lifts and the border/shadow still respond.
+- Add an inner top highlight via `inset` box-shadow: `inset 0 1px 0 hsl(0 0% 100% / 0.35)` plus a faint `inset 0 -1px 0 hsl(0 0% 0% / 0.25)` for the bottom edge — creates the bevel/3D look.
+- Add layered ambient colored shadow using both brand tokens:
+  - `0 10px 30px -8px hsl(var(--brand-start) / 0.55)`
+  - `0 18px 50px -12px hsl(var(--brand-end) / 0.45)`
+- Hover: intensify shadow (larger blur, higher alpha) and lift with `-translate-y-[1px]`.
+- Active: reduce shadow + settle down (existing `active:translate-y-px` becomes the pressed state).
+- Keep gradient background-position animation.
 
-### Not doing
-- No change to `SurfaceCard`, `GlassCard`, `MetricCard`, `StatCard`, `MediaCard`, `AlertCard`, `GlowCard`, `InteractiveCard`.
-- No token or global CSS additions.
+**Bump patch version** in `package.json` → `1.3.1` (visual polish only) and mirror the version constant already sourced from `package.json` (auto-propagates to showcase).
+
+**Update `CHANGELOG.md`** with a short 1.3.1 entry: "Button: added top bevel highlight and ambient brand-tinted shadow for the primary variant."
+
+## Not touched
+
+- Secondary / ghost / outline / destructive / link variants stay flat — the 3D look is for the primary CTA only, matching the references.
+- No changes to sizes, structure, or API.
+- No showcase route edits needed (buttons page already renders all variants).
