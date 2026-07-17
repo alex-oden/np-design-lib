@@ -26,6 +26,7 @@ const RadioGroupItem = React.forwardRef<
       "hover:border-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-ring/50",
       "disabled:cursor-not-allowed disabled:opacity-45",
       "data-[state=checked]:border-brand-border data-[state=checked]:bg-brand-gradient",
+      "data-[state=checked]:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.35),inset_0_-1px_0_hsl(0_0%_0%/0.25),0_4px_14px_-4px_hsl(var(--brand-start)/0.55),0_8px_22px_-8px_hsl(var(--brand-end)/0.5)]",
       className,
     )}
     {...props}
