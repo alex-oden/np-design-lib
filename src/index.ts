@@ -11,7 +11,7 @@ export * from "./components/ui/breadcrumb";
 export * from "./components/ui/button";
 export * from "./components/ui/calendar";
 export * from "./components/ui/card";
-export * from "./components/ui/surface-card";
+export { SurfaceCard, type SurfaceCardProps } from "./components/ui/surface-card";
 export * from "./components/ui/glass-card";
 export * from "./components/ui/interactive-card";
 export * from "./components/ui/metric-card";
