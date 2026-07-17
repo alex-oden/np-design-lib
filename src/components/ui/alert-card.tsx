@@ -30,17 +30,21 @@ export const AlertCard = React.forwardRef<HTMLDivElement, AlertCardProps>(
     const t = toneMap[tone];
     const Icon = t.icon;
     return (
-      <div
-        ref={ref}
-        role="status"
-        className={cn(
-          "relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-card/60 p-5 pl-6 text-card-foreground",
-          "before:absolute before:inset-y-0 before:left-0 before:w-1",
-          t.edge,
-          className,
-        )}
-        {...props}
-      >
+    <div
+      ref={ref}
+      role="status"
+      className={cn(
+        "relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-card/60 p-5 pl-6 text-card-foreground",
+        "before:absolute before:inset-y-0 before:left-0 before:w-1",
+        "transition-[border-color,background-color,transform] duration-300 ease-[cubic-bezier(.23,1,.32,1)]",
+        "hover:border-border/80 hover:bg-card/70",
+        "active:scale-[0.997]",
+        "motion-reduce:transition-none",
+        t.edge,
+        className,
+      )}
+      {...props}
+    >
         <div className="flex gap-3">
           <div className={cn("mt-0.5 shrink-0", t.text)}>
             {icon ?? <Icon className="size-4" />}

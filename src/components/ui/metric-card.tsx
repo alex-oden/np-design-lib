@@ -32,14 +32,18 @@ export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
   ({ className, label, value, unit, delta, trend, icon, ...props }, ref) => {
     const TrendIcon = trend ? trendIcon[trend] : null;
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "rounded-[var(--radius)] border border-border/60 bg-card/60 p-5 text-card-foreground",
-          className,
-        )}
-        {...props}
-      >
+    <div
+      ref={ref}
+      className={cn(
+        "rounded-[var(--radius)] border border-border/60 bg-card/60 p-5 text-card-foreground",
+        "transition-np-card will-change-transform",
+        "hover:-translate-y-1 hover:border-border/80 hover:bg-card/70 hover:shadow-[0_12px_28px_-8px_hsl(var(--brand-start)/.14),0_0_0_1px_hsl(var(--border)/.6)]",
+        "active:translate-y-0 active:scale-[0.997]",
+        "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none motion-reduce:hover:bg-card/60",
+        className,
+      )}
+      {...props}
+    >
         <div className="flex items-center justify-between">
           <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
             {label}

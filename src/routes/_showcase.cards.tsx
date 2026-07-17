@@ -49,7 +49,7 @@ function CardsPage() {
       title="Cards"
       intro="Each card is a distinct component with a clear use case. Pick by intent — SurfaceCard for neutral containers, GlassCard for overlays, InteractiveCard for clickable tiles, MetricCard for KPIs, and so on."
     >
-      <Section title="SurfaceCard" hint="neutral container · forms, panels">
+      <Section title="SurfaceCard" hint="neutral container · forms, panels" animated index={0}>
         <SurfaceCard>
           <CardHeader>
             <CardTitle>General settings</CardTitle>
@@ -64,7 +64,7 @@ function CardsPage() {
         </SurfaceCard>
       </Section>
 
-      <Section title="GlassCard" hint="translucent · overlays, hero panels">
+      <Section title="GlassCard" hint="translucent · overlays, hero panels" animated index={1}>
         <GlassCard>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -103,7 +103,7 @@ function CardsPage() {
         </GlassCard>
       </Section>
 
-      <Section title="InteractiveCard" hint="clickable · renders as <button>">
+      <Section title="InteractiveCard" hint="clickable · renders as <button>" animated index={2}>
         <div className="grid gap-4 md:grid-cols-2">
           {["Rotterdam · 042", "Amsterdam · 018"].map((label) => (
             <InteractiveCard key={label} onClick={() => {}}>
@@ -123,7 +123,7 @@ function CardsPage() {
         </div>
       </Section>
 
-      <Section title="MetricCard" hint="single KPI · label + value + delta">
+      <Section title="MetricCard" hint="single KPI · label + value + delta" animated index={3}>
         <div className="grid gap-4 md:grid-cols-3">
           <MetricCard label="Dispatched" value="184.2" unit="MWh" delta="+4.8%" trend="up" />
           <MetricCard label="Avg price" value="97.40" unit="€/MWh" delta="-1.2%" trend="down" />
@@ -138,7 +138,7 @@ function CardsPage() {
         </div>
       </Section>
 
-      <Section title="StatCard" hint="2–4 small metrics in one row">
+      <Section title="StatCard" hint="2–4 small metrics in one row" animated index={4}>
         <StatCard
           items={[
             { label: "MWh", value: "184.2" },
@@ -149,7 +149,7 @@ function CardsPage() {
         />
       </Section>
 
-      <Section title="FeatureCard" hint="icon + title + description">
+      <Section title="FeatureCard" hint="icon + title + description" animated index={5}>
         <div className="grid gap-4 md:grid-cols-3">
           <FeatureCard
             icon={<Zap className="size-5" />}
@@ -169,7 +169,7 @@ function CardsPage() {
         </div>
       </Section>
 
-      <Section title="MediaCard" hint="image on top, content below">
+      <Section title="MediaCard" hint="image on top, content below" animated index={6}>
         <div className="grid gap-4 md:grid-cols-2">
           <MediaCard
             media={
@@ -197,7 +197,7 @@ function CardsPage() {
         </div>
       </Section>
 
-      <Section title="AlertCard" hint="inline status block · info / success / warning / danger">
+      <Section title="AlertCard" hint="inline status block · info / success / warning / danger" animated index={7}>
         <div className="grid gap-3">
           <AlertCard tone="info" title="Scheduled maintenance">
             Grid operator has flagged a 30-minute maintenance window at 03:00 UTC.
@@ -214,7 +214,7 @@ function CardsPage() {
         </div>
       </Section>
 
-      <Section title="GlowCard" hint="BorderGlow with brand presets">
+      <Section title="GlowCard" hint="BorderGlow with brand presets" animated index={8}>
         <div className="grid gap-7 [grid-template-columns:repeat(auto-fit,minmax(248px,1fr))]">
           <GlowCard preset="brand">
             <div className="p-6">

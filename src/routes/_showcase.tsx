@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, useRouter } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { ShowcaseSidebar } from "@/components/showcase-sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +9,16 @@ import neosLogo from "@/assets/neospower-logo.svg";
 export const Route = createFileRoute("/_showcase")({
   component: ShowcaseLayout,
 });
+
+function AnimatedOutlet() {
+  const router = useRouter();
+  const path = router.state.location.pathname;
+  return (
+    <div key={path} className="animate-np-fade-in-up motion-reduce:animate-none">
+      <Outlet />
+    </div>
+  );
+}
 
 function ShowcaseLayout() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -72,7 +82,7 @@ function ShowcaseLayout() {
             </header>
 
             <main>
-              <Outlet />
+              <AnimatedOutlet />
             </main>
           </div>
         </div>

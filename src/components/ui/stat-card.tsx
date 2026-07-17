@@ -21,6 +21,10 @@ export const StatCard = React.forwardRef<HTMLDivElement, StatCardProps>(
       ref={ref}
       className={cn(
         "grid gap-3 rounded-[var(--radius)] border border-border/60 bg-card/60 p-4 text-card-foreground",
+        "transition-np-card will-change-transform",
+        "hover:-translate-y-0.5 hover:border-border/80 hover:bg-card/70 hover:shadow-[0_8px_20px_-6px_hsl(var(--brand-start)/.12),0_0_0_1px_hsl(var(--border)/.6)]",
+        "active:translate-y-0 active:scale-[0.997]",
+        "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:hover:shadow-none",
         `grid-cols-${Math.min(items.length, 4)}`,
         className,
       )}
@@ -28,7 +32,7 @@ export const StatCard = React.forwardRef<HTMLDivElement, StatCardProps>(
       {...props}
     >
       {items.map((it, i) => (
-        <div key={i} className="rounded-lg border border-border/60 bg-white/[0.02] px-3 py-2">
+        <div key={i} className="rounded-lg border border-border/60 bg-white/[0.02] px-3 py-2 transition-[border-color,background-color] duration-300 hover:border-border/80 hover:bg-white/[0.04]">
           <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
             {it.label}
           </p>

@@ -20,9 +20,9 @@ const presets: Record<GlowPreset, { colors: string[]; glowColor: string }> = {
 };
 
 export const GlowCard = React.forwardRef<HTMLDivElement, GlowCardProps>(
-  ({ preset = "brand", ...props }, ref) => {
+  ({ preset = "brand", animated = true, ...props }, ref) => {
     const p = presets[preset];
-    return <BorderGlow ref={ref as never} colors={p.colors} glowColor={p.glowColor} {...props} />;
+    return <BorderGlow ref={ref as never} colors={p.colors} glowColor={p.glowColor} animated={animated} {...props} />;
   },
 );
 GlowCard.displayName = "GlowCard";
