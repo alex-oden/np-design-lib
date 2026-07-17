@@ -111,3 +111,19 @@ Every leaf route sets its own `head()` (title, description, og:title, og:descrip
 ## Not touched / out of scope
 
 No backend, no auth, no Lovable Cloud, no dark/light toggle (system is dark-first), no command palette in the shell.
+
+## Navigation pattern library
+
+`_showcase.navigation` was expanded from a thin demo into a full pattern library:
+six desktop headers (marketing, app shell, docs, e-commerce two-row, transparent
+hero, minimal centered), five mobile/tablet headers rendered inside 375/768 px
+`DeviceFrame` mocks (app, marketing, expanding search, tablet split with
+overflow menu, and a bottom tab bar with a floating gradient action), four
+sidebars (icon rail, sections + user footer, off-canvas Sheet, workspace
+switcher), and secondary nav coverage (deep + mobile breadcrumbs, three tab
+flavors, horizontal + vertical steppers, in-page anchor nav, pagination with
+mobile fallback). Four footers ship alongside: marketing mega-footer with
+newsletter and region select (plus mobile-accordion and tablet variants),
+thin app utility bar, docs footer with Segmented feedback + prev/next
+cards, and a minimal centered footer. Every pattern is annotated with a
+"Composed from" line listing the primitives it uses.
