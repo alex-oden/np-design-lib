@@ -34,6 +34,11 @@ const SECTIONS: { to: string; label: string; blurb: string }[] = [
   { to: "/selection", label: "Selection controls", blurb: "Checkbox · radio · switch · segmented" },
   { to: "/cards", label: "Cards", blurb: "Surface · Glass · Interactive · Metric · Stat · Feature · Media · Alert · Glow" },
   { to: "/badges", label: "Badges & status", blurb: "Compact monospace status vocabulary" },
+  {
+    to: "/navigation",
+    label: "Navigation",
+    blurb: "Headers, sidebars, drawers, breadcrumbs, tabs, steppers, pagers, footers — desktop, tablet & mobile",
+  },
   { to: "/alerts", label: "Alerts & banners", blurb: "Inline messages · page banners" },
   { to: "/overlays", label: "Overlays", blurb: "Dialog · sheet · popover · dropdown · tooltip" },
   { to: "/loading", label: "Loading & progress", blurb: "Spinners · dots · progress · skeleton" },
