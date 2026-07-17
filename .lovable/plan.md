@@ -1,60 +1,31 @@
-## Goal
+## Fix: smooth levitation on `InteractiveCard`
 
-Заменить единый `Card` с пропом `variant` на набор компонентов с говорящими названиями, чтобы другой агент (или разработчик) сразу понимал, для какого use case какой компонент. Оставить обратную совместимость через `Card` (алиас на `SurfaceCard`).
+**Problem:** hover feels like a jump/teleport instead of a smooth lift. Two root causes in `src/components/ui/interactive-card.tsx`:
 
-## Новый набор card-компонентов
+1. The transition timing `cubic-bezier(.23, 1, .32, 1)` is an "out-expo"-style curve — most of the movement happens in the first ~60ms, so the eye reads it as a snap. It needs a softer, more symmetrical easing and a longer duration.
+2. On hover the card animates **transform + shadow + border-color**, but on unhover only transform reverses smoothly — shadow appears/disappears abruptly because the base state has no shadow to interpolate from. Result: lift up looks OK, drop back looks like a pop.
 
-Каждый компонент получает свои дефолты (padding, radius, hover, shadow) и свою семантику. Все они переиспользуют общие `CardHeader / CardTitle / CardDescription / CardContent / CardFooter`.
+**Scope:** only `src/components/ui/interactive-card.tsx`. No other components, no global CSS, no route changes, no version bump. Revert the earlier broader motion additions is NOT part of this task — user only flagged this one component.
 
-| Компонент | Use case | Внешний вид |
-| --- | --- | --- |
-| `SurfaceCard` | База: любой контейнер контента, форма, панель настроек | Плоская `bg-card/60`, border, без hover |
-| `GlassCard` | Оверлеи, hero-панели поверх градиента, "premium" секции | `glass` + backdrop-blur, `shadow-card` |
-| `InteractiveCard` | Кликабельная плитка / ссылка-карточка в сетке | Hover: lift + `shadow-glow`, cursor-pointer, `role="button"` friendly |
-| `MetricCard` | KPI/метрика (число + подпись + delta) | Компактный padding, встроенные слоты `label`, `value`, `delta`, `unit`, моно-цифры |
-| `StatCard` | Список из 2–4 маленьких метрик в ряд | Grid внутри, каждая ячейка = label + value |
-| `FeatureCard` | Маркетинговая фича: иконка + заголовок + описание | Иконочный слот сверху, увеличенный заголовок |
-| `MediaCard` | Карточка с изображением/превью сверху | Слот `media` (aspect-ratio), контент снизу |
-| `AlertCard` | Инлайновый статус-блок (не toast, а карточка) | Варианты `info / success / warning / danger`, цветной левый край + иконка |
-| `GlowCard` | Тонкий wrapper над существующим `BorderGlow` | Готовые пресеты цветов (`brand`, `success`, `danger`, `info`) |
+### Changes
 
-Все — именованные экспорты, forwardRef, `displayName` выставлен, типы экспортированы (`SurfaceCardProps` и т.д.).
+Rewrite the className stack in `InteractiveCard` to:
 
-## Файлы
+- **Duration:** `420ms` (up from 280ms) so the eye tracks the motion.
+- **Easing:** `cubic-bezier(0.22, 0.61, 0.36, 1)` (ease-out-quart-ish, smoother tail) — motion decelerates gently instead of snapping.
+- **Base shadow:** add a subtle resting shadow (`shadow-[0_1px_2px_-1px_hsl(var(--brand-start)/.08)]`) so the hover shadow has a value to animate **from** and **to** — no more pop on exit.
+- **Hover lift:** keep `-translate-y-1` but pair it with a slightly softer shadow so it feels lifted, not slammed.
+- **Active state:** shorter override (`duration-150`) for tactile press feedback — press should be quick, release should ride the main curve.
+- **Transition list:** explicitly include `background-color` too, in case token themes tint on hover.
+- Keep `will-change-transform`, focus-visible ring, and `motion-reduce` guards.
 
-**Новые файлы**
-- `src/components/ui/surface-card.tsx` — `SurfaceCard` + переезд общих `CardHeader/Title/Description/Content/Footer` сюда.
-- `src/components/ui/glass-card.tsx`
-- `src/components/ui/interactive-card.tsx`
-- `src/components/ui/metric-card.tsx` — с пропами `label`, `value`, `unit`, `delta`, `trend`.
-- `src/components/ui/stat-card.tsx` — принимает `items: {label, value, unit?}[]`.
-- `src/components/ui/feature-card.tsx` — пропы `icon`, `title`, `description`.
-- `src/components/ui/media-card.tsx` — проп `media` (ReactNode) + `aspectRatio`.
-- `src/components/ui/alert-card.tsx` — проп `tone`.
-- `src/components/ui/glow-card.tsx` — пропы `preset`.
+### Verification
 
-**Изменяемые файлы**
-- `src/components/ui/card.tsx` — превращается в backward-compat shim: реэкспорт `SurfaceCard as Card`, `GlassCard`, `InteractiveCard` + все sub-parts. `variant` prop сохраняется и мапится на нужный компонент, чтобы существующий код не сломался.
-- `src/index.ts` — добавить экспорты новых файлов.
-- `src/routes/_showcase.cards.tsx` — переписать: одна секция на компонент, с описанием use case и живым примером; убрать демо `variant`-переключателя, заменить на явные `<GlassCard>`, `<MetricCard>` и т.д.
-- `src/routes/_showcase.index.tsx` — если в списке компонентов есть card summary, добавить новые.
-- `src/components/showcase-sidebar.tsx` — проверить пункт "Cards"; если нужно, добавить якоря на подсекции.
-- `README.md` — таблица компонентов: добавить новые card-компоненты с одной строкой описания use case, обновить quick start пример (использовать `SurfaceCard` + `MetricCard`).
-- `CHANGELOG.md` — секция `1.3.0`: added `SurfaceCard`, `GlassCard`, `InteractiveCard`, `MetricCard`, `StatCard`, `FeatureCard`, `MediaCard`, `AlertCard`, `GlowCard`; deprecated `<Card variant="…">` в пользу именованных компонентов (не удалено).
-- `docs/neospower-report.md` — короткий абзац про рестуктуризацию карточек.
-- `package.json` — bump `version` → `1.3.0`. Т.к. `APP_VERSION` читается из `package.json`, UI-бейджи обновятся автоматически.
+- Playwright: hover an `InteractiveCard` on `/cards`, record a short screenshot sequence (before / mid-transition / hovered / mid-exit / rest) to confirm the intermediate frames actually differ — i.e. the motion is interpolating, not jumping.
+- Confirm no regression on `active:` press and on `motion-reduce`.
 
-## Обратная совместимость
+### Not doing
 
-Существующий код `<Card variant="glass">` продолжает работать: `card.tsx` под капотом отрендерит `GlassCard`. В консоли — `console.warn` в dev-режиме про deprecation, чтобы агенты постепенно переходили на именованные компоненты.
-
-## После сборки
-
-- `bun run build:lib` локально не запускаю (это сделает release workflow).
-- Пользователю нужно вручную запушить тег `v1.3.0` в `np-design-lib`, чтобы workflow опубликовал пакет на npm.
-
-## Что НЕ входит в план
-
-- Не трогаю токены/цвета.
-- Не переписываю остальные компоненты.
-- Не меняю routing / SSR wiring.
+- No changes to `GlassCard`, `MetricCard`, `FeatureCard`, etc.
+- No changes to `src/styles.css`, route transitions, or the staggered section entrance.
+- No version bump, no changelog entry (internal polish).
