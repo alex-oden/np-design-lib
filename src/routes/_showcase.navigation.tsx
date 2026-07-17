@@ -1137,7 +1137,7 @@ function SidebarWithFooter() {
     <div className="flex h-72">
       <aside className="flex w-56 shrink-0 flex-col border-r border-border/60 bg-card/40">
         <div className="px-4 py-3">
-          <Wordmark compact />
+          <Wordmark size="sm" />
         </div>
         <Separator />
         <MiniNavList />
@@ -1171,23 +1171,31 @@ function SidebarWithFooter() {
 }
 
 function OffCanvasDemo() {
+  const [open, setOpen] = React.useState(true);
   return (
-    <div className="flex h-32 items-center justify-center">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="secondary">
-            <Menu /> Open mobile drawer
+    <div className="relative flex h-72 flex-col overflow-hidden">
+      <div className="flex h-12 items-center gap-2 border-b border-border/60 bg-background/80 px-3 backdrop-blur">
+        <Button variant="ghost" size="icon" aria-label="Toggle menu" onClick={() => setOpen((v) => !v)}>
+          <Menu />
+        </Button>
+        <div className="mx-auto">
+          <Wordmark size="sm" />
+        </div>
+      </div>
+      <div className="flex-1 p-4 text-[12px] text-muted-foreground">
+        Toggle the hamburger to see the drawer slide in from the left, over the page content.
+      </div>
+      <MobileDrawer open={open} onClose={() => setOpen(false)} side="left">
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
+          <Wordmark size="sm" />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close">
+            <ChevronRight className="rotate-180" />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-72 p-0">
-          <SheetHeader className="px-5 py-4">
-            <SheetTitle>
-              <Wordmark />
-            </SheetTitle>
-          </SheetHeader>
+        </div>
+        <div className="flex-1 overflow-y-auto pt-2">
           <MiniNavList />
-        </SheetContent>
-      </Sheet>
+        </div>
+      </MobileDrawer>
     </div>
   );
 }
@@ -1199,8 +1207,8 @@ function SidebarWorkspaceHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 border-b border-border/60 px-3 py-3 text-left hover:bg-secondary/40">
-              <div className="grid size-8 shrink-0 place-items-center rounded-md bg-brand-gradient text-[11px] font-semibold text-white">
-                NP
+              <div className="grid size-8 shrink-0 place-items-center rounded-md bg-brand-gradient-soft">
+                <img src={neosMark} alt="NeosPower" className="size-4" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[12.5px] text-foreground">NeosPower</p>
