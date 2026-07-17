@@ -78,6 +78,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import neosLogo from "@/assets/neospower-logo.svg";
+import neosMark from "@/assets/neos-logo.svg";
 
 export const Route = createFileRoute("/_showcase/navigation")({
   head: () => ({
@@ -400,13 +401,95 @@ function DeviceFrame({
   );
 }
 
-function Wordmark({ compact = false }: { compact?: boolean }) {
+function Wordmark({
+  size = "md",
+  compact = false,
+  hero = false,
+  className,
+}: {
+  size?: "sm" | "md" | "hero";
+  compact?: boolean;
+  hero?: boolean;
+  className?: string;
+}) {
+  // compact is a legacy alias for size="sm"
+  const s = compact ? "sm" : size;
+  const h = s === "hero" ? "h-8" : s === "sm" ? "h-6" : "h-7";
+  const tag = s === "hero" ? "text-[12px]" : "text-[10.5px]";
   return (
-    <div className="flex items-center gap-2">
-      <img src={neosLogo} alt="NeosPower" className={cn("w-auto", compact ? "h-4" : "h-5")} />
-      <span className="font-mono text-[10.5px] tracking-[0.18em] text-muted-foreground/70">
+    <div
+      className={cn(
+        "flex items-center gap-2",
+        hero && "drop-shadow-[0_2px_10px_hsl(230_60%_4%/0.55)]",
+        className,
+      )}
+    >
+      <img src={neosLogo} alt="NeosPower" className={cn("w-auto", h)} />
+      <span
+        className={cn(
+          "font-mono tracking-[0.18em]",
+          tag,
+          hero ? "text-foreground/80" : "text-muted-foreground/70",
+        )}
+      >
         /UI
       </span>
+    </div>
+  );
+}
+
+function SubEyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground/70">
+      {children}
+    </p>
+  );
+}
+
+/* Absolutely-positioned drawer that stays inside its DeviceFrame parent.
+   Use this instead of Sheet inside phone mock-ups so the overlay does not
+   escape to document.body. Parent must be `relative` (DeviceFrame is). */
+function MobileDrawer({
+  open,
+  onClose,
+  side = "left",
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  side?: "left" | "right";
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      aria-hidden={!open}
+      className={cn(
+        "pointer-events-none absolute inset-0 z-20 transition-opacity duration-200",
+        open ? "opacity-100" : "opacity-0",
+      )}
+    >
+      <button
+        type="button"
+        aria-label="Close menu"
+        onClick={onClose}
+        className={cn(
+          "absolute inset-0 bg-background/70 backdrop-blur-sm",
+          open ? "pointer-events-auto" : "pointer-events-none",
+        )}
+      />
+      <div
+        className={cn(
+          "absolute inset-y-0 flex w-[82%] max-w-[300px] flex-col border-border/60 bg-card shadow-xl transition-transform duration-250",
+          side === "left" ? "left-0 border-r" : "right-0 border-l",
+          open
+            ? "translate-x-0 pointer-events-auto"
+            : side === "left"
+              ? "-translate-x-full"
+              : "translate-x-full",
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
