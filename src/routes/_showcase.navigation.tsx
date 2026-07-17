@@ -643,13 +643,13 @@ function HeaderDocs() {
     <header className="border-b border-border/60 bg-background/70 backdrop-blur-md">
       <div className="flex h-14 items-center gap-4 px-6">
         <Wordmark />
-        <Badge variant="default" className="font-mono text-[10px]">
+        <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground">
           v1.3.2
         </Badge>
         <div className="ml-auto flex w-full max-w-sm items-center gap-2">
           <div className="relative w-full">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search docs…" className="h-8 pl-8 pr-14 text-[13px]" />
+            <Input placeholder="Search docs…" className="h-8 pl-8 pr-10 text-[13px]" />
             <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
               <Kbd>/</Kbd>
             </div>
