@@ -1354,8 +1354,10 @@ function StepperDemo() {
   const steps = ["Account", "Workspace", "Team", "Done"];
   const current = 1;
   return (
-    <div className="space-y-8 p-5">
-      <ol className="flex items-center gap-3">
+    <div className="space-y-6 p-5">
+      <div>
+        <SubEyebrow>Horizontal · desktop</SubEyebrow>
+        <ol className="flex items-center gap-3">
         {steps.map((s, i) => {
           const done = i < current;
           const active = i === current;
@@ -1387,8 +1389,12 @@ function StepperDemo() {
             </React.Fragment>
           );
         })}
-      </ol>
-      <ol className="max-w-[220px] space-y-2">
+        </ol>
+      </div>
+      <Separator />
+      <div>
+        <SubEyebrow>Vertical · mobile</SubEyebrow>
+        <ol className="max-w-[220px] space-y-2">
         {steps.map((s, i) => {
           const done = i < current;
           const active = i === current;
@@ -1410,7 +1416,8 @@ function StepperDemo() {
             </li>
           );
         })}
-      </ol>
+        </ol>
+      </div>
     </div>
   );
 }
