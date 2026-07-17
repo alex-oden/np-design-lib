@@ -784,7 +784,7 @@ function HeaderTransparentDemo() {
             state === "solid" && "border-b border-border/60 bg-background/80 backdrop-blur-md",
           )}
         >
-          <Wordmark compact />
+          <Wordmark size={state === "transparent" ? "hero" : "md"} hero={state === "transparent"} />
           <nav className="hidden gap-5 text-[13px] md:flex">
             <a href="#" className="text-foreground/90 hover:text-foreground">Product</a>
             <a href="#" className="text-foreground/90 hover:text-foreground">Pricing</a>
@@ -801,10 +801,12 @@ function HeaderTransparentDemo() {
 
 function HeaderMinimal() {
   return (
-    <header className="flex h-14 items-center justify-between border-b border-border/60 px-6">
-      <span className="w-24" />
-      <Wordmark />
-      <div className="flex w-24 justify-end">
+    <header className="grid h-14 grid-cols-[1fr_auto_1fr] items-center border-b border-border/60 px-6">
+      <span />
+      <div className="mx-auto">
+        <Wordmark />
+      </div>
+      <div className="flex justify-end">
         <Button variant="ghost" size="sm">
           Exit
         </Button>
