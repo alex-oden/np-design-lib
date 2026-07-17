@@ -18,7 +18,7 @@ export const InteractiveCard = React.forwardRef<HTMLButtonElement, InteractiveCa
       className={cn(
         "group relative block w-full cursor-pointer overflow-hidden rounded-[var(--radius)]",
         "border border-border/60 bg-card/60 text-left text-card-foreground",
-        "transition-transform transition-shadow transition-colors duration-[280ms] ease-[cubic-bezier(.23,1,.32,1)]",
+        "transition-[transform,box-shadow,border-color] duration-[280ms] ease-[cubic-bezier(.23,1,.32,1)]",
         "will-change-transform",
         "hover:-translate-y-1 hover:border-border hover:shadow-[0_12px_28px_-8px_hsl(var(--brand-start)/.18),0_0_0_1px_hsl(var(--border)/.7)]",
         "active:translate-y-0 active:scale-[0.995] active:shadow-[0_4px_12px_-4px_hsl(var(--brand-start)/.12),0_0_0_1px_hsl(var(--border)/.6)]",
