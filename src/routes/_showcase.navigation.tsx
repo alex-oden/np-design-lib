@@ -643,7 +643,7 @@ function HeaderDocs() {
     <header className="border-b border-border/60 bg-background/70 backdrop-blur-md">
       <div className="flex h-14 items-center gap-4 px-6">
         <Wordmark />
-        <Badge variant="outline" className="font-mono text-[10px] text-muted-foreground">
+        <Badge variant="default" className="border border-border/60 bg-transparent font-mono text-[10px] text-muted-foreground">
           v1.3.2
         </Badge>
         <div className="ml-auto flex w-full max-w-sm items-center gap-2">
