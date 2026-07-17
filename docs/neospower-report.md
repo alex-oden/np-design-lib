@@ -32,7 +32,17 @@ A record of what was built in this project, and the technology behind each piece
 - **InputOTP** (`input-otp.tsx`) — `input-otp` library.
 
 ### Surfaces
-- **Card** (`card.tsx`) — `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`; supports `glass` translucent variant.
+- **Card family** — split into named, use-case-specific components (v1.3.0):
+  - `SurfaceCard` (`surface-card.tsx`) — neutral bordered container; also exports the shared `CardHeader / CardTitle / CardDescription / CardContent / CardFooter` sub-parts.
+  - `GlassCard` (`glass-card.tsx`) — translucent panel with backdrop blur.
+  - `InteractiveCard` (`interactive-card.tsx`) — clickable tile rendered as `<button>` with hover lift, brand glow and focus ring.
+  - `MetricCard` (`metric-card.tsx`) — single KPI (label · value · unit · delta · trend).
+  - `StatCard` (`stat-card.tsx`) — strip of 2–4 small metrics.
+  - `FeatureCard` (`feature-card.tsx`) — icon + title + description marketing block.
+  - `MediaCard` (`media-card.tsx`) — media slot on top, content below, configurable aspect.
+  - `AlertCard` (`alert-card.tsx`) — inline status block (`info | success | warning | danger`).
+  - `GlowCard` (`glow-card.tsx`) — `BorderGlow` wrapper with brand/violet/success/danger/info presets.
+  - `card.tsx` remains as a deprecated shim: `<Card variant="default|glass|interactive">` maps to the named components.
 - **BorderGlow** (`border-glow.tsx` + `border-glow.css`) — signature card. `pointermove` writes `--cursor-angle` and `--edge-proximity`; CSS renders the halo. Props: `glowColor`, `animated`, `borderRadius`, `intensity`, `coneSpread`, `sensitivity`, `fillOpacity`.
 - **Separator** (`separator.tsx`) — Radix hairline divider.
 - **AspectRatio** (`aspect-ratio.tsx`) — Radix media wrapper.

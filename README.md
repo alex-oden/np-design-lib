@@ -72,16 +72,16 @@ If you prefer the library to also bring in Tailwind's base (so you can skip `@im
 ### 3. `src/App.tsx`
 
 ```tsx
-import { Button, Card, Field, Input } from "@alex-oden/ui";
+import { Button, Field, Input, SurfaceCard } from "@alex-oden/ui";
 
 export function App() {
   return (
-    <Card className="max-w-md p-6 mx-auto mt-12">
+    <SurfaceCard className="max-w-md p-6 mx-auto mt-12">
       <Field label="Email">
         <Input type="email" placeholder="you@example.com" />
       </Field>
       <Button className="mt-4 w-full">Continue</Button>
-    </Card>
+    </SurfaceCard>
   );
 }
 ```
@@ -142,7 +142,16 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | `breadcrumb` |  |  |
 | `button` | Button, ButtonProps, Variants | Button — the primary action element. variant: default (brand gradient) Â· secondary Â· g |
 | `calendar` | Calendar, CalendarDayButton |  |
-| `card` | Card, CardContent, CardDescription, CardFooter, CardHeader, CardProps | Card — the workhorse surface. `variant`: default (flat) Â· glass (blurred translucent) Â |
+| `card` | Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter | **Deprecated shim** — routes `variant` prop to the named components below. Prefer the explicit names. |
+| `surface-card` | SurfaceCard | Neutral bordered container. Use for forms, settings panels, generic content blocks. |
+| `glass-card` | GlassCard | Translucent surface with backdrop blur. Use for hero overlays and panels over gradients. |
+| `interactive-card` | InteractiveCard | Clickable tile that renders `<button>` with hover lift + brand glow + focus ring. |
+| `metric-card` | MetricCard | Single KPI: `label`, `value`, `unit`, `delta`, `trend` (`up`/`down`/`flat`). |
+| `stat-card` | StatCard | Strip of 2–4 small metrics; pass `items: { label, value, unit? }[]`. |
+| `feature-card` | FeatureCard | Marketing feature: `icon` + `title` + `description`. |
+| `media-card` | MediaCard | Image/video slot on top, content below; override with `aspectClassName`. |
+| `alert-card` | AlertCard, AlertCardTone | Inline status block. `tone`: `info` \| `success` \| `warning` \| `danger`. |
+| `glow-card` | GlowCard, GlowPreset | `BorderGlow` wrapper. `preset`: `brand` \| `violet` \| `success` \| `danger` \| `info`. |
 | `carousel` |  |  |
 | `chart` | ChartConfig |  |
 | `checkbox` | Checkbox | Checkbox — brand-gradient fill when checked. Uses an OPAQUE border (--brand-border) so t |

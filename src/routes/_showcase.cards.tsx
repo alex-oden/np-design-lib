@@ -1,16 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Battery, Gauge, Zap } from "lucide-react";
 import { DocPage, Section } from "@/components/showcase-page";
 import { Badge } from "@/components/ui/badge";
-import { BorderGlow } from "@/components/ui/border-glow";
+import { SurfaceCard } from "@/components/ui/surface-card";
+import { GlassCard } from "@/components/ui/glass-card";
+import { InteractiveCard } from "@/components/ui/interactive-card";
+import { MetricCard } from "@/components/ui/metric-card";
+import { StatCard } from "@/components/ui/stat-card";
+import { FeatureCard } from "@/components/ui/feature-card";
+import { MediaCard } from "@/components/ui/media-card";
+import { AlertCard } from "@/components/ui/alert-card";
+import { GlowCard } from "@/components/ui/glow-card";
 import {
-  Card,
   CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/surface-card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
@@ -22,12 +29,13 @@ export const Route = createFileRoute("/_showcase/cards")({
       {
         name: "description",
         content:
-          "Three card variants: default flat surface, glass with backdrop blur, and interactive with lift and brand glow.",
+          "Named card components for every use case: SurfaceCard, GlassCard, InteractiveCard, MetricCard, StatCard, FeatureCard, MediaCard, AlertCard, GlowCard.",
       },
       { property: "og:title", content: "Cards — NeosPower UI" },
       {
         property: "og:description",
-        content: "Default, glass, and interactive card variants for data-dense layouts.",
+        content:
+          "Nine specialised card components — one per use case — for data-dense layouts.",
       },
     ],
   }),
@@ -39,29 +47,25 @@ function CardsPage() {
     <DocPage
       eyebrow="Components"
       title="Cards"
-      intro="The workhorse surface. Default is a flat panel; glass blurs the ambient background; interactive lifts on hover with a brand glow — reserve it for clickable tiles."
+      intro="Each card is a distinct component with a clear use case. Pick by intent — SurfaceCard for neutral containers, GlassCard for overlays, InteractiveCard for clickable tiles, MetricCard for KPIs, and so on."
     >
-      <Section title="Variants">
-        <div className="grid gap-4 md:grid-cols-3">
-          {(["default", "glass", "interactive"] as const).map((v) => (
-            <Card key={v} variant={v}>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>Variant: {v}</CardTitle>
-                  <Badge>{v}</Badge>
-                </div>
-                <CardDescription>Body copy sits comfortably on the surface.</CardDescription>
-              </CardHeader>
-              <CardContent className="font-mono text-[13px] tabular-nums text-muted-foreground">
-                184.2 MWh
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      <Section title="SurfaceCard" hint="neutral container · forms, panels">
+        <SurfaceCard>
+          <CardHeader>
+            <CardTitle>General settings</CardTitle>
+            <CardDescription>
+              The default flat surface. No hover, no blur — just a bordered container.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="text-[13px] text-muted-foreground">
+            Use for forms, settings panels, and any content block that shouldn't compete for
+            attention.
+          </CardContent>
+        </SurfaceCard>
       </Section>
 
-      <Section title="Composed card" hint="header · content · footer">
-        <Card variant="glass">
+      <Section title="GlassCard" hint="translucent · overlays, hero panels">
+        <GlassCard>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div className="space-y-1">
@@ -74,7 +78,10 @@ function CardsPage() {
                 OK
               </Badge>
             </div>
-            <CardDescription>Auto-balancing active. Threshold at €82/MWh.</CardDescription>
+            <CardDescription>
+              Backdrop blur + saturation. Reach for it when the card sits over a gradient or
+              image.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
@@ -86,23 +93,6 @@ function CardsPage() {
               </div>
               <Progress value={64} />
             </div>
-            <div className="grid grid-cols-3 gap-3 pt-1">
-              {[
-                ["MWh", "184.2"],
-                ["€/MWh", "97.40"],
-                ["Δ 24h", "+4.8%"],
-              ].map(([k, v]) => (
-                <div
-                  key={k}
-                  className="rounded-lg border border-border/60 bg-white/[0.02] px-3 py-2"
-                >
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                    {k}
-                  </p>
-                  <p className="font-mono text-[15px] tabular-nums text-foreground">{v}</p>
-                </div>
-              ))}
-            </div>
           </CardContent>
           <CardFooter className="justify-end">
             <Button variant="ghost">Details</Button>
@@ -110,15 +100,126 @@ function CardsPage() {
               Open <ArrowUpRight />
             </Button>
           </CardFooter>
-        </Card>
+        </GlassCard>
       </Section>
 
-      <Section title="Interactive cards" hint="BorderGlow · move your cursor near the edges">
+      <Section title="InteractiveCard" hint="clickable · renders as <button>">
+        <div className="grid gap-4 md:grid-cols-2">
+          {["Rotterdam · 042", "Amsterdam · 018"].map((label) => (
+            <InteractiveCard key={label} onClick={() => {}}>
+              <div className="flex items-center justify-between p-6">
+                <div>
+                  <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
+                    Site
+                  </p>
+                  <h3 className="mt-1 text-lg font-semibold tracking-tight text-foreground">
+                    {label}
+                  </h3>
+                </div>
+                <ArrowUpRight className="size-4 text-muted-foreground transition-colors group-hover:text-foreground" />
+              </div>
+            </InteractiveCard>
+          ))}
+        </div>
+      </Section>
+
+      <Section title="MetricCard" hint="single KPI · label + value + delta">
+        <div className="grid gap-4 md:grid-cols-3">
+          <MetricCard label="Dispatched" value="184.2" unit="MWh" delta="+4.8%" trend="up" />
+          <MetricCard label="Avg price" value="97.40" unit="€/MWh" delta="-1.2%" trend="down" />
+          <MetricCard
+            label="Round-trip"
+            value="92"
+            unit="%"
+            delta="±0.0%"
+            trend="flat"
+            icon={<Battery className="size-4" />}
+          />
+        </div>
+      </Section>
+
+      <Section title="StatCard" hint="2–4 small metrics in one row">
+        <StatCard
+          items={[
+            { label: "MWh", value: "184.2" },
+            { label: "€/MWh", value: "97.40" },
+            { label: "Δ 24h", value: "+4.8%" },
+            { label: "Sites", value: "42" },
+          ]}
+        />
+      </Section>
+
+      <Section title="FeatureCard" hint="icon + title + description">
+        <div className="grid gap-4 md:grid-cols-3">
+          <FeatureCard
+            icon={<Zap className="size-5" />}
+            title="Real-time dispatch"
+            description="Sub-200 ms response across the fleet."
+          />
+          <FeatureCard
+            icon={<Gauge className="size-5" />}
+            title="Auto-balancing"
+            description="Thresholds tune themselves against live spot prices."
+          />
+          <FeatureCard
+            icon={<Battery className="size-5" />}
+            title="92% round-trip"
+            description="Best-in-class BESS efficiency, warranted."
+          />
+        </div>
+      </Section>
+
+      <Section title="MediaCard" hint="image on top, content below">
+        <div className="grid gap-4 md:grid-cols-2">
+          <MediaCard
+            media={
+              <div className="size-full bg-brand-gradient" aria-hidden />
+            }
+          >
+            <div className="p-5">
+              <h3 className="text-base font-semibold text-foreground">Brand gradient</h3>
+              <p className="mt-1 text-[13px] text-muted-foreground">
+                Any node fits into the media slot — img, video, SVG, or a coloured div.
+              </p>
+            </div>
+          </MediaCard>
+          <MediaCard
+            aspectClassName="aspect-square"
+            media={<div className="size-full bg-brand-gradient-soft" aria-hidden />}
+          >
+            <div className="p-5">
+              <h3 className="text-base font-semibold text-foreground">Square variant</h3>
+              <p className="mt-1 text-[13px] text-muted-foreground">
+                Override the aspect ratio via <code>aspectClassName</code>.
+              </p>
+            </div>
+          </MediaCard>
+        </div>
+      </Section>
+
+      <Section title="AlertCard" hint="inline status block · info / success / warning / danger">
+        <div className="grid gap-3">
+          <AlertCard tone="info" title="Scheduled maintenance">
+            Grid operator has flagged a 30-minute maintenance window at 03:00 UTC.
+          </AlertCard>
+          <AlertCard tone="success" title="Dispatch complete">
+            184.2 MWh delivered against the 12:00 program.
+          </AlertCard>
+          <AlertCard tone="warning" title="Approaching cap">
+            Site 042 is at 88% of its daily throughput budget.
+          </AlertCard>
+          <AlertCard tone="danger" title="Comms lost">
+            Site 018 heartbeat missed &gt; 60 s. Failover initiated.
+          </AlertCard>
+        </div>
+      </Section>
+
+      <Section title="GlowCard" hint="BorderGlow with brand presets">
         <div className="grid gap-7 [grid-template-columns:repeat(auto-fit,minmax(248px,1fr))]">
-          <BorderGlow colors={["#3657FF", "#FB00C8", "#22D3EE"]} glowColor="248 90 70">
+          <GlowCard preset="brand">
             <div className="p-6">
               <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                Asset
+                brand
               </p>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
                 NeosPower BESS
@@ -127,96 +228,33 @@ function CardsPage() {
                 215 kWh · 92% round-trip · &lt;200ms response.
               </p>
             </div>
-          </BorderGlow>
-
-          <BorderGlow animated glowColor="312 100 62" colors={["#FB00C8", "#3657FF", "#7C5CFF"]}>
-            <div className="p-6">
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                Annual saving
-              </span>
-              <div className="mt-3 text-5xl font-semibold text-gradient-brand">€48,200</div>
-              <p className="mt-2 text-xs text-muted-foreground">
-                Intro sweep plays once on mount.
-              </p>
-            </div>
-          </BorderGlow>
-
-          <BorderGlow
-            glowColor="188 92 60"
-            colors={["#22D3EE", "#3657FF", "#7C5CFF"]}
-            edgeSensitivity={10}
-            coneSpread={40}
-          >
-            <div className="p-6">
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                Grid signal
-              </p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                Frequency stable
-              </h3>
-              <div className="mt-3 font-mono text-3xl tabular-nums text-foreground">
-                50.02<span className="text-lg text-muted-foreground"> Hz</span>
-              </div>
-              <p className="mt-2 text-xs text-muted-foreground">
-                Wider cone, higher sensitivity.
-              </p>
-            </div>
-          </BorderGlow>
-
-          <BorderGlow
-            glowColor="150 84 55"
-            colors={["#34E29B", "#22D3EE", "#3657FF"]}
-            glowRadius={64}
-            glowIntensity={1.2}
-          >
+          </GlowCard>
+          <GlowCard preset="success">
             <div className="p-6">
               <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-success">
-                Dispatch OK
+                success
               </p>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                Rotterdam · 042
+                Dispatch OK
               </h3>
               <div className="mt-3 font-mono text-3xl tabular-nums text-foreground">
                 184.2 <span className="text-lg text-muted-foreground">MWh</span>
               </div>
-              <p className="mt-2 text-xs text-muted-foreground">Larger halo, brighter tint.</p>
             </div>
-          </BorderGlow>
-
-          <BorderGlow
-            glowColor="12 96 60"
-            colors={["#FF5C3A", "#FB00C8", "#7C5CFF"]}
-            coneSpread={12}
-            fillOpacity={0.35}
-          >
+          </GlowCard>
+          <GlowCard preset="danger">
             <div className="p-6">
               <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-destructive">
-                Alert
+                danger
               </p>
               <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
                 Peak imbalance
               </h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Narrow cone traces the pointer more precisely.
+                Use for high-severity attention cards.
               </p>
             </div>
-          </BorderGlow>
-
-          <BorderGlow
-            glowColor="268 88 70"
-            colors={["#7C5CFF", "#3657FF", "#FB00C8"]}
-            borderRadius={28}
-          >
-            <div className="p-6">
-              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground">
-                Portfolio
-              </p>
-              <h3 className="mt-2 text-lg font-semibold tracking-tight text-foreground">
-                42 sites · 1.2 GWh
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">Softer 28px radius.</p>
-            </div>
-          </BorderGlow>
+          </GlowCard>
         </div>
       </Section>
     </DocPage>

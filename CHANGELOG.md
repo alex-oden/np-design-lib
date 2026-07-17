@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.3.0 — Named card components
+
+Cards are now split into dedicated, use-case named components so consumers
+(humans and AI agents) can pick the right primitive at a glance.
+
+Added:
+
+- `SurfaceCard` — neutral bordered container (was `<Card variant="default">`).
+- `GlassCard` — translucent panel with backdrop blur (was `variant="glass"`).
+- `InteractiveCard` — clickable tile with hover lift; renders `<button>`
+  with focus ring (was `variant="interactive"`).
+- `MetricCard` — single KPI with label, value, unit, and trend delta.
+- `StatCard` — 2–4 small metrics laid out in a strip.
+- `FeatureCard` — icon + title + description for marketing grids.
+- `MediaCard` — image/video slot on top, content below; configurable aspect.
+- `AlertCard` — inline status block with `info | success | warning | danger`.
+- `GlowCard` — `BorderGlow` wrapper with `brand | violet | success | danger | info` presets.
+
+Shared sub-parts (`CardHeader`, `CardTitle`, `CardDescription`,
+`CardContent`, `CardFooter`) moved to `surface-card.tsx` and are
+re-exported from `./card` for backward compatibility.
+
+Deprecated (kept as a shim):
+
+- `<Card variant="default | glass | interactive">` — maps to the named
+  components at runtime. Prefer the explicit component name in new code.
+
 ## 1.2.0 — Published to npmjs.com
 
 - Package is now published on the public npm registry as `@alex-oden/ui`.
