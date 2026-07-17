@@ -70,13 +70,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Segmented } from "@/components/ui/segmented";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -505,15 +499,10 @@ function HeaderApp() {
     <header className="flex h-14 items-center gap-4 border-b border-border/60 bg-background/70 px-4 backdrop-blur-md">
       <Wordmark compact />
       <Separator orientation="vertical" className="h-6" />
-      <Select defaultValue="rotterdam">
-        <SelectTrigger className="h-8 w-[180px] border-border/60 bg-secondary/60 text-[12.5px]">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="rotterdam">Site 042 · Rotterdam</SelectItem>
-          <SelectItem value="hamburg">Site 118 · Hamburg</SelectItem>
-          <SelectItem value="oslo">Site 204 · Oslo</SelectItem>
-        </SelectContent>
+      <Select defaultValue="rotterdam" className="h-8 w-[200px] text-[12.5px]">
+        <option value="rotterdam">Site 042 · Rotterdam</option>
+        <option value="hamburg">Site 118 · Hamburg</option>
+        <option value="oslo">Site 204 · Oslo</option>
       </Select>
       <div className="mx-auto flex w-full max-w-md items-center">
         <button
@@ -624,16 +613,11 @@ function HeaderEcom() {
       <div className="flex h-16 items-center gap-4 px-6">
         <Wordmark />
         <div className="flex flex-1 items-center rounded-md border border-border/60 bg-secondary/40 focus-within:border-ring">
-          <Select defaultValue="all">
-            <SelectTrigger className="h-10 w-[130px] border-0 bg-transparent text-[12.5px] focus:ring-0">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All categories</SelectItem>
-              <SelectItem value="inverters">Inverters</SelectItem>
-              <SelectItem value="batteries">Batteries</SelectItem>
-              <SelectItem value="meters">Smart meters</SelectItem>
-            </SelectContent>
+          <Select defaultValue="all" className="h-10 w-[150px] rounded-r-none border-0 bg-transparent">
+            <option value="all">All categories</option>
+            <option value="inverters">Inverters</option>
+            <option value="batteries">Batteries</option>
+            <option value="meters">Smart meters</option>
           </Select>
           <Separator orientation="vertical" className="h-6" />
           <Input
@@ -1464,16 +1448,10 @@ function FooterMega({ compact = false }: { compact?: boolean }) {
             <Linkedin className="size-4" />
           </a>
           <Separator orientation="vertical" className="h-4" />
-          <Select defaultValue="en-eu">
-            <SelectTrigger className="h-7 w-[130px] border-border/60 bg-transparent text-[11.5px]">
-              <Globe className="size-3" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="en-eu">English · EU</SelectItem>
-              <SelectItem value="nl">Nederlands</SelectItem>
-              <SelectItem value="de">Deutsch</SelectItem>
-            </SelectContent>
+          <Select defaultValue="en-eu" className="h-7 w-[140px] text-[11.5px]">
+            <option value="en-eu">English · EU</option>
+            <option value="nl">Nederlands</option>
+            <option value="de">Deutsch</option>
           </Select>
         </div>
       </div>
