@@ -707,7 +707,7 @@ function HeaderEcom() {
             placeholder="Search 12 400 products…"
             className="h-10 flex-1 border-0 bg-transparent focus-visible:ring-0"
           />
-          <Button size="sm" className="mr-1">
+          <Button variant="ghost" size="icon" className="mr-1" aria-label="Search">
             <Search />
           </Button>
         </div>
