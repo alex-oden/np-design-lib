@@ -19,6 +19,7 @@ const Switch = React.forwardRef<
       "focus-visible:ring-2 focus-visible:ring-ring/50",
       "disabled:cursor-not-allowed disabled:opacity-45",
       "data-[state=checked]:border-brand-border data-[state=checked]:bg-brand-gradient data-[state=unchecked]:hover:border-border",
+      "data-[state=checked]:shadow-[inset_0_1px_0_hsl(0_0%_100%/0.3),inset_0_-1px_0_hsl(0_0%_0%/0.2),0_6px_18px_-6px_hsl(var(--brand-start)/0.55),0_12px_28px_-10px_hsl(var(--brand-end)/0.5)]",
       className,
     )}
     {...props}

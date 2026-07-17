@@ -37,11 +37,11 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
           else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
         }}
         role="tablist"
-        className={cn("relative inline-flex gap-0.5 rounded-[calc(var(--radius)-1px)] border border-border/60 bg-secondary p-[3px]", className)}
+        className={cn("relative inline-flex gap-0.5 rounded-[var(--radius)] border border-border/60 bg-secondary p-[3px]", className)}
       >
         <span
           aria-hidden
-          className="absolute top-[3px] bottom-[3px] rounded-lg bg-brand-gradient shadow-[0_1px_3px_rgba(0,0,0,0.25)] transition-[left,width] duration-[260ms] ease-[cubic-bezier(.4,0,.2,1)]"
+          className="absolute top-[3px] bottom-[3px] rounded-[calc(var(--radius)-3px)] bg-brand-gradient shadow-[inset_0_1px_0_hsl(0_0%_100%/0.3),inset_0_-1px_0_hsl(0_0%_0%/0.2),0_4px_14px_-4px_hsl(var(--brand-start)/0.55),0_8px_22px_-6px_hsl(var(--brand-end)/0.45)] transition-[left,width] duration-[260ms] ease-[cubic-bezier(.4,0,.2,1)]"
           style={{ left: thumb.left, width: thumb.width }}
         />
         {items.map((o) => (
@@ -53,7 +53,7 @@ const Segmented = React.forwardRef<HTMLDivElement, SegmentedProps>(
             type="button"
             onClick={() => onValueChange(o.value)}
             className={cn(
-              "relative z-[1] whitespace-nowrap rounded-lg px-4 py-[7px] text-[13px] font-medium transition-colors duration-200",
+              "relative z-[1] whitespace-nowrap rounded-[calc(var(--radius)-3px)] px-4 py-[7px] text-[13px] font-medium transition-colors duration-200",
               o.value === value ? "text-white" : "text-muted-foreground hover:text-foreground",
             )}
           >

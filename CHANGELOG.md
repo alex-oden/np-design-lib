@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.2 — Consistent radii + brand glow on selection controls
+
+- `Segmented`, `Tabs`: unified outer/inner border radii so the thumb
+  and triggers concentrically match the container.
+- `Checkbox`, `RadioGroup`, `Switch`: checked state now shows the same
+  inset bevel highlight and ambient brand-tinted shadow as the primary
+  `Button`. The segmented thumb inherits the same effect.
+
 ## 1.3.1 — Button polish
 
 - Primary `Button` variant now has a subtle top bevel highlight and
