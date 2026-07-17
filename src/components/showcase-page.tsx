@@ -37,14 +37,21 @@ export function Section({
   hint,
   children,
   className,
+  animated = false,
+  index = 0,
 }: {
   title: string;
   hint?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  animated?: boolean;
+  index?: number;
 }) {
   return (
-    <section className={cn("space-y-4", className)}>
+    <section
+      className={cn("space-y-4", animated && "animate-np-fade-in-up motion-reduce:animate-none", className)}
+      style={animated ? { animationDelay: `${index * 70}ms` } : undefined}
+    >
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-foreground">{title}</h2>
         {hint && (
