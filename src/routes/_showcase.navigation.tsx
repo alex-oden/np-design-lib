@@ -560,7 +560,7 @@ function HeaderDocs() {
     <header className="border-b border-border/60 bg-background/70 backdrop-blur-md">
       <div className="flex h-14 items-center gap-4 px-6">
         <Wordmark />
-        <Badge variant="secondary" className="font-mono text-[10px]">
+        <Badge variant="default" className="font-mono text-[10px]">
           v1.3.2
         </Badge>
         <div className="ml-auto flex w-full max-w-sm items-center gap-2">
@@ -994,7 +994,7 @@ function MiniNavList() {
           <it.i className="size-4" />
           <span className="flex-1">{it.l}</span>
           {it.badge && (
-            <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">
+            <Badge variant="default" className="h-5 px-1.5 text-[10px]">
               {it.badge}
             </Badge>
           )}
@@ -1531,7 +1531,7 @@ function FooterApp() {
         All systems normal
       </div>
       <div className="flex items-center gap-4">
-        <Badge variant="secondary" className="h-5 font-mono text-[10px]">
+        <Badge variant="default" className="h-5 font-mono text-[10px]">
           v1.3.2
         </Badge>
         <a href="#" className="hover:text-foreground">Docs</a>
