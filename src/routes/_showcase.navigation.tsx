@@ -1611,6 +1611,10 @@ function FooterMegaMobile() {
       <p className="text-[12px] text-muted-foreground">
         Engineered dark-first UI for European energy operators.
       </p>
+      <form className="space-y-2">
+        <Input placeholder="you@company.com" className="h-9 w-full text-[12px]" />
+        <Button size="sm" className="w-full">Subscribe</Button>
+      </form>
       {FOOTER_COLS.map((c) => (
         <details
           key={c.title}
@@ -1634,13 +1638,13 @@ function FooterMegaMobile() {
         </details>
       ))}
       <Separator />
-      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-        <span>© 2026 NeosPower</span>
-        <div className="flex items-center gap-2">
+      <div className="space-y-2 text-[11px] text-muted-foreground">
+        <div className="flex items-center gap-3">
           <Twitter className="size-3.5" />
           <Github className="size-3.5" />
           <Linkedin className="size-3.5" />
         </div>
+        <div>© 2026 NeosPower</div>
       </div>
     </footer>
   );
