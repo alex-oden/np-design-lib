@@ -1515,27 +1515,51 @@ const FOOTER_COLS: { title: string; links: string[] }[] = [
 function FooterMega({ compact = false }: { compact?: boolean }) {
   return (
     <footer className="border-t border-border/60 bg-card/30 px-6 py-10">
-      <div
-        className={cn(
-          "grid gap-8",
-          compact ? "md:grid-cols-[1.4fr_repeat(2,1fr)]" : "md:grid-cols-[1.4fr_repeat(4,1fr)]",
-        )}
-      >
-        <div className="space-y-4">
-          <Wordmark />
-          <p className="max-w-xs text-[12.5px] leading-relaxed text-muted-foreground">
-            Engineered dark-first UI for European energy operators. Ship data-dense interfaces
-            without designing every widget from scratch.
-          </p>
-          <form className="flex max-w-xs items-center gap-2">
-            <Input placeholder="you@company.com" className="h-9 text-[12.5px]" />
-            <Button size="sm">Subscribe</Button>
-          </form>
+      {compact ? (
+        <div className="space-y-8">
+          <div className="grid gap-6 md:grid-cols-[1fr_1fr]">
+            <div className="space-y-3">
+              <Wordmark />
+              <p className="text-[12.5px] leading-relaxed text-muted-foreground">
+                Engineered dark-first UI for European energy operators.
+              </p>
+            </div>
+            <form className="space-y-2">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground/70">
+                Newsletter
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Input placeholder="you@company.com" className="h-9 flex-1 text-[12.5px]" />
+                <Button size="sm">Subscribe</Button>
+              </div>
+            </form>
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            {FOOTER_COLS.map((c) => (
+              <FooterColumn key={c.title} title={c.title} links={c.links} />
+            ))}
+          </div>
         </div>
-        {FOOTER_COLS.slice(0, compact ? 2 : 4).map((c) => (
-          <FooterColumn key={c.title} title={c.title} links={c.links} />
-        ))}
-      </div>
+      ) : (
+        <div className="grid gap-8 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+          <div className="space-y-4">
+            <Wordmark />
+            <p className="max-w-xs text-[12.5px] leading-relaxed text-muted-foreground">
+              Engineered dark-first UI for European energy operators. Ship data-dense interfaces
+              without designing every widget from scratch.
+            </p>
+            <form className="max-w-xs space-y-2">
+              <Input placeholder="you@company.com" className="h-9 w-full text-[12.5px]" />
+              <Button size="sm" className="w-full">
+                Subscribe to changelog <ArrowRight />
+              </Button>
+            </form>
+          </div>
+          {FOOTER_COLS.map((c) => (
+            <FooterColumn key={c.title} title={c.title} links={c.links} />
+          ))}
+        </div>
+      )}
       <Separator className="my-8" />
       <div className="flex flex-col items-start justify-between gap-4 text-[11.5px] text-muted-foreground md:flex-row md:items-center">
         <div>© 2026 NeosPower BV · Rotterdam, NL</div>
