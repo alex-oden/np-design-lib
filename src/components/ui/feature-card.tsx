@@ -28,14 +28,26 @@ export const FeatureCard = React.forwardRef<HTMLDivElement, FeatureCardProps>(
       <span
         aria-hidden="true"
         className={cn(
-          "pointer-events-none absolute inset-0 -z-10 opacity-70",
+          "pointer-events-none absolute inset-0 -z-10 opacity-100",
+          "transition-opacity duration-[500ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]",
+          "motion-reduce:transition-none",
+        )}
+        style={{
+          background:
+            "radial-gradient(120% 90% at 100% 0%, hsl(var(--brand-end) / 0.18), transparent 60%), linear-gradient(160deg, hsl(var(--brand-start) / 0.10), transparent 55%)",
+        }}
+      />
+      <span
+        aria-hidden="true"
+        className={cn(
+          "pointer-events-none absolute inset-0 -z-10 opacity-0",
           "transition-opacity duration-[500ms] ease-[cubic-bezier(0.22,0.61,0.36,1)]",
           "group-hover:opacity-100",
           "motion-reduce:transition-none",
         )}
         style={{
           background:
-            "radial-gradient(120% 90% at 100% 0%, hsl(var(--brand-end) / 0.14), transparent 60%), linear-gradient(180deg, hsl(var(--brand-start) / 0.08), transparent 55%)",
+            "radial-gradient(140% 100% at 100% 0%, hsl(var(--brand-end) / 0.32), transparent 60%), radial-gradient(120% 90% at 0% 100%, hsl(var(--brand-start) / 0.22), transparent 60%)",
         }}
       />
       <div className="relative z-10">
