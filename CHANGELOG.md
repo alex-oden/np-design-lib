@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.1 — Button polish
+
+- Primary `Button` variant now has a subtle top bevel highlight and
+  bottom edge shadow (inset) for a soft 3D lift.
+- Added layered ambient brand-tinted shadows (brand-start + brand-end)
+  that intensify on hover, plus a 1px hover lift and settled pressed state.
+
 ## 1.3.0 — Named card components
 
 Cards are now split into dedicated, use-case named components so consumers
