@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  */
 export type AlertCardTone = "info" | "success" | "warning" | "danger";
 
-export interface AlertCardProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface AlertCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   tone?: AlertCardTone;
   title?: React.ReactNode;
   icon?: React.ReactNode;
