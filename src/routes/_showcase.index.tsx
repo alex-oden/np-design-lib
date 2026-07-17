@@ -32,7 +32,7 @@ const SECTIONS: { to: string; label: string; blurb: string }[] = [
   { to: "/buttons", label: "Buttons", blurb: "Six variants · five sizes · loading state" },
   { to: "/inputs", label: "Inputs & fields", blurb: "Text, textarea, select, icons, validation" },
   { to: "/selection", label: "Selection controls", blurb: "Checkbox · radio · switch · segmented" },
-  { to: "/cards", label: "Cards", blurb: "Default · glass · interactive lift" },
+  { to: "/cards", label: "Cards", blurb: "Surface · Glass · Interactive · Metric · Stat · Feature · Media · Alert · Glow" },
   { to: "/badges", label: "Badges & status", blurb: "Compact monospace status vocabulary" },
   { to: "/alerts", label: "Alerts & banners", blurb: "Inline messages · page banners" },
   { to: "/overlays", label: "Overlays", blurb: "Dialog · sheet · popover · dropdown · tooltip" },
