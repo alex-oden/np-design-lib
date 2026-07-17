@@ -820,75 +820,77 @@ function HeaderMinimal() {
    ──────────────────────────────────────────────────────────────── */
 
 function MobileAppHeader({ compact = false }: { compact?: boolean }) {
+  const [open, setOpen] = React.useState(false);
   return (
-    <header className="flex h-12 items-center gap-2 border-b border-border/60 bg-background/80 px-3 backdrop-blur">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Menu">
-            <Menu />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-72 p-0">
-          <SheetHeader className="px-5 py-4">
-            <SheetTitle>
-              <Wordmark />
-            </SheetTitle>
-          </SheetHeader>
-          <MiniNavList />
-        </SheetContent>
-      </Sheet>
-      <div className="mx-auto">
-        <Wordmark compact />
-      </div>
-      {!compact ? (
-        <Avatar className="size-7">
-          <AvatarFallback className="bg-brand-gradient text-[10px] text-white">AO</AvatarFallback>
-        </Avatar>
-      ) : (
-        <Button variant="ghost" size="icon" aria-label="Notifications">
-          <Bell />
+    <>
+      <header className="flex h-12 items-center gap-2 border-b border-border/60 bg-background/80 px-3 backdrop-blur">
+        <Button variant="ghost" size="icon" aria-label="Menu" onClick={() => setOpen(true)}>
+          <Menu />
         </Button>
-      )}
-    </header>
+        <div className="mx-auto">
+          <Wordmark size="sm" />
+        </div>
+        {!compact ? (
+          <Avatar className="size-7">
+            <AvatarFallback className="bg-brand-gradient text-[10px] text-white">AO</AvatarFallback>
+          </Avatar>
+        ) : (
+          <Button variant="ghost" size="icon" aria-label="Notifications">
+            <Bell />
+          </Button>
+        )}
+      </header>
+      <MobileDrawer open={open} onClose={() => setOpen(false)} side="left">
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
+          <Wordmark size="sm" />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close">
+            <ChevronRight className="rotate-180" />
+          </Button>
+        </div>
+        <div className="flex-1 overflow-y-auto pt-2">
+          <MiniNavList />
+        </div>
+      </MobileDrawer>
+    </>
   );
 }
 
 function MobileMarketingHeader() {
+  const [open, setOpen] = React.useState(false);
   return (
-    <header className="flex h-12 items-center justify-between border-b border-border/60 px-4">
-      <Wordmark compact />
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Menu">
-            <Menu />
+    <>
+      <header className="flex h-12 items-center justify-between border-b border-border/60 px-4">
+        <Wordmark size="sm" />
+        <Button variant="ghost" size="icon" aria-label="Menu" onClick={() => setOpen(true)}>
+          <Menu />
+        </Button>
+      </header>
+      <MobileDrawer open={open} onClose={() => setOpen(false)} side="right">
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
+          <Wordmark size="sm" />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close">
+            <ChevronRight />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="flex w-72 flex-col p-0">
-          <SheetHeader className="px-5 py-4">
-            <SheetTitle>
-              <Wordmark />
-            </SheetTitle>
-          </SheetHeader>
-          <nav className="flex-1 space-y-1 px-3">
-            {["Product", "Solutions", "Pricing", "Docs", "Blog"].map((l) => (
-              <a
-                key={l}
-                href="#"
-                className="flex items-center justify-between rounded-md px-3 py-2.5 text-[14px] text-foreground/90 hover:bg-secondary/60"
-              >
-                {l}
-                <ChevronRight className="size-4 text-muted-foreground/60" />
-              </a>
-            ))}
-          </nav>
-          <div className="border-t border-border/60 p-4">
-            <Button className="w-full">
-              Get started <ArrowRight />
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-    </header>
+        </div>
+        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+          {["Product", "Solutions", "Pricing", "Docs", "Blog"].map((l) => (
+            <a
+              key={l}
+              href="#"
+              className="flex items-center justify-between rounded-md px-3 py-2.5 text-[14px] text-foreground/90 hover:bg-secondary/60"
+            >
+              {l}
+              <ChevronRight className="size-4 text-muted-foreground/60" />
+            </a>
+          ))}
+        </nav>
+        <div className="border-t border-border/60 p-4">
+          <Button className="w-full">
+            Get started <ArrowRight />
+          </Button>
+        </div>
+      </MobileDrawer>
+    </>
   );
 }
 
@@ -902,7 +904,7 @@ function MobileSearchHeader() {
             <Menu />
           </Button>
           <div className="mx-auto">
-            <Wordmark compact />
+            <Wordmark size="sm" />
           </div>
           <Button variant="ghost" size="icon" onClick={() => setOpen(true)} aria-label="Search">
             <Search />
@@ -926,7 +928,7 @@ function MobileSearchHeader() {
 function TabletSplitHeader() {
   return (
     <header className="flex h-14 items-center gap-4 border-b border-border/60 px-4">
-      <Wordmark compact />
+      <Wordmark />
       <nav className="flex items-center gap-1 text-[12.5px]">
         {["Dashboard", "Sites", "Alerts", "Reports"].map((l, i) => (
           <a
