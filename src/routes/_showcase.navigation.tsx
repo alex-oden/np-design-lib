@@ -78,6 +78,7 @@ import { Toggle } from "@/components/ui/toggle";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import neosLogo from "@/assets/neospower-logo.svg";
+import neosMark from "@/assets/neos-logo.svg";
 
 export const Route = createFileRoute("/_showcase/navigation")({
   head: () => ({
@@ -400,13 +401,95 @@ function DeviceFrame({
   );
 }
 
-function Wordmark({ compact = false }: { compact?: boolean }) {
+function Wordmark({
+  size = "md",
+  compact = false,
+  hero = false,
+  className,
+}: {
+  size?: "sm" | "md" | "hero";
+  compact?: boolean;
+  hero?: boolean;
+  className?: string;
+}) {
+  // compact is a legacy alias for size="sm"
+  const s = compact ? "sm" : size;
+  const h = s === "hero" ? "h-8" : s === "sm" ? "h-6" : "h-7";
+  const tag = s === "hero" ? "text-[12px]" : "text-[10.5px]";
   return (
-    <div className="flex items-center gap-2">
-      <img src={neosLogo} alt="NeosPower" className={cn("w-auto", compact ? "h-4" : "h-5")} />
-      <span className="font-mono text-[10.5px] tracking-[0.18em] text-muted-foreground/70">
+    <div
+      className={cn(
+        "flex items-center gap-2",
+        hero && "drop-shadow-[0_2px_10px_hsl(230_60%_4%/0.55)]",
+        className,
+      )}
+    >
+      <img src={neosLogo} alt="NeosPower" className={cn("w-auto", h)} />
+      <span
+        className={cn(
+          "font-mono tracking-[0.18em]",
+          tag,
+          hero ? "text-foreground/80" : "text-muted-foreground/70",
+        )}
+      >
         /UI
       </span>
+    </div>
+  );
+}
+
+function SubEyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-2 font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground/70">
+      {children}
+    </p>
+  );
+}
+
+/* Absolutely-positioned drawer that stays inside its DeviceFrame parent.
+   Use this instead of Sheet inside phone mock-ups so the overlay does not
+   escape to document.body. Parent must be `relative` (DeviceFrame is). */
+function MobileDrawer({
+  open,
+  onClose,
+  side = "left",
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  side?: "left" | "right";
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      aria-hidden={!open}
+      className={cn(
+        "pointer-events-none absolute inset-0 z-20 transition-opacity duration-200",
+        open ? "opacity-100" : "opacity-0",
+      )}
+    >
+      <button
+        type="button"
+        aria-label="Close menu"
+        onClick={onClose}
+        className={cn(
+          "absolute inset-0 bg-background/70 backdrop-blur-sm",
+          open ? "pointer-events-auto" : "pointer-events-none",
+        )}
+      />
+      <div
+        className={cn(
+          "absolute inset-y-0 flex w-[82%] max-w-[300px] flex-col border-border/60 bg-card shadow-xl transition-transform duration-250",
+          side === "left" ? "left-0 border-r" : "right-0 border-l",
+          open
+            ? "translate-x-0 pointer-events-auto"
+            : side === "left"
+              ? "-translate-x-full"
+              : "translate-x-full",
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }
@@ -496,15 +579,15 @@ function HeaderMarketing() {
 
 function HeaderApp() {
   return (
-    <header className="flex h-14 items-center gap-4 border-b border-border/60 bg-background/70 px-4 backdrop-blur-md">
-      <Wordmark compact />
+    <header className="flex h-14 items-center gap-3 border-b border-border/60 bg-background/70 px-4 backdrop-blur-md">
+      <Wordmark size="sm" />
       <Separator orientation="vertical" className="h-6" />
-      <Select defaultValue="rotterdam" className="h-8 w-[200px] text-[12.5px]">
+      <Select defaultValue="rotterdam" className="h-8 w-[180px] shrink-0 text-[12.5px]">
         <option value="rotterdam">Site 042 · Rotterdam</option>
         <option value="hamburg">Site 118 · Hamburg</option>
         <option value="oslo">Site 204 · Oslo</option>
       </Select>
-      <div className="mx-auto flex w-full max-w-md items-center">
+      <div className="mx-auto flex w-full max-w-sm items-center">
         <button
           type="button"
           className="group flex w-full items-center gap-2 rounded-md border border-border/60 bg-secondary/50 px-3 py-1.5 text-[12.5px] text-muted-foreground transition-colors hover:bg-secondary"
@@ -514,7 +597,7 @@ function HeaderApp() {
           <Kbd>⌘K</Kbd>
         </button>
       </div>
-      <div className="ml-auto flex items-center gap-1">
+      <div className="ml-auto flex shrink-0 items-center gap-1">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
@@ -526,13 +609,13 @@ function HeaderApp() {
         </Tooltip>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="ml-1 flex items-center gap-2 rounded-full border border-border/60 bg-secondary/60 py-1 pl-1 pr-2 text-[12px] hover:bg-secondary">
+            <button className="ml-1 flex items-center gap-2 whitespace-nowrap rounded-full border border-border/60 bg-secondary/60 py-1 pl-1 pr-2 text-[12px] hover:bg-secondary">
               <Avatar className="size-6">
                 <AvatarFallback className="bg-brand-gradient text-[10px] text-white">
                   AO
                 </AvatarFallback>
               </Avatar>
-              <span className="text-foreground">A. Oden</span>
+              <span className="hidden text-foreground md:inline">A. Oden</span>
               <ChevronDown className="size-3 text-muted-foreground" />
             </button>
           </DropdownMenuTrigger>
@@ -560,13 +643,13 @@ function HeaderDocs() {
     <header className="border-b border-border/60 bg-background/70 backdrop-blur-md">
       <div className="flex h-14 items-center gap-4 px-6">
         <Wordmark />
-        <Badge variant="default" className="font-mono text-[10px]">
+        <Badge variant="default" className="border border-border/60 bg-transparent font-mono text-[10px] text-muted-foreground">
           v1.3.2
         </Badge>
         <div className="ml-auto flex w-full max-w-sm items-center gap-2">
           <div className="relative w-full">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Search docs…" className="h-8 pl-8 pr-14 text-[13px]" />
+            <Input placeholder="Search docs…" className="h-8 pl-8 pr-10 text-[13px]" />
             <div className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">
               <Kbd>/</Kbd>
             </div>
@@ -624,7 +707,7 @@ function HeaderEcom() {
             placeholder="Search 12 400 products…"
             className="h-10 flex-1 border-0 bg-transparent focus-visible:ring-0"
           />
-          <Button size="sm" className="mr-1">
+          <Button variant="ghost" size="icon" className="mr-1" aria-label="Search">
             <Search />
           </Button>
         </div>
@@ -701,7 +784,7 @@ function HeaderTransparentDemo() {
             state === "solid" && "border-b border-border/60 bg-background/80 backdrop-blur-md",
           )}
         >
-          <Wordmark compact />
+          <Wordmark size={state === "transparent" ? "hero" : "md"} hero={state === "transparent"} />
           <nav className="hidden gap-5 text-[13px] md:flex">
             <a href="#" className="text-foreground/90 hover:text-foreground">Product</a>
             <a href="#" className="text-foreground/90 hover:text-foreground">Pricing</a>
@@ -718,10 +801,12 @@ function HeaderTransparentDemo() {
 
 function HeaderMinimal() {
   return (
-    <header className="flex h-14 items-center justify-between border-b border-border/60 px-6">
-      <span className="w-24" />
-      <Wordmark />
-      <div className="flex w-24 justify-end">
+    <header className="grid h-14 grid-cols-[1fr_auto_1fr] items-center border-b border-border/60 px-6">
+      <span />
+      <div className="mx-auto">
+        <Wordmark />
+      </div>
+      <div className="flex justify-end">
         <Button variant="ghost" size="sm">
           Exit
         </Button>
@@ -735,75 +820,77 @@ function HeaderMinimal() {
    ──────────────────────────────────────────────────────────────── */
 
 function MobileAppHeader({ compact = false }: { compact?: boolean }) {
+  const [open, setOpen] = React.useState(false);
   return (
-    <header className="flex h-12 items-center gap-2 border-b border-border/60 bg-background/80 px-3 backdrop-blur">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Menu">
-            <Menu />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-72 p-0">
-          <SheetHeader className="px-5 py-4">
-            <SheetTitle>
-              <Wordmark />
-            </SheetTitle>
-          </SheetHeader>
-          <MiniNavList />
-        </SheetContent>
-      </Sheet>
-      <div className="mx-auto">
-        <Wordmark compact />
-      </div>
-      {!compact ? (
-        <Avatar className="size-7">
-          <AvatarFallback className="bg-brand-gradient text-[10px] text-white">AO</AvatarFallback>
-        </Avatar>
-      ) : (
-        <Button variant="ghost" size="icon" aria-label="Notifications">
-          <Bell />
+    <>
+      <header className="flex h-12 items-center gap-2 border-b border-border/60 bg-background/80 px-3 backdrop-blur">
+        <Button variant="ghost" size="icon" aria-label="Menu" onClick={() => setOpen(true)}>
+          <Menu />
         </Button>
-      )}
-    </header>
+        <div className="mx-auto">
+          <Wordmark size="sm" />
+        </div>
+        {!compact ? (
+          <Avatar className="size-7">
+            <AvatarFallback className="bg-brand-gradient text-[10px] text-white">AO</AvatarFallback>
+          </Avatar>
+        ) : (
+          <Button variant="ghost" size="icon" aria-label="Notifications">
+            <Bell />
+          </Button>
+        )}
+      </header>
+      <MobileDrawer open={open} onClose={() => setOpen(false)} side="left">
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
+          <Wordmark size="sm" />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close">
+            <ChevronRight className="rotate-180" />
+          </Button>
+        </div>
+        <div className="flex-1 overflow-y-auto pt-2">
+          <MiniNavList />
+        </div>
+      </MobileDrawer>
+    </>
   );
 }
 
 function MobileMarketingHeader() {
+  const [open, setOpen] = React.useState(false);
   return (
-    <header className="flex h-12 items-center justify-between border-b border-border/60 px-4">
-      <Wordmark compact />
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Menu">
-            <Menu />
+    <>
+      <header className="flex h-12 items-center justify-between border-b border-border/60 px-4">
+        <Wordmark size="sm" />
+        <Button variant="ghost" size="icon" aria-label="Menu" onClick={() => setOpen(true)}>
+          <Menu />
+        </Button>
+      </header>
+      <MobileDrawer open={open} onClose={() => setOpen(false)} side="right">
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
+          <Wordmark size="sm" />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close">
+            <ChevronRight />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="flex w-72 flex-col p-0">
-          <SheetHeader className="px-5 py-4">
-            <SheetTitle>
-              <Wordmark />
-            </SheetTitle>
-          </SheetHeader>
-          <nav className="flex-1 space-y-1 px-3">
-            {["Product", "Solutions", "Pricing", "Docs", "Blog"].map((l) => (
-              <a
-                key={l}
-                href="#"
-                className="flex items-center justify-between rounded-md px-3 py-2.5 text-[14px] text-foreground/90 hover:bg-secondary/60"
-              >
-                {l}
-                <ChevronRight className="size-4 text-muted-foreground/60" />
-              </a>
-            ))}
-          </nav>
-          <div className="border-t border-border/60 p-4">
-            <Button className="w-full">
-              Get started <ArrowRight />
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-    </header>
+        </div>
+        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+          {["Product", "Solutions", "Pricing", "Docs", "Blog"].map((l) => (
+            <a
+              key={l}
+              href="#"
+              className="flex items-center justify-between rounded-md px-3 py-2.5 text-[14px] text-foreground/90 hover:bg-secondary/60"
+            >
+              {l}
+              <ChevronRight className="size-4 text-muted-foreground/60" />
+            </a>
+          ))}
+        </nav>
+        <div className="border-t border-border/60 p-4">
+          <Button className="w-full">
+            Get started <ArrowRight />
+          </Button>
+        </div>
+      </MobileDrawer>
+    </>
   );
 }
 
@@ -817,7 +904,7 @@ function MobileSearchHeader() {
             <Menu />
           </Button>
           <div className="mx-auto">
-            <Wordmark compact />
+            <Wordmark size="sm" />
           </div>
           <Button variant="ghost" size="icon" onClick={() => setOpen(true)} aria-label="Search">
             <Search />
@@ -841,7 +928,7 @@ function MobileSearchHeader() {
 function TabletSplitHeader() {
   return (
     <header className="flex h-14 items-center gap-4 border-b border-border/60 px-4">
-      <Wordmark compact />
+      <Wordmark />
       <nav className="flex items-center gap-1 text-[12.5px]">
         {["Dashboard", "Sites", "Alerts", "Reports"].map((l, i) => (
           <a
@@ -1019,8 +1106,8 @@ function SidebarIconRail() {
   return (
     <div className="flex h-64">
       <aside className="flex w-14 shrink-0 flex-col items-center gap-1 border-r border-border/60 bg-card/40 py-3">
-        <div className="mb-1 grid size-8 place-items-center rounded-md bg-brand-gradient text-[11px] font-semibold text-white">
-          N
+        <div className="mb-1 grid size-8 place-items-center rounded-md bg-brand-gradient-soft">
+          <img src={neosMark} alt="NeosPower" className="size-4" />
         </div>
         {items.map((it) => (
           <Tooltip key={it.l}>
@@ -1050,7 +1137,7 @@ function SidebarWithFooter() {
     <div className="flex h-72">
       <aside className="flex w-56 shrink-0 flex-col border-r border-border/60 bg-card/40">
         <div className="px-4 py-3">
-          <Wordmark compact />
+          <Wordmark size="sm" />
         </div>
         <Separator />
         <MiniNavList />
@@ -1084,23 +1171,31 @@ function SidebarWithFooter() {
 }
 
 function OffCanvasDemo() {
+  const [open, setOpen] = React.useState(true);
   return (
-    <div className="flex h-32 items-center justify-center">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="secondary">
-            <Menu /> Open mobile drawer
+    <div className="relative flex h-72 flex-col overflow-hidden">
+      <div className="flex h-12 items-center gap-2 border-b border-border/60 bg-background/80 px-3 backdrop-blur">
+        <Button variant="ghost" size="icon" aria-label="Toggle menu" onClick={() => setOpen((v) => !v)}>
+          <Menu />
+        </Button>
+        <div className="mx-auto">
+          <Wordmark size="sm" />
+        </div>
+      </div>
+      <div className="flex-1 p-4 text-[12px] text-muted-foreground">
+        Toggle the hamburger to see the drawer slide in from the left, over the page content.
+      </div>
+      <MobileDrawer open={open} onClose={() => setOpen(false)} side="left">
+        <div className="flex items-center justify-between border-b border-border/60 px-4 py-3">
+          <Wordmark size="sm" />
+          <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Close">
+            <ChevronRight className="rotate-180" />
           </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-72 p-0">
-          <SheetHeader className="px-5 py-4">
-            <SheetTitle>
-              <Wordmark />
-            </SheetTitle>
-          </SheetHeader>
+        </div>
+        <div className="flex-1 overflow-y-auto pt-2">
           <MiniNavList />
-        </SheetContent>
-      </Sheet>
+        </div>
+      </MobileDrawer>
     </div>
   );
 }
@@ -1112,8 +1207,8 @@ function SidebarWorkspaceHeader() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-2 border-b border-border/60 px-3 py-3 text-left hover:bg-secondary/40">
-              <div className="grid size-8 shrink-0 place-items-center rounded-md bg-brand-gradient text-[11px] font-semibold text-white">
-                NP
+              <div className="grid size-8 shrink-0 place-items-center rounded-md bg-brand-gradient-soft">
+                <img src={neosMark} alt="NeosPower" className="size-4" />
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[12.5px] text-foreground">NeosPower</p>
@@ -1259,8 +1354,10 @@ function StepperDemo() {
   const steps = ["Account", "Workspace", "Team", "Done"];
   const current = 1;
   return (
-    <div className="space-y-8 p-5">
-      <ol className="flex items-center gap-3">
+    <div className="space-y-6 p-5">
+      <div>
+        <SubEyebrow>Horizontal · desktop</SubEyebrow>
+        <ol className="flex items-center gap-3">
         {steps.map((s, i) => {
           const done = i < current;
           const active = i === current;
@@ -1292,8 +1389,12 @@ function StepperDemo() {
             </React.Fragment>
           );
         })}
-      </ol>
-      <ol className="max-w-[220px] space-y-2">
+        </ol>
+      </div>
+      <Separator />
+      <div>
+        <SubEyebrow>Vertical · mobile</SubEyebrow>
+        <ol className="max-w-[220px] space-y-2">
         {steps.map((s, i) => {
           const done = i < current;
           const active = i === current;
@@ -1315,7 +1416,8 @@ function StepperDemo() {
             </li>
           );
         })}
-      </ol>
+        </ol>
+      </div>
     </div>
   );
 }
@@ -1413,27 +1515,51 @@ const FOOTER_COLS: { title: string; links: string[] }[] = [
 function FooterMega({ compact = false }: { compact?: boolean }) {
   return (
     <footer className="border-t border-border/60 bg-card/30 px-6 py-10">
-      <div
-        className={cn(
-          "grid gap-8",
-          compact ? "md:grid-cols-[1.4fr_repeat(2,1fr)]" : "md:grid-cols-[1.4fr_repeat(4,1fr)]",
-        )}
-      >
-        <div className="space-y-4">
-          <Wordmark />
-          <p className="max-w-xs text-[12.5px] leading-relaxed text-muted-foreground">
-            Engineered dark-first UI for European energy operators. Ship data-dense interfaces
-            without designing every widget from scratch.
-          </p>
-          <form className="flex max-w-xs items-center gap-2">
-            <Input placeholder="you@company.com" className="h-9 text-[12.5px]" />
-            <Button size="sm">Subscribe</Button>
-          </form>
+      {compact ? (
+        <div className="space-y-8">
+          <div className="grid gap-6 md:grid-cols-[1fr_1fr]">
+            <div className="space-y-3">
+              <Wordmark />
+              <p className="text-[12.5px] leading-relaxed text-muted-foreground">
+                Engineered dark-first UI for European energy operators.
+              </p>
+            </div>
+            <form className="space-y-2">
+              <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted-foreground/70">
+                Newsletter
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Input placeholder="you@company.com" className="h-9 flex-1 text-[12.5px]" />
+                <Button size="sm">Subscribe</Button>
+              </div>
+            </form>
+          </div>
+          <div className="grid grid-cols-2 gap-6">
+            {FOOTER_COLS.map((c) => (
+              <FooterColumn key={c.title} title={c.title} links={c.links} />
+            ))}
+          </div>
         </div>
-        {FOOTER_COLS.slice(0, compact ? 2 : 4).map((c) => (
-          <FooterColumn key={c.title} title={c.title} links={c.links} />
-        ))}
-      </div>
+      ) : (
+        <div className="grid gap-8 md:grid-cols-[1.4fr_repeat(4,1fr)]">
+          <div className="space-y-4">
+            <Wordmark />
+            <p className="max-w-xs text-[12.5px] leading-relaxed text-muted-foreground">
+              Engineered dark-first UI for European energy operators. Ship data-dense interfaces
+              without designing every widget from scratch.
+            </p>
+            <form className="max-w-xs space-y-2">
+              <Input placeholder="you@company.com" className="h-9 w-full text-[12.5px]" />
+              <Button size="sm" className="w-full">
+                Subscribe to changelog <ArrowRight />
+              </Button>
+            </form>
+          </div>
+          {FOOTER_COLS.map((c) => (
+            <FooterColumn key={c.title} title={c.title} links={c.links} />
+          ))}
+        </div>
+      )}
       <Separator className="my-8" />
       <div className="flex flex-col items-start justify-between gap-4 text-[11.5px] text-muted-foreground md:flex-row md:items-center">
         <div>© 2026 NeosPower BV · Rotterdam, NL</div>
@@ -1485,6 +1611,10 @@ function FooterMegaMobile() {
       <p className="text-[12px] text-muted-foreground">
         Engineered dark-first UI for European energy operators.
       </p>
+      <form className="space-y-2">
+        <Input placeholder="you@company.com" className="h-9 w-full text-[12px]" />
+        <Button size="sm" className="w-full">Subscribe</Button>
+      </form>
       {FOOTER_COLS.map((c) => (
         <details
           key={c.title}
@@ -1508,13 +1638,13 @@ function FooterMegaMobile() {
         </details>
       ))}
       <Separator />
-      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-        <span>© 2026 NeosPower</span>
-        <div className="flex items-center gap-2">
+      <div className="space-y-2 text-[11px] text-muted-foreground">
+        <div className="flex items-center gap-3">
           <Twitter className="size-3.5" />
           <Github className="size-3.5" />
           <Linkedin className="size-3.5" />
         </div>
+        <div>© 2026 NeosPower</div>
       </div>
     </footer>
   );

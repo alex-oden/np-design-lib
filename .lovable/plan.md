@@ -1,76 +1,35 @@
 
-# Navigation showcase — detailed headers, footers & responsive patterns
+# Navigation showcase — fix broken / illogical patterns
 
-Goal: turn the thin `/navigation` page into a comprehensive pattern library that another agent (or designer) can copy from. Every example composes existing library primitives (`Button`, `Input`, `Badge`, `Avatar`, `DropdownMenu`, `Sheet`, `NavigationMenu`, `Separator`, `Tabs`, `Breadcrumb`, `Command`, `SurfaceCard`, `GlassCard`, etc.) and uses only design tokens — no hard-coded colors.
+Scope: `src/routes/_showcase.navigation.tsx` only (plus using the existing `src/assets/neos-logo.svg` mark). No library, tokens, or version changes.
 
-## Scope
+## Concrete issues to fix (verified from live screenshots)
 
-Restructure `src/routes/_showcase.navigation.tsx` into clearly-labeled subsections. Each pattern gets: a live demo inside `<Example>` (framed at realistic width via a device-mock wrapper), a short usage note (when to use / avoid), and a "Composed from:" line listing the primitives used so another agent can trace it.
-
-### 1. Headers (Top bars)
-Six variants, each in its own `<Section>`:
-
-1. **Marketing header — desktop**
-   - Logo (wordmark SVG) · centered `NavigationMenu` with 3 grouped mega-menu items · right-side CTA cluster (`Button` ghost "Sign in" + gradient "Get started") · sticky w/ backdrop blur.
-2. **App header — dashboard shell**
-   - Logo · workspace `Select` switcher · global `Command`-triggered search (⌘K hint via `<kbd>`) · notifications `Button` icon with `Badge` count · `Avatar` + `DropdownMenu` (profile, settings, sign out).
-3. **Docs header**
-   - Logo · inline `Input` search with keyboard hint · version `Badge` · `Tabs`-style secondary nav row underneath for section switching · theme toggle (`Toggle`).
-4. **E-commerce header (two-row)**
-   - Announcement strip using `AlertCard` styling · main row: logo, full-width search `Input` with category `Select` prefix, account/cart icon buttons with count `Badge`s · category `NavigationMenu` row below.
-5. **Transparent hero header**
-   - Overlays a gradient hero, becomes solid on scroll (documented via a note; demo shows both states side-by-side using `Tabs`).
-6. **Minimal centered header** — logo center, single CTA right; used for auth / landing pages.
-
-### 2. Mobile & tablet header variants
-Rendered inside a 375px and 768px framed device mock (a simple bordered container with `rounded-[24px]` and label). Same tokens, adapted layouts:
-
-- **Mobile app header** — hamburger `Button` → `Sheet` slide-in with `ShowcaseSidebar`-style nav list, centered logo, right avatar.
-- **Mobile marketing header** — logo + hamburger; sheet reveals stacked accordion nav with CTA pinned to bottom.
-- **Mobile search header** — collapsed → tap search icon expands into full-width `Input` with cancel.
-- **Tablet split header** — logo + primary nav inline (condensed), overflow items collapse into `DropdownMenu` "More".
-- **Bottom tab bar (mobile)** — fixed bottom nav with 4–5 icon+label items, active state uses `bg-brand-gradient-soft` pill and pulsing accent dot (matching sidebar pattern). Includes a floating gradient action button variant.
-
-### 3. Sidebars
-- **Icon rail (collapsed)** — 56px wide, icon-only with tooltips (`Tooltip` primitive), active pill.
-- **Expanded sidebar with sections** — the current showcase sidebar, annotated.
-- **Sidebar with workspace switcher header + user footer** — `Avatar`+`DropdownMenu` docked to the bottom.
-- **Off-canvas mobile drawer** — `Sheet` example driven by a "Open menu" button.
-
-### 4. Secondary navigation
-- **Breadcrumb** — expanded to 4 levels with a truncated middle (`…` `DropdownMenu`) for deep paths, plus a compact mobile variant that shows only "‹ Parent".
-- **Tabs — underline, pill, and segmented** — three flavors using `Tabs` + `Segmented`.
-- **Stepper / Progress nav** — horizontal 4-step wizard using `Badge` + `Separator` + check icons; vertical variant for mobile.
-- **Anchor nav (in-page TOC)** — right-rail sticky list with active-section highlight (visual only, static demo).
-- **Pagination** — numeric pager + prev/next; compact mobile variant with just prev/next + "Page 3 of 12".
-
-### 5. Footers
-Four variants, each responsive (demonstrated at desktop / tablet / mobile widths via nested framed mocks):
-
-1. **Marketing mega-footer** — 4 link columns + newsletter `Input` + CTA `Button` + social icon row + bottom legal strip with logo, copyright, `Separator`, region `Select`. Collapses to accordion on mobile.
-2. **App footer (thin utility bar)** — status dot ("All systems normal"), version `Badge`, links (Docs, Support, Changelog).
-3. **Docs footer** — "Was this helpful?" `Segmented` (Yes/No), Edit-on-GitHub link, prev/next article `Button`s with arrow icons, last-updated timestamp.
-4. **Minimal centered footer** — wordmark + one line of legal links; used for auth pages.
-
-### 6. Cross-cutting details
-- Each demo lives inside `<Example>` and uses `<Section>`'s stagger animation.
-- Device-mock component (local to this file) — `<DeviceFrame width={375|768} label="Mobile" />` — bordered `rounded-[24px]` container with a header chip showing the label; used to visually communicate the target viewport without needing real responsive resizing.
-- Add a fresh intro paragraph in `DocPage` explaining "how to read this page" (composition-first, tokens-only).
-- Update the `_showcase.index.tsx` overview blurb for Navigation so the landing card advertises the new depth.
-- No new dependencies; no changes to library components — this is showcase-only. No version bump.
+1. **Wordmarks are too small everywhere.** `Wordmark` renders at `h-5` (compact `h-4`); on desktop headers it looks like a favicon. Bump to `h-7` / `h-6` compact and add a `hero` size (`h-8`, white variant) for the transparent hero header where it currently disappears into the gradient.
+2. **Transparent hero header — logo unreadable.** On the gradient background the small wordmark blends in. Use the new hero size and add a subtle text-shadow / drop-shadow so it reads on both states, and swap the CTA to gradient once the header goes solid.
+3. **App shell header — "A. Oden" wraps to two lines** inside the avatar chip. Add `whitespace-nowrap` and reduce the search field max width so the header still fits at 1024–1280px without the chip collapsing.
+4. **Docs header — `v1.3.2` badge competes with wordmark.** Switch to `Badge variant="outline"`, and give the `/` kbd hint proper right padding so it never overlaps the theme toggle.
+5. **Marketing mega-footer — newsletter input squished to "you@co".** Stack the label/input/button vertically inside the brand column and let the input be `w-full`; the current inline `Input + Button` doesn't fit the column.
+6. **Tablet mega-footer (768px) is broken.** With `compact=true` we drop to 2 link columns *and* the newsletter input renders empty and Subscribe wraps outside the column. Change tablet layout to `grid-cols-2` for the four link columns under a full-width brand row, and use the vertical newsletter from fix #5.
+7. **Mobile mega-footer — legal strip social icons cramped**; give the row `gap-3` and align copyright + icons on their own line above the icons at <400px.
+8. **Sheets inside `DeviceFrame` portal to the document body.** Tapping the hamburger in "Mobile · 375" or "Mobile · marketing" opens a full-page sheet across the whole showcase, not inside the phone frame — this is the "broken" behaviour the user is seeing. Replace `Sheet` in mobile demo frames with a **local `MobileDrawer`** helper (absolutely-positioned inside the frame via `position: absolute` on the DeviceFrame's `relative` wrapper, controlled by local `useState`). Keep the real `Sheet` for the dedicated "Off-canvas drawer (mobile)" pattern, but render that pattern inside its own `DeviceFrame` with `container` set to the frame element so the sheet stays inside the phone. Also show the drawer already open by default so the pattern actually communicates something at rest.
+9. **Bottom tab bar FAB overlaps content and has no label.** Move the FAB to sit *above* the tab bar (`-top-5`, centered) with a soft brand glow and an aria-label; give the tab bar `pt-1.5 pb-2` and shrink the FAB to `size-11` so it doesn't crowd the "Home" pill.
+10. **Sidebar icon rail + workspace switcher use a generic "N"/"NP" square.** Swap for the existing `neos-logo.svg` mark asset so the brand is consistent with the wordmark used elsewhere.
+11. **Stepper example stacks a horizontal + vertical variant with no divider or labels** — reads as duplication. Split into two labelled sub-blocks ("Horizontal" / "Vertical (mobile)") with the same mono eyebrow used elsewhere on the page.
+12. **Anchor nav** is static: keep the demo but replace the fake body blocks with two short paragraphs (using tokens) so the pattern shows an actual reading surface, and add scroll-margin comment to the "Composed from" note.
+13. **HeaderEcom search button** is a full brand-gradient `Button` which visually outshouts the wordmark. Downgrade to `variant="ghost"` inside the input, and reserve the gradient CTA for the announcement strip only.
+14. **HeaderMinimal** uses two hardcoded `w-24` spacer divs to centre the wordmark — replace with a proper `grid grid-cols-[1fr_auto_1fr]` layout so the wordmark is truly centered at any width.
+15. **Tablet split header — logo at `h-4` is unreadable at 768px.** Use the new default (`h-6`) here.
 
 ## Technical notes
 
-- File to rewrite: `src/routes/_showcase.navigation.tsx`. Length will grow to ~500–700 lines; keep it split into small internal components (`DeviceFrame`, `HeaderMarketing`, `HeaderApp`, `FooterMega`, etc.) declared at the bottom of the file for readability.
-- Reuse `neos-logo.svg` / `neospower-logo.svg` for logos.
-- Use `Sheet` for mobile drawers, `NavigationMenu` for desktop mega-menus, `DropdownMenu` for overflow, `Command` for the ⌘K trigger (open-on-click demo), `Tooltip` for collapsed sidebar icons.
-- All colors via tokens: `bg-card`, `bg-secondary`, `border-border/60`, `bg-brand-gradient`, `bg-brand-gradient-soft`, `text-muted-foreground`, `text-accent`.
-- Active states reuse the pulsing accent dot pattern from `ShowcaseSidebar` for consistency.
-- No changes to `src/routes/_showcase.tsx`, `styles.css`, or any `src/components/ui/*` file.
-- Update `docs/neospower-report.md` with a short bullet noting the expanded Navigation showcase.
+- New file-local helpers: `MobileDrawer` (absolute-positioned in-frame drawer with a scrim), `SectionSubhead` (small mono eyebrow used to split stepper variants).
+- `DeviceFrame` gains a `frameRef` returned from a `useRef` so `Sheet`'s `container` prop can target it for the one remaining real-Sheet demo.
+- `Wordmark` grows a `size` prop: `"sm" | "md" | "hero"` mapped to `h-5`, `h-7`, `h-8`, with an optional `dropShadow` flag for the hero.
+- All colors stay on tokens; no `text-white` literals — the hero variant uses `text-foreground` on a `bg-brand-gradient` overlay so it inverts cleanly.
+- Bottom tab bar FAB moves inside the same `<div className="relative">` wrapper the tab bar already lives in.
 
 ## Out of scope
 
-- Real router integration for the demo links (they render as visual `Link`/`Button` with `#`).
-- New card/button variants or new tokens.
-- Library version bump — showcase-only change.
+- No changes to `src/components/ui/*`, `styles.css`, tokens, `package.json`, `CHANGELOG.md`, or the `docs/` report.
+- No new library primitives, no new dependencies, no library version bump — this is a showcase-only fix.
