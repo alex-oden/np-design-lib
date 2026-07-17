@@ -1,8 +1,8 @@
 import * as React from "react";
 import { GlassCard } from "./glass-card";
 import { InteractiveCard } from "./interactive-card";
-import {
-  SurfaceCard,
+import { SurfaceCard } from "./surface-card";
+export {
   CardHeader,
   CardTitle,
   CardDescription,
@@ -40,4 +40,4 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 );
 Card.displayName = "Card";
 
-export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter };
+export { Card };
