@@ -810,7 +810,7 @@ function HeaderTransparentDemo() {
       />
       <div
         className={cn(
-          "relative h-40 overflow-hidden rounded-[var(--radius)]",
+          "relative h-40 overflow-hidden rounded-none",
           state === "transparent" ? "bg-brand-gradient" : "bg-background",
         )}
       >
@@ -829,7 +829,7 @@ function HeaderTransparentDemo() {
             "relative flex h-14 items-center justify-between gap-6 px-6 transition-colors",
             "backdrop-blur-md",
             state === "transparent"
-              ? "bg-background/45"
+              ? "bg-background/55"
               : "border-b border-border/60 bg-background/95",
           )}
         >
