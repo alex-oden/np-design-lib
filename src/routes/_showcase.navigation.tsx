@@ -29,6 +29,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { APP_VERSION_FULL } from "@/lib/version";
 import { DocPage, Section, Example } from "@/components/showcase-page";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
