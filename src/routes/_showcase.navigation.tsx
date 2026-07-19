@@ -1712,7 +1712,7 @@ function FooterApp() {
       </div>
       <div className="flex items-center gap-4">
         <Badge variant="default" className="h-5 font-mono text-[10px]">
-          v1.3.2
+          {APP_VERSION_FULL}
         </Badge>
         <a href="#" className="hover:text-foreground">Docs</a>
         <a href="#" className="hover:text-foreground">Support</a>
