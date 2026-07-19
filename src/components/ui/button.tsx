@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 /**
  * Button — the primary action element.
  *
- * variant: default (brand gradient) · secondary · ghost · destructive · outline · link
+ * variant: default (brand gradient) · secondary · ghost · destructive · outline · inverse · link
  * size:    sm · default · lg · xl · icon
  * loading: shows a spinner and disables the button
  */
@@ -26,6 +26,8 @@ const buttonVariants = cva(
           "text-destructive bg-destructive/15 border border-destructive/40 hover:bg-destructive/25 hover:border-destructive/60",
         outline:
           "border border-border text-foreground hover:bg-white/[0.05] hover:border-border",
+        inverse:
+          "bg-white/[0.04] text-foreground border border-foreground/80 hover:bg-white/[0.08] hover:border-foreground hover:shadow-[0_0_24px_-8px_hsl(var(--foreground)/0.25)] hover:-translate-y-px",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

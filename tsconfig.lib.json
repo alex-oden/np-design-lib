@@ -13,7 +13,8 @@
   "include": [
     "src/index.ts",
     "src/components/ui/**/*",
-    "src/lib/utils.ts"
+    "src/lib/utils.ts",
+    "src/types/**/*"
   ],
   "exclude": [
     "src/routes/**",

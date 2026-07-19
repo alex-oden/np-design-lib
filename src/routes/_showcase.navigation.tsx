@@ -29,6 +29,7 @@ import {
   Zap,
 } from "lucide-react";
 
+import { APP_VERSION_FULL } from "@/lib/version";
 import { DocPage, Section, Example } from "@/components/showcase-page";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -690,7 +691,7 @@ function HeaderDocs() {
       <div className="flex h-14 items-center gap-4 px-6">
         <Wordmark />
         <Badge variant="default" className="border border-border/60 bg-transparent font-mono text-[10px] text-muted-foreground">
-          v1.3.2
+          {APP_VERSION_FULL}
         </Badge>
         <div className="ml-auto flex w-full max-w-sm items-center gap-2">
           <div className="relative w-full">
@@ -810,7 +811,7 @@ function HeaderTransparentDemo() {
       />
       <div
         className={cn(
-          "relative h-40 overflow-hidden rounded-[var(--radius)]",
+          "relative h-40 overflow-hidden rounded-none",
           state === "transparent" ? "bg-brand-gradient" : "bg-background",
         )}
       >
@@ -829,7 +830,7 @@ function HeaderTransparentDemo() {
             "relative flex h-14 items-center justify-between gap-6 px-6 transition-colors",
             "backdrop-blur-md",
             state === "transparent"
-              ? "bg-background/45"
+              ? "bg-background/55"
               : "border-b border-border/60 bg-background/95",
           )}
         >
@@ -1711,7 +1712,7 @@ function FooterApp() {
       </div>
       <div className="flex items-center gap-4">
         <Badge variant="default" className="h-5 font-mono text-[10px]">
-          v1.3.2
+          {APP_VERSION_FULL}
         </Badge>
         <a href="#" className="hover:text-foreground">Docs</a>
         <a href="#" className="hover:text-foreground">Support</a>

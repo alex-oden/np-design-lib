@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_showcase/button-states")({
   component: ButtonStatesPage,
 });
 
-const VARIANTS = ["default", "secondary", "ghost", "outline", "destructive"] as const;
+const VARIANTS = ["default", "secondary", "ghost", "outline", "inverse", "destructive"] as const;
 
 function ButtonStatesPage() {
   return (

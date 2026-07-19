@@ -29,12 +29,13 @@ function ButtonsPage() {
       title="Buttons"
       intro="The primary action element. Use one gradient CTA per view — secondary and ghost carry the rest. All variants share a 200 ms motion curve and a subtle active-state translate."
     >
-      <Section title="Variants" hint="6 total">
+      <Section title="Variants" hint="7 total">
         <Example>
           <Button>Save changes</Button>
           <Button variant="secondary">Cancel</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="outline">Outline</Button>
+          <Button variant="inverse">Inverse</Button>
           <Button variant="destructive">Delete</Button>
           <Button variant="link">Learn more</Button>
         </Example>
