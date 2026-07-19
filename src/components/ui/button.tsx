@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 /**
  * Button — the primary action element.
  *
- * variant: default (brand gradient) · secondary · ghost · destructive · outline · link
+ * variant: default (brand gradient) · secondary · ghost · destructive · outline · inverse · link
  * size:    sm · default · lg · xl · icon
  * loading: shows a spinner and disables the button
  */
