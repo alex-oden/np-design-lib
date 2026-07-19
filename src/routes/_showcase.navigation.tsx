@@ -827,7 +827,10 @@ function HeaderTransparentDemo() {
         <header
           className={cn(
             "relative flex h-14 items-center justify-between gap-6 px-6 transition-colors",
-            state === "solid" && "border-b border-border/60 bg-background/80 backdrop-blur-md",
+            "backdrop-blur-md",
+            state === "transparent"
+              ? "bg-background/45"
+              : "border-b border-border/60 bg-background/95",
           )}
         >
           <Wordmark size={state === "transparent" ? "hero" : "md"} hero={state === "transparent"} />
