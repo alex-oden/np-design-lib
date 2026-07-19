@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.3 — New inverse button + hero header polish
+
+- `Button`: added `variant="inverse"` — a dark/translucent surface with a
+  bright foreground border and a subtle hover glow. Useful for dark-hero CTAs
+  on gradient backgrounds.
+- Navigation showcase: transparent hero header now uses sharp corners and a
+  slightly stronger backdrop-blur scrim so it sits cleanly on the demo canvas.
+
+## 1.3.2 — Consistent radii + brand glow on selection controls
+
 ## 1.3.2 — Consistent radii + brand glow on selection controls
 
 - `Segmented`, `Tabs`: unified outer/inner border radii so the thumb
