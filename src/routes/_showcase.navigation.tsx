@@ -130,6 +130,7 @@ function NavigationPage() {
             title="Marketing header"
             note="Use for public sites. One gradient CTA at the far right; centered mega-menu keeps the wordmark and CTA in balance."
             uses="NavigationMenu · Button · Badge · Separator"
+            deviceWidth={1280}
           >
             <HeaderMarketing />
           </Pattern>
@@ -138,6 +139,7 @@ function NavigationPage() {
             title="App shell header"
             note="Dashboards. Workspace switcher on the left, ⌘K search center, notifications + avatar right."
             uses="Select · Input · Button · Badge · Avatar · DropdownMenu"
+            deviceWidth={1280}
           >
             <HeaderApp />
           </Pattern>
@@ -146,6 +148,7 @@ function NavigationPage() {
             title="Docs header"
             note="Documentation sites. Inline search with keyboard hint, version badge, secondary tab row underneath."
             uses="Input · Badge · Tabs · Toggle · Button"
+            deviceWidth={1280}
           >
             <HeaderDocs />
           </Pattern>
@@ -154,6 +157,7 @@ function NavigationPage() {
             title="E-commerce header (two-row)"
             note="Storefronts. Announcement strip on top, main utility row with combined search, category nav underneath."
             uses="Input · Select · Button · Badge · NavigationMenu"
+            deviceWidth={1280}
           >
             <HeaderEcom />
           </Pattern>
@@ -162,6 +166,7 @@ function NavigationPage() {
             title="Transparent hero header → solid on scroll"
             note="Landing pages. Same header, two visual states — before and after scroll. Swap via IntersectionObserver in production."
             uses="Tabs (demo only) · Button · NavigationMenu"
+            deviceWidth={1280}
           >
             <HeaderTransparentDemo />
           </Pattern>
@@ -170,6 +175,7 @@ function NavigationPage() {
             title="Minimal centered"
             note="Auth, checkout, focused flows. Center wordmark, single escape hatch on the right."
             uses="Button"
+            deviceWidth={1280}
           >
             <HeaderMinimal />
           </Pattern>
@@ -178,7 +184,7 @@ function NavigationPage() {
 
       {/* 2 · MOBILE + TABLET HEADERS ──────────────────────────── */}
       <Section title="2 · Mobile & tablet headers" hint="375 · 768" animated index={1}>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 items-start">
           <DeviceFrame width={375} label="Mobile · 375">
             <MobileAppHeader />
             <MobilePageBody />
@@ -191,11 +197,11 @@ function NavigationPage() {
             <MobileSearchHeader />
             <MobilePageBody />
           </DeviceFrame>
-          <DeviceFrame width={768} label="Tablet · split">
+          <DeviceFrame width={768} label="Tablet · split" className="sm:col-span-2 xl:col-span-2">
             <TabletSplitHeader />
             <MobilePageBody />
           </DeviceFrame>
-          <DeviceFrame width={375} label="Mobile · bottom tab bar" className="lg:col-span-2">
+          <DeviceFrame width={375} label="Mobile · bottom tab bar">
             <MobileAppHeader compact />
             <MobilePageBody tall />
             <BottomTabBar />
@@ -205,7 +211,7 @@ function NavigationPage() {
 
       {/* 3 · SIDEBARS ─────────────────────────────────────────── */}
       <Section title="3 · Sidebars" hint="4 variants" animated index={2}>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 items-start">
           <Pattern
             title="Icon rail (collapsed)"
             note="Space-constrained shells. Tooltip labels appear on hover; active item uses the brand-gradient-soft pill."
@@ -326,7 +332,7 @@ function NavigationPage() {
           </Pattern>
         </PatternGroup>
 
-        <div className="grid grid-cols-1 gap-6 pt-2 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 pt-2 md:grid-cols-2 items-start">
           <DeviceFrame width={375} label="Mobile · mega-footer collapsed">
             <FooterMegaMobile />
           </DeviceFrame>
