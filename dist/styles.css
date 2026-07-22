@@ -1,0 +1,313 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─── NeosPower design system ─────────────────────────────────────
+   Dark-first energy-tech UI. shadcn HSL convention: each token
+   holds "H S% L%" so Tailwind can wrap in hsl() and add alpha.
+   Re-theme the whole system by editing these values.
+   ────────────────────────────────────────────────────────────────── */
+
+@theme {
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 8px);
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-brand-start: hsl(var(--brand-start));
+  --color-brand-end: hsl(var(--brand-end));
+  --color-brand-cyan: hsl(var(--brand-cyan));
+  --color-brand-border: hsl(var(--brand-border));
+  --color-sidebar: hsl(var(--card));
+  --color-sidebar-foreground: hsl(var(--card-foreground));
+  --color-sidebar-primary: hsl(var(--primary));
+  --color-sidebar-primary-foreground: hsl(var(--primary-foreground));
+  --color-sidebar-accent: hsl(var(--secondary));
+  --color-sidebar-accent-foreground: hsl(var(--secondary-foreground));
+  --color-sidebar-border: hsl(var(--border));
+  --color-sidebar-ring: hsl(var(--ring));
+  --color-chart-1: hsl(var(--brand-start));
+  --color-chart-2: hsl(var(--brand-end));
+  --color-chart-3: hsl(var(--brand-cyan));
+  --color-chart-4: hsl(var(--success));
+  --color-chart-5: hsl(var(--warning));
+  --shadow-card: 0 30px 80px -20px hsl(230 100% 12% / 0.55), 0 0 0 1px hsl(var(--border) / 0.6);
+  --shadow-glow: 0 0 0 1px hsl(var(--border) / 0.6), 0 24px 60px -18px hsl(var(--brand-start) / 0.4);
+  --shadow-ring: 0 0 0 4px hsl(var(--ring) / 0.22), 0 0 0 1.5px hsl(var(--ring));
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: 232 40% 9%;
+  --foreground: 230 25% 97%;
+  --card: 230 33% 12%;
+  --card-foreground: 230 25% 97%;
+  --popover: 230 33% 13%;
+  --popover-foreground: 230 25% 97%;
+  --primary: 230 100% 61%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 230 24% 18%;
+  --secondary-foreground: 230 25% 97%;
+  --muted: 230 24% 17%;
+  --muted-foreground: 230 12% 68%;
+  --accent: 312 100% 49%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 2 78% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 155 62% 45%;
+  --success-foreground: 0 0% 100%;
+  --warning: 40 95% 58%;
+  --warning-foreground: 40 40% 10%;
+  --info: 250 82% 68%;
+  --info-foreground: 0 0% 100%;
+  --border: 230 20% 26%;
+  --input: 230 22% 22%;
+  --ring: 230 100% 61%;
+  /* raw brand stops (used for gradients + effects).
+     --brand-border is an OPAQUE mid-tone; gradient-filled controls
+     use it (+ [background-clip:padding-box]) so the fill never
+     bleeds past the edge into a fuzzy rim. */
+  --brand-start: 230 100% 61%;
+  --brand-end: 312 100% 49%;
+  --brand-cyan: 188 86% 53%;
+  --brand-border: 245 76% 58%;
+}
+
+/* Optional inversion for surfaces on white — toggle .light on <html>. */
+.light {
+  --background: 230 30% 98%;
+  --foreground: 232 40% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 232 40% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 232 40% 12%;
+  --secondary: 230 20% 94%;
+  --secondary-foreground: 232 40% 14%;
+  --muted: 230 20% 94%;
+  --muted-foreground: 230 12% 40%;
+  --border: 230 18% 86%;
+  --input: 230 18% 88%;
+}
+
+@utility bg-brand-gradient {
+  background-image: linear-gradient(135deg, hsl(var(--brand-start)) 0%, hsl(var(--brand-end)) 100%);
+}
+@utility bg-brand-gradient-soft {
+  background-image: linear-gradient(135deg, hsl(var(--brand-start) / 0.18) 0%, hsl(var(--brand-end) / 0.18) 100%);
+}
+@utility text-gradient-brand {
+  background-image: linear-gradient(135deg, hsl(var(--brand-start)) 0%, hsl(var(--brand-end)) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+@utility glass {
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+@keyframes np-spin { to { transform: rotate(360deg); } }
+@keyframes np-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes np-bounce {
+  0%, 80%, 100% { transform: scale(0.5); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+@keyframes np-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes np-indeterminate {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(320%); }
+}
+@keyframes np-toast-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes np-fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes np-scale-in {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@utility animate-np-spin { animation: np-spin 700ms linear infinite; }
+@utility animate-np-pulse { animation: np-pulse 1.6s ease-in-out infinite; }
+@utility animate-np-bounce { animation: np-bounce 1.2s ease-in-out infinite; }
+@utility animate-np-shimmer { animation: np-shimmer 1.4s ease-in-out infinite; }
+@utility animate-np-indeterminate { animation: np-indeterminate 1.4s ease-in-out infinite; }
+@utility animate-np-toast-in { animation: np-toast-in 320ms cubic-bezier(.2,.7,.2,1); }
+@utility animate-np-fade-in-up { animation: np-fade-in-up 500ms cubic-bezier(.23, 1, .32, 1) both; }
+@utility animate-np-scale-in { animation: np-scale-in 400ms cubic-bezier(.23, 1, .32, 1) both; }
+@utility transition-np-card { transition: transform 280ms cubic-bezier(.23, 1, .32, 1), box-shadow 280ms cubic-bezier(.23, 1, .32, 1), border-color 280ms cubic-bezier(.23, 1, .32, 1); }
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.6);
+  }
+}
+/* border-glow component styles */
+/* BorderGlow — interactive edge-glow card. Adapted from React Bits
+   (reactbits.dev) for the NeosPower design system. Imported by
+   border-glow.tsx. Brand-aligned fallback defaults; the component sets
+   the live values inline on pointer move. */
+.np-border-glow {
+  --edge-proximity: 0;
+  --cursor-angle: 45deg;
+  --edge-sensitivity: 30;
+  --color-sensitivity: calc(var(--edge-sensitivity) + 20);
+  --border-radius: 18px;
+  --glow-padding: 40px;
+  --cone-spread: 25;
+  --fill-opacity: 0.5;
+
+  position: relative;
+  border-radius: var(--border-radius);
+  isolation: isolate;
+  transform: translate3d(0, 0, 0.01px);
+  display: grid;
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: var(--card-bg, hsl(230 33% 12%));
+  overflow: visible;
+  box-shadow: rgba(0, 0, 0, 0.18) 0 2px 4px, rgba(0, 0, 0, 0.16) 0 8px 16px, rgba(0, 0, 0, 0.14) 0 24px 48px;
+}
+
+.np-border-glow::before,
+.np-border-glow::after,
+.np-border-glow > .np-edge-light {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transition: opacity 0.25s ease-out;
+  z-index: -1;
+}
+
+.np-border-glow:not(:hover):not(.np-sweep)::before,
+.np-border-glow:not(:hover):not(.np-sweep)::after,
+.np-border-glow:not(:hover):not(.np-sweep) > .np-edge-light {
+  opacity: 0;
+  transition: opacity 0.75s ease-in-out;
+}
+
+.np-border-glow::before {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card-bg, hsl(230 33% 12%)) 0 100%) padding-box,
+    var(--gradient-one) border-box, var(--gradient-two) border-box, var(--gradient-three) border-box,
+    var(--gradient-four) border-box, var(--gradient-five) border-box, var(--gradient-six) border-box,
+    var(--gradient-seven) border-box, var(--gradient-base) border-box;
+  opacity: calc((var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  -webkit-mask-image: conic-gradient(from var(--cursor-angle) at center, black calc(var(--cone-spread) * 1%), transparent calc((var(--cone-spread) + 15) * 1%), transparent calc((100 - var(--cone-spread) - 15) * 1%), black calc((100 - var(--cone-spread)) * 1%));
+  mask-image: conic-gradient(from var(--cursor-angle) at center, black calc(var(--cone-spread) * 1%), transparent calc((var(--cone-spread) + 15) * 1%), transparent calc((100 - var(--cone-spread) - 15) * 1%), black calc((100 - var(--cone-spread)) * 1%));
+}
+
+.np-border-glow::after {
+  border: 1px solid transparent;
+  background:
+    var(--gradient-one) padding-box, var(--gradient-two) padding-box, var(--gradient-three) padding-box,
+    var(--gradient-four) padding-box, var(--gradient-five) padding-box, var(--gradient-six) padding-box,
+    var(--gradient-seven) padding-box, var(--gradient-base) padding-box;
+  -webkit-mask-image:
+    linear-gradient(to bottom, black, black),
+    radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+    radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+    conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+  mask-image:
+    linear-gradient(to bottom, black, black),
+    radial-gradient(ellipse at 50% 50%, black 40%, transparent 65%),
+    radial-gradient(ellipse at 66% 66%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 33%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 66% 33%, black 5%, transparent 40%),
+    radial-gradient(ellipse at 33% 66%, black 5%, transparent 40%),
+    conic-gradient(from var(--cursor-angle) at center, transparent 5%, black 15%, black 85%, transparent 95%);
+  -webkit-mask-composite: source-out, source-over, source-over, source-over, source-over, source-over;
+  mask-composite: subtract, add, add, add, add, add;
+  opacity: calc(var(--fill-opacity) * (var(--edge-proximity) - var(--color-sensitivity)) / (100 - var(--color-sensitivity)));
+  mix-blend-mode: soft-light;
+}
+
+.np-border-glow > .np-edge-light {
+  inset: calc(var(--glow-padding) * -1);
+  pointer-events: none;
+  z-index: 1;
+  -webkit-mask-image: conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+  mask-image: conic-gradient(from var(--cursor-angle) at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%);
+  opacity: calc((var(--edge-proximity) - var(--edge-sensitivity)) / (100 - var(--edge-sensitivity)));
+  mix-blend-mode: plus-lighter;
+}
+
+.np-border-glow > .np-edge-light::before {
+  content: "";
+  position: absolute;
+  inset: var(--glow-padding);
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px var(--glow-color), inset 0 0 1px 0 var(--glow-color-60), inset 0 0 3px 0 var(--glow-color-50),
+    inset 0 0 6px 0 var(--glow-color-40), inset 0 0 15px 0 var(--glow-color-30), inset 0 0 25px 2px var(--glow-color-20),
+    inset 0 0 50px 2px var(--glow-color-10), 0 0 1px 0 var(--glow-color-60), 0 0 3px 0 var(--glow-color-50),
+    0 0 6px 0 var(--glow-color-40), 0 0 15px 0 var(--glow-color-30), 0 0 25px 2px var(--glow-color-20),
+    0 0 50px 2px var(--glow-color-10);
+}
+
+.np-border-glow-inner {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .np-border-glow.np-sweep::before,
+  .np-border-glow.np-sweep::after,
+  .np-border-glow.np-sweep > .np-edge-light {
+    transition: none;
+  }
+}
