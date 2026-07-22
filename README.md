@@ -38,7 +38,7 @@ These four files are enough to render a working page with `@alex-oden/ui`.
     "preview": "vite preview"
   },
   "dependencies": {
-    "@alex-oden/ui": "^1.2.0",
+    "@alex-oden/ui": "^1.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -214,7 +214,7 @@ Key utilities you get for free:
 ## Versioning
 
 Follows semver. See [CHANGELOG.md](./CHANGELOG.md). Pin an exact version
-(e.g. `@alex-oden/ui@1.2.0`) for reproducible installs.
+(e.g. `@alex-oden/ui@1.3.3`) for reproducible installs.
 
 ## License
 
