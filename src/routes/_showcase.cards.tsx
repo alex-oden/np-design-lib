@@ -11,6 +11,9 @@ import { FeatureCard } from "@/components/ui/feature-card";
 import { MediaCard } from "@/components/ui/media-card";
 import { AlertCard } from "@/components/ui/alert-card";
 import { GlowCard } from "@/components/ui/glow-card";
+import { MinimalCard } from "@/components/ui/minimal-card";
+import { MinimalCardRow } from "@/components/ui/minimal-card-row";
+import { ProcessCard } from "@/components/ui/process-card";
 import {
   CardContent,
   CardDescription,
@@ -49,6 +52,95 @@ function CardsPage() {
       title="Cards"
       intro="Each card is a distinct component with a clear use case. Pick by intent — SurfaceCard for neutral containers, GlassCard for overlays, InteractiveCard for clickable tiles, MetricCard for KPIs, and so on."
     >
+      <Section title="MinimalCard row" hint="contained · hairline dividers" animated index={0}>
+        <MinimalCardRow bleed="contained" columns={4}>
+          <MinimalCard
+            eyebrow="Energy bills"
+            trend="down"
+            value="20%"
+            description="Average reduction in commercial energy costs"
+          />
+          <MinimalCard
+            eyebrow="Grid capacity"
+            trend="up"
+            value="2.4×"
+            description="Effective increase in usable import / export power"
+          />
+          <MinimalCard
+            eyebrow="Uptime"
+            value="99.9%"
+            description="Monitored availability across the EMS fleet"
+          />
+          <MinimalCard
+            eyebrow="Trading cycles"
+            value="1825"
+            description="Optimization decisions per battery per year"
+          />
+        </MinimalCardRow>
+      </Section>
+
+      <Section title="MinimalCard — full-bleed" hint="edge-to-edge · top/bottom hairlines" animated index={1}>
+        <div className="-mx-6 md:-mx-10">
+          <MinimalCardRow bleed="full" columns={4}>
+            <MinimalCard
+              eyebrow="Energy bills"
+              trend="down"
+              value="20%"
+              description="Average reduction in commercial energy costs"
+            />
+            <MinimalCard
+              eyebrow="Grid capacity"
+              trend="up"
+              value="2.4×"
+              description="Effective increase in usable import / export power"
+            />
+            <MinimalCard
+              eyebrow="Uptime"
+              value="99.9%"
+              description="Monitored availability across the EMS fleet"
+            />
+            <MinimalCard
+              eyebrow="Trading cycles"
+              value="1825"
+              description="Optimization decisions per battery per year"
+            />
+          </MinimalCardRow>
+        </div>
+      </Section>
+
+      <Section title="ProcessCard row" hint="numbered steps" animated index={2}>
+        <MinimalCardRow bleed="contained" columns={4}>
+          <ProcessCard
+            index={1}
+            total={4}
+            title="Feasibility & quote"
+            description="We assess your site, load profile and tariff. You get a clear projection of savings and revenue — no obligation."
+            meta="~ 7 days"
+          />
+          <ProcessCard
+            index={2}
+            total={4}
+            title="Install & commission"
+            description="EU-built BESS delivered and installed by certified partners. Connected to your panel and our EMS cloud."
+            meta="2–6 weeks"
+          />
+          <ProcessCard
+            index={3}
+            total={4}
+            title="Optimize & trade"
+            description="Our EMS runs 24/7 — charging on cheap power, discharging during peaks, and trading capacity on energy markets."
+            meta="Live, 24/7"
+          />
+          <ProcessCard
+            index={4}
+            total={4}
+            title="Share returns"
+            description="Savings reduce your bill directly. Trading revenue is shared monthly. Full transparency through the EMS portal."
+            meta="Monthly"
+          />
+        </MinimalCardRow>
+      </Section>
+
       <Section title="SurfaceCard" hint="neutral container · forms, panels" animated index={0}>
         <SurfaceCard>
           <CardHeader>
