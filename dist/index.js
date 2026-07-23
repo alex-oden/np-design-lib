@@ -895,6 +895,112 @@ var GlowCard = React.forwardRef(({ preset = "brand", animated = true, ...props }
 });
 GlowCard.displayName = "GlowCard";
 //#endregion
+//#region src/components/ui/minimal-card.tsx
+var TREND_GLYPH = {
+	up: "↑",
+	down: "↓",
+	flat: "→"
+};
+/**
+* MinimalCard — sharp-cornered KPI cell. Designed to sit inside a
+* MinimalCardRow, where the row owns the outer border / hairline dividers.
+* Standalone use is fine too; then pass a className with your own border.
+*/
+var MinimalCard = React.forwardRef(({ eyebrow, value, description, trend, tone = "brand", className, children, ...props }, ref) => {
+	return /* @__PURE__ */ jsxs("div", {
+		ref,
+		className: cn("flex h-full flex-col justify-between gap-8 p-6 md:p-8", className),
+		...props,
+		children: [
+			/* @__PURE__ */ jsxs("div", {
+				className: "space-y-6",
+				children: [eyebrow && /* @__PURE__ */ jsxs("p", {
+					className: "font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground",
+					children: [trend && /* @__PURE__ */ jsx("span", {
+						className: "mr-1",
+						children: TREND_GLYPH[trend]
+					}), eyebrow]
+				}), value !== void 0 && /* @__PURE__ */ jsx("p", {
+					className: cn("font-semibold tabular-nums leading-none tracking-[-0.03em]", "text-4xl md:text-5xl", tone === "brand" ? "text-brand-end" : "text-foreground"),
+					children: value
+				})]
+			}),
+			description && /* @__PURE__ */ jsx("p", {
+				className: "text-[13px] leading-relaxed text-muted-foreground",
+				children: description
+			}),
+			children
+		]
+	});
+});
+MinimalCard.displayName = "MinimalCard";
+//#endregion
+//#region src/components/ui/minimal-card-row.tsx
+var COL_CLASSES = {
+	2: "md:grid-cols-2",
+	3: "md:grid-cols-3",
+	4: "md:grid-cols-2 lg:grid-cols-4",
+	5: "md:grid-cols-2 lg:grid-cols-5"
+};
+/**
+* MinimalCardRow — arranges MinimalCard / ProcessCard children as a single
+* row of cells separated by hairline dividers (vertical on md+, horizontal
+* when stacked on small screens).
+*/
+var MinimalCardRow = React.forwardRef(({ bleed = "contained", columns = 4, className, children, ...props }, ref) => {
+	return /* @__PURE__ */ jsx("div", {
+		ref,
+		className: cn("grid grid-cols-1", COL_CLASSES[columns], "divide-y divide-border/60", "md:divide-y-0 md:divide-x md:divide-border/60", bleed === "contained" ? "rounded-[var(--radius)] border border-border/60 bg-card/50 overflow-hidden" : "border-y border-border/60", className),
+		...props,
+		children
+	});
+});
+MinimalCardRow.displayName = "MinimalCardRow";
+//#endregion
+//#region src/components/ui/process-card.tsx
+var pad = (n) => n.toString().padStart(2, "0");
+var ProcessCard = React.forwardRef(({ index, total, title, description, meta, className, ...props }, ref) => {
+	return /* @__PURE__ */ jsxs("div", {
+		ref,
+		className: cn("flex h-full flex-col justify-between gap-8 p-6 md:p-8", className),
+		...props,
+		children: [/* @__PURE__ */ jsxs("div", {
+			className: "space-y-5",
+			children: [
+				/* @__PURE__ */ jsxs("p", {
+					className: "font-mono text-[11px] tracking-[0.16em]",
+					children: [/* @__PURE__ */ jsx("span", {
+						className: "text-brand-end",
+						children: pad(index)
+					}), /* @__PURE__ */ jsxs("span", {
+						className: "text-muted-foreground/60",
+						children: [" / ", pad(total)]
+					})]
+				}),
+				/* @__PURE__ */ jsx("h3", {
+					className: "text-lg font-semibold tracking-[-0.01em] text-foreground",
+					children: title
+				}),
+				description && /* @__PURE__ */ jsx("p", {
+					className: "text-[13px] leading-relaxed text-muted-foreground",
+					children: description
+				})
+			]
+		}), meta && /* @__PURE__ */ jsxs("div", {
+			className: "flex items-center gap-3",
+			children: [/* @__PURE__ */ jsx("span", {
+				"aria-hidden": true,
+				className: "h-[2px] w-8 rounded-full",
+				style: { background: "linear-gradient(90deg, hsl(var(--brand-start)), hsl(var(--brand-end)))" }
+			}), /* @__PURE__ */ jsx("span", {
+				className: "font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted-foreground",
+				children: meta
+			})]
+		})]
+	});
+});
+ProcessCard.displayName = "ProcessCard";
+//#endregion
 //#region src/components/ui/carousel.tsx
 var CarouselContext = React.createContext(null);
 function useCarousel() {
@@ -2753,6 +2859,6 @@ var ToggleGroupItem = React.forwardRef(({ className, children, variant, size, ..
 });
 ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName;
 //#endregion
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertCard, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, Avatar, AvatarFallback, AvatarImage, Badge, Banner, BorderGlow, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, Count, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Dots, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuTrigger, FeatureCard, Field, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, GlassCard, GlowCard, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, InteractiveCard, Label, MediaCard, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MetricCard, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Segmented, Select, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, Spinner, StatCard, SurfaceCard, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toast, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertVariants, badgeVariants, buttonVariants, cn, navigationMenuTriggerStyle, toastVariants, toggleVariants, useFormField, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertCard, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, Avatar, AvatarFallback, AvatarImage, Badge, Banner, BorderGlow, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, Count, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Dots, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuTrigger, FeatureCard, Field, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, GlassCard, GlowCard, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, InteractiveCard, Label, MediaCard, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MetricCard, MinimalCard, MinimalCardRow, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, ProcessCard, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Segmented, Select, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, Spinner, StatCard, SurfaceCard, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toast, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertVariants, badgeVariants, buttonVariants, cn, navigationMenuTriggerStyle, toastVariants, toggleVariants, useFormField, useSidebar };
 
 //# sourceMappingURL=index.js.map
