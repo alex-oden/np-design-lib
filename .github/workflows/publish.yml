@@ -1,10 +1,15 @@
 name: Publish package
 
 # Publishes @alex-oden/ui to the public npm registry (npmjs.com).
-# Run it from the GitHub UI: Actions tab -> "Publish package" -> "Run workflow".
+# Triggers:
+#   - push of a tag matching v* (e.g. v1.5.0) — automatic release flow
+#   - manual "Run workflow" from the Actions tab
 # Requires the repo secret NPM_TOKEN (npmjs.com -> Access Tokens -> Automation).
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -22,6 +27,15 @@ jobs:
           scope: "@alex-oden"
       - run: npm install --no-audit --no-fund --ignore-scripts
       - run: npm run build:lib
-      - run: npm publish --access public
+      - name: Publish to npm (skip if version already exists)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          echo "Publishing $PKG_NAME@$PKG_VERSION"
+          if npm view "$PKG_NAME@$PKG_VERSION" version >/dev/null 2>&1; then
+            echo "Version $PKG_VERSION already published — skipping."
+            exit 0
+          fi
+          npm publish --access public
