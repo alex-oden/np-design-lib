@@ -192,6 +192,7 @@ Or install self-hosted `@fontsource-variable/geist` and import from there.
 | `toggle-group` | ToggleGroup, ToggleGroupItem |  |
 | `toggle` | Toggle, Variants |  |
 | `tooltip` | Tooltip, TooltipContent, TooltipProvider, TooltipTrigger |  |
+| `theme-background` | ThemeBackground, ThemeBackgroundVariant, ThemeBackgroundIntensity, ThemeBackgroundAccent | Layered atmospheric backdrop. `variant`: `page-aurora` \| `hero-aurora` \| `grid-glow` \| `dot-field` \| `spotlight`. |
 
 All components live under `@alex-oden/ui/components/ui/*` and are also
 re-exported from the package root.
@@ -209,12 +210,22 @@ Key utilities you get for free:
 - `glass` (backdrop blur + saturation)
 - `animate-np-spin`, `animate-np-pulse`, `animate-np-bounce`,
   `animate-np-shimmer`, `animate-np-indeterminate`, `animate-np-toast-in`
+- `animate-np-float-1`, `animate-np-float-2`, `animate-np-float-3`
+  (paused under `prefers-reduced-motion`)
+- `bg-page-aurora`, `bg-grid-glow`, `bg-dot-field`,
+  `bg-spotlight-top`, `bg-spotlight-corners` — single-layer background
+  shortcuts (use `<ThemeBackground/>` for the animated `hero-aurora`)
 - `shadow-card`, `shadow-glow`, `shadow-ring`
+
+## Documentation
+
+- [Consumer quick start](./docs/consumer-quickstart.md) — Vite + Tailwind v4 setup, fonts, dark mode, tree-shaking, troubleshooting.
+- [Themed backgrounds](./docs/usage-backgrounds.md) — the 5 `ThemeBackground` variants, re-theming, motion & accessibility.
 
 ## Versioning
 
 Follows semver. See [CHANGELOG.md](./CHANGELOG.md). Pin an exact version
-(e.g. `@alex-oden/ui@1.3.3`) for reproducible installs.
+(e.g. `@alex-oden/ui@1.5.0`) for reproducible installs.
 
 ## License
 

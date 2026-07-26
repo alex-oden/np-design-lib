@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.5.0 — Theme backgrounds
+
+- New `ThemeBackground` component with 5 variants: `page-aurora`,
+  `hero-aurora` (animated), `grid-glow`, `dot-field`, `spotlight`.
+  Props: `intensity` (`subtle` | `balanced` | `vivid`), `accent`
+  (`brand` | `green`), `fixed` (default `true` for full-viewport
+  backdrops).
+- New Tailwind v4 utilities for single-layer usage: `bg-page-aurora`,
+  `bg-grid-glow`, `bg-dot-field`, `bg-spotlight-top`,
+  `bg-spotlight-corners`.
+- New keyframes and utilities `animate-np-float-1|2|3` for slow
+  ambient float motion; automatically paused under
+  `prefers-reduced-motion: reduce`.
+- New `/backgrounds` showcase route with live intensity and accent
+  toggles.
+- New `docs/usage-backgrounds.md` and `docs/consumer-quickstart.md`.
+
 ## 1.3.3 — New inverse button + hero header polish
 
 - `Button`: added `variant="inverse"` — a dark/translucent surface with a
