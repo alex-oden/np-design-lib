@@ -227,6 +227,22 @@ Key utilities you get for free:
 Follows semver. See [CHANGELOG.md](./CHANGELOG.md). Pin an exact version
 (e.g. `@alex-oden/ui@1.5.0`) for reproducible installs.
 
+## Releasing
+
+Publishing is automated. Bump `version` in `package.json`, then push a
+matching git tag — GitHub Actions builds and publishes to npm:
+
+```bash
+# after bumping package.json version
+git add -A && git commit -m "release: v1.5.0"
+git tag v1.5.0
+git push origin main --tags
+```
+
+The `Publish package` workflow triggers on any `v*` tag, runs
+`bun run build:lib`, and calls `npm publish` with `NPM_TOKEN`. If the
+version already exists on npm the publish step no-ops instead of failing.
+
 ## License
 
 MIT.
