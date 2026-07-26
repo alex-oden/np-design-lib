@@ -14,6 +14,7 @@ const GROUPS: NavGroup[] = [
       { to: "/colors", label: "Colors" },
       { to: "/typography", label: "Typography" },
       { to: "/spacing", label: "Spacing & shadows" },
+      { to: "/backgrounds", label: "Backgrounds" },
     ],
   },
   {

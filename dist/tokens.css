@@ -160,6 +160,18 @@
   from { opacity: 0; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }
 }
+@keyframes np-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, 40px) scale(1.08); }
+}
+@keyframes np-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -30px) scale(1.05); }
+}
+@keyframes np-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.1); }
+}
 
 @utility animate-np-spin { animation: np-spin 700ms linear infinite; }
 @utility animate-np-pulse { animation: np-pulse 1.6s ease-in-out infinite; }
@@ -169,6 +181,41 @@
 @utility animate-np-toast-in { animation: np-toast-in 320ms cubic-bezier(.2,.7,.2,1); }
 @utility animate-np-fade-in-up { animation: np-fade-in-up 500ms cubic-bezier(.23, 1, .32, 1) both; }
 @utility animate-np-scale-in { animation: np-scale-in 400ms cubic-bezier(.23, 1, .32, 1) both; }
+@utility animate-np-float-1 { animation: np-float-1 22s ease-in-out infinite; }
+@utility animate-np-float-2 { animation: np-float-2 28s ease-in-out infinite; }
+@utility animate-np-float-3 { animation: np-float-3 32s ease-in-out infinite; }
+
+/* Themed background utilities — single-layer versions of ThemeBackground.
+   For layered/animated effects (hero-aurora), use the <ThemeBackground/> component. */
+@utility bg-page-aurora {
+  background-color: hsl(var(--background));
+  background-image:
+    radial-gradient(ellipse 60% 40% at 50% 0%, hsl(var(--brand-start) / 0.18), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, hsl(var(--brand-end) / 0.08), transparent 60%);
+}
+@utility bg-grid-glow {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+    radial-gradient(ellipse 50% 40% at 25% 50%, hsl(var(--brand-start) / 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 30%, hsl(var(--brand-end) / 0.10), transparent 60%);
+  background-size: 64px 64px, 64px 64px, auto, auto;
+}
+@utility bg-dot-field {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 50%, hsl(var(--brand-start) / 0.30), transparent 70%),
+    radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-size: auto, 22px 22px;
+}
+@utility bg-spotlight-top {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 50% 0%, hsl(var(--brand-start) / 0.10), transparent 60%);
+}
+@utility bg-spotlight-corners {
+  background-image:
+    radial-gradient(ellipse 50% 40% at 80% 30%, hsl(var(--brand-start) / 0.10), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 20% 70%, hsl(var(--brand-end) / 0.08), transparent 60%);
+}
 @utility transition-np-card { transition: transform 280ms cubic-bezier(.23, 1, .32, 1), box-shadow 280ms cubic-bezier(.23, 1, .32, 1), border-color 280ms cubic-bezier(.23, 1, .32, 1); }
 
 @layer base {

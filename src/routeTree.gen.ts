@@ -27,6 +27,7 @@ import { Route as ShowcaseButtonsRouteImport } from './routes/_showcase.buttons'
 import { Route as ShowcaseButtonStatesRouteImport } from './routes/_showcase.button-states'
 import { Route as ShowcaseBrandRouteImport } from './routes/_showcase.brand'
 import { Route as ShowcaseBadgesRouteImport } from './routes/_showcase.badges'
+import { Route as ShowcaseBackgroundsRouteImport } from './routes/_showcase.backgrounds'
 import { Route as ShowcaseAlertsRouteImport } from './routes/_showcase.alerts'
 
 const ShowcaseRoute = ShowcaseRouteImport.update({
@@ -118,6 +119,11 @@ const ShowcaseBadgesRoute = ShowcaseBadgesRouteImport.update({
   path: '/badges',
   getParentRoute: () => ShowcaseRoute,
 } as any)
+const ShowcaseBackgroundsRoute = ShowcaseBackgroundsRouteImport.update({
+  id: '/backgrounds',
+  path: '/backgrounds',
+  getParentRoute: () => ShowcaseRoute,
+} as any)
 const ShowcaseAlertsRoute = ShowcaseAlertsRouteImport.update({
   id: '/alerts',
   path: '/alerts',
@@ -127,6 +133,7 @@ const ShowcaseAlertsRoute = ShowcaseAlertsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof ShowcaseIndexRoute
   '/alerts': typeof ShowcaseAlertsRoute
+  '/backgrounds': typeof ShowcaseBackgroundsRoute
   '/badges': typeof ShowcaseBadgesRoute
   '/brand': typeof ShowcaseBrandRoute
   '/button-states': typeof ShowcaseButtonStatesRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/alerts': typeof ShowcaseAlertsRoute
+  '/backgrounds': typeof ShowcaseBackgroundsRoute
   '/badges': typeof ShowcaseBadgesRoute
   '/brand': typeof ShowcaseBrandRoute
   '/button-states': typeof ShowcaseButtonStatesRoute
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_showcase': typeof ShowcaseRouteWithChildren
   '/_showcase/alerts': typeof ShowcaseAlertsRoute
+  '/_showcase/backgrounds': typeof ShowcaseBackgroundsRoute
   '/_showcase/badges': typeof ShowcaseBadgesRoute
   '/_showcase/brand': typeof ShowcaseBrandRoute
   '/_showcase/button-states': typeof ShowcaseButtonStatesRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/alerts'
+    | '/backgrounds'
     | '/badges'
     | '/brand'
     | '/button-states'
@@ -210,6 +220,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/alerts'
+    | '/backgrounds'
     | '/badges'
     | '/brand'
     | '/button-states'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_showcase'
     | '/_showcase/alerts'
+    | '/_showcase/backgrounds'
     | '/_showcase/badges'
     | '/_showcase/brand'
     | '/_showcase/button-states'
@@ -382,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShowcaseBadgesRouteImport
       parentRoute: typeof ShowcaseRoute
     }
+    '/_showcase/backgrounds': {
+      id: '/_showcase/backgrounds'
+      path: '/backgrounds'
+      fullPath: '/backgrounds'
+      preLoaderRoute: typeof ShowcaseBackgroundsRouteImport
+      parentRoute: typeof ShowcaseRoute
+    }
     '/_showcase/alerts': {
       id: '/_showcase/alerts'
       path: '/alerts'
@@ -394,6 +413,7 @@ declare module '@tanstack/react-router' {
 
 interface ShowcaseRouteChildren {
   ShowcaseAlertsRoute: typeof ShowcaseAlertsRoute
+  ShowcaseBackgroundsRoute: typeof ShowcaseBackgroundsRoute
   ShowcaseBadgesRoute: typeof ShowcaseBadgesRoute
   ShowcaseBrandRoute: typeof ShowcaseBrandRoute
   ShowcaseButtonStatesRoute: typeof ShowcaseButtonStatesRoute
@@ -415,6 +435,7 @@ interface ShowcaseRouteChildren {
 
 const ShowcaseRouteChildren: ShowcaseRouteChildren = {
   ShowcaseAlertsRoute: ShowcaseAlertsRoute,
+  ShowcaseBackgroundsRoute: ShowcaseBackgroundsRoute,
   ShowcaseBadgesRoute: ShowcaseBadgesRoute,
   ShowcaseBrandRoute: ShowcaseBrandRoute,
   ShowcaseButtonStatesRoute: ShowcaseButtonStatesRoute,
@@ -444,13 +465,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

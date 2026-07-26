@@ -20,6 +20,7 @@ export * from './components/ui/feature-card';
 export * from './components/ui/media-card';
 export * from './components/ui/alert-card';
 export * from './components/ui/glow-card';
+export * from './components/ui/theme-background';
 export * from './components/ui/minimal-card';
 export * from './components/ui/minimal-card-row';
 export * from './components/ui/process-card';
