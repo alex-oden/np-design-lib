@@ -895,6 +895,148 @@ var GlowCard = React.forwardRef(({ preset = "brand", animated = true, ...props }
 });
 GlowCard.displayName = "GlowCard";
 //#endregion
+//#region src/components/ui/theme-background.tsx
+var INTENSITY_SCALE = {
+	subtle: .6,
+	balanced: 1,
+	vivid: 1.4
+};
+function accentStop(accent, alpha) {
+	return accent === "green" ? `rgba(0, 220, 140, ${alpha})` : `rgba(251, 0, 200, ${alpha})`;
+}
+var BLUE = (a) => `rgba(54, 87, 255, ${a})`;
+/**
+* ThemeBackground — layered decorative background primitives ported from the
+* NeosPower home. Renders absolutely-positioned, non-interactive layers behind
+* content. Wrap your content in `relative z-10` (or similar) to sit on top.
+*/
+var ThemeBackground = React.forwardRef(function ThemeBackground({ variant, intensity = "balanced", accent = "brand", animated, fixed, className, style, ...rest }, ref) {
+	const k = INTENSITY_SCALE[intensity];
+	const isFixed = fixed ?? variant === "page-aurora";
+	const isAnimated = animated ?? variant === "hero-aurora";
+	return /* @__PURE__ */ jsxs("div", {
+		ref,
+		"aria-hidden": true,
+		className: cn("pointer-events-none overflow-hidden", isFixed ? "fixed inset-0" : "absolute inset-0", className),
+		style: {
+			zIndex: 0,
+			...style
+		},
+		"data-variant": variant,
+		...rest,
+		children: [
+			variant === "page-aurora" && /* @__PURE__ */ jsxs(Fragment, { children: [
+				/* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-background" }),
+				/* @__PURE__ */ jsx("div", {
+					className: "absolute inset-0",
+					style: { background: `
+                  radial-gradient(ellipse 60% 40% at 50% 0%, ${BLUE(.18 * k)}, transparent 60%),
+                  radial-gradient(ellipse 80% 50% at 50% 100%, ${accentStop(accent, .08 * k)}, transparent 60%)
+                ` }
+				}),
+				/* @__PURE__ */ jsx("div", {
+					className: "absolute inset-0 opacity-25 mix-blend-overlay",
+					style: {
+						backgroundImage: `
+                  radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                  radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)
+                `,
+						backgroundSize: "3px 3px, 7px 7px",
+						backgroundPosition: "0 0, 1px 1px"
+					}
+				})
+			] }),
+			variant === "hero-aurora" && /* @__PURE__ */ jsxs("div", {
+				className: "absolute inset-0 mix-blend-screen",
+				children: [
+					/* @__PURE__ */ jsx("div", {
+						className: cn("absolute rounded-full", isAnimated && "animate-np-float-1 motion-reduce:animate-none"),
+						style: {
+							width: 620,
+							height: 620,
+							top: -180,
+							left: -120,
+							filter: "blur(90px)",
+							opacity: .45 * k,
+							mixBlendMode: "screen",
+							background: `radial-gradient(circle, ${BLUE(.85)}, transparent 70%)`
+						}
+					}),
+					/* @__PURE__ */ jsx("div", {
+						className: cn("absolute rounded-full", isAnimated && "animate-np-float-2 motion-reduce:animate-none"),
+						style: {
+							width: 560,
+							height: 560,
+							top: -120,
+							right: -100,
+							filter: "blur(90px)",
+							opacity: .45 * k,
+							mixBlendMode: "screen",
+							background: `radial-gradient(circle, ${accentStop(accent, .75)}, transparent 70%)`
+						}
+					}),
+					/* @__PURE__ */ jsx("div", {
+						className: cn("absolute rounded-full", isAnimated && "animate-np-float-3 motion-reduce:animate-none"),
+						style: {
+							width: 420,
+							height: 420,
+							bottom: -200,
+							left: "35%",
+							filter: "blur(90px)",
+							opacity: .45 * k,
+							mixBlendMode: "screen",
+							background: `radial-gradient(circle, rgba(0, 220, 140, 0.40), transparent 70%)`
+						}
+					})
+				]
+			}),
+			variant === "grid-glow" && /* @__PURE__ */ jsxs(Fragment, { children: [/* @__PURE__ */ jsx("div", {
+				className: "absolute inset-0",
+				style: {
+					backgroundImage: `
+                  linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)
+                `,
+					backgroundSize: "64px 64px",
+					WebkitMaskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 80%)",
+					maskImage: "radial-gradient(ellipse 70% 70% at 50% 50%, #000 30%, transparent 80%)"
+				}
+			}), /* @__PURE__ */ jsx("div", {
+				className: "absolute inset-0",
+				style: { background: `
+                  radial-gradient(ellipse 50% 40% at 25% 50%, ${BLUE(.18 * k)}, transparent 60%),
+                  radial-gradient(ellipse 50% 40% at 80% 30%, ${accentStop(accent, .1 * k)}, transparent 60%)
+                ` }
+			})] }),
+			variant === "dot-field" && /* @__PURE__ */ jsxs(Fragment, { children: [/* @__PURE__ */ jsx("div", {
+				className: "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+				style: {
+					width: "80%",
+					height: "70%",
+					filter: "blur(60px)",
+					background: `radial-gradient(ellipse, ${BLUE(.4 * k)} 0%, ${accentStop(accent, .18 * k)} 40%, transparent 70%)`
+				}
+			}), /* @__PURE__ */ jsx("div", {
+				className: "absolute inset-0 opacity-60",
+				style: {
+					backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px)",
+					backgroundSize: "22px 22px",
+					WebkitMaskImage: "radial-gradient(ellipse 55% 55% at 50% 50%, #000 20%, transparent 80%)",
+					maskImage: "radial-gradient(ellipse 55% 55% at 50% 50%, #000 20%, transparent 80%)"
+				}
+			})] }),
+			variant === "spotlight" && /* @__PURE__ */ jsx("div", {
+				className: "absolute inset-0",
+				style: { background: `
+                radial-gradient(ellipse 50% 40% at 80% 30%, ${BLUE(.12 * k)}, transparent 60%),
+                radial-gradient(ellipse 40% 30% at 20% 70%, ${accentStop(accent, .1 * k)}, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 50% 0%, ${BLUE(.08 * k)}, transparent 60%)
+              ` }
+			})
+		]
+	});
+});
+//#endregion
 //#region src/components/ui/minimal-card.tsx
 var TREND_GLYPH = {
 	up: "↑",
@@ -2859,6 +3001,6 @@ var ToggleGroupItem = React.forwardRef(({ className, children, variant, size, ..
 });
 ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName;
 //#endregion
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertCard, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, Avatar, AvatarFallback, AvatarImage, Badge, Banner, BorderGlow, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, Count, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Dots, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuTrigger, FeatureCard, Field, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, GlassCard, GlowCard, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, InteractiveCard, Label, MediaCard, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MetricCard, MinimalCard, MinimalCardRow, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, ProcessCard, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Segmented, Select, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, Spinner, StatCard, SurfaceCard, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, Toast, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertVariants, badgeVariants, buttonVariants, cn, navigationMenuTriggerStyle, toastVariants, toggleVariants, useFormField, useSidebar };
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Alert, AlertCard, AlertDescription, AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, AlertTitle, AspectRatio, Avatar, AvatarFallback, AvatarImage, Badge, Banner, BorderGlow, Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, Button, Calendar, CalendarDayButton, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, Checkbox, Collapsible, CollapsibleContent, CollapsibleTrigger, Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, Count, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, Dots, Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuTrigger, FeatureCard, Field, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, GlassCard, GlowCard, HoverCard, HoverCardContent, HoverCardTrigger, Input, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, InteractiveCard, Label, MediaCard, Menubar, MenubarCheckboxItem, MenubarContent, MenubarGroup, MenubarItem, MenubarLabel, MenubarMenu, MenubarPortal, MenubarRadioGroup, MenubarRadioItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubContent, MenubarSubTrigger, MenubarTrigger, MetricCard, MinimalCard, MinimalCardRow, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, NavigationMenuViewport, Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, Popover, PopoverAnchor, PopoverContent, PopoverTrigger, ProcessCard, Progress, RadioGroup, RadioGroupItem, ResizableHandle, ResizablePanel, ResizablePanelGroup, ScrollArea, ScrollBar, Segmented, Select, Separator, Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetOverlay, SheetPortal, SheetTitle, SheetTrigger, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, Skeleton, Slider, Spinner, StatCard, SurfaceCard, Switch, Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsTrigger, Textarea, ThemeBackground, Toast, Toaster, Toggle, ToggleGroup, ToggleGroupItem, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, alertVariants, badgeVariants, buttonVariants, cn, navigationMenuTriggerStyle, toastVariants, toggleVariants, useFormField, useSidebar };
 
 //# sourceMappingURL=index.js.map
