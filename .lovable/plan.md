@@ -1,64 +1,45 @@
 ## Goal
-Port the five distinctive layered background treatments from the NeosPower home into the design library as reusable, themable primitives, and document them in a new showcase route. Ship as `v1.5.0`.
 
-## What I found in `styles.css`
-Five distinct treatments (each is 1–3 stacked absolutely-positioned layers using the brand tokens `--brand-start` / `--brand-end`):
+Ship the current v1.5.0 (`ThemeBackground` + background utilities) so consumer projects can install and use it, and add usage documentation.
 
-1. **Page aurora** (`.page-bg` + `::before` + `::after`) — fixed fullscreen base + top blue radial + bottom magenta radial + 3px/7px dual dot-noise overlay at `mix-blend-mode: overlay`.
-2. **Hero aurora** (`.hero-aurora` + `.aurora-blob-1/2/3`) — 3 floating blurred (`blur(90px)`) blobs: blue 620px top-left, magenta 560px top-right, green 420px bottom-center; each animated with slow float keyframes, `mix-blend-mode: screen`.
-3. **Grid glow** (`.bess-bg-grid` + `.bess-bg-glow`, also `.cta-bg`) — 64px linear-gradient grid lines with radial ellipse mask + dual radial brand glow (blue 25%/50%, magenta 80%/30%).
-4. **Dot field** (`.bess-visual-grid` + `.bess-visual-glow`) — 22px radial-dot pattern with center ellipse mask + big blurred brand-radial glow behind it.
-5. **Spotlight glow** (`.features`, `.contact-section::before`, `.footer`) — single or dual radial brand glows placed at the top or corners of a section, no grid/noise.
+The library code and `package.json` are already at 1.5.0 and `dist/` is rebuilt. What's missing is: docs, README updates, changelog, and the publish steps.
 
-## New components (in `src/components/ui/`)
+## Changes
 
-### `theme-background.tsx` — one component, variant prop
-```tsx
-<ThemeBackground variant="page-aurora" | "hero-aurora" | "grid-glow" | "dot-field" | "spotlight" />
-```
-- Renders a `position: absolute inset-0` layered div-stack (fixed for `page-aurora`); `pointer-events: none`, `z-index: 0`; consumer wraps content in `relative z-10`.
-- Each variant composes 1–3 absolutely-positioned divs so we can keep everything in JSX (no `::before/::after` needed) and stay Tailwind-v4 friendly.
-- Props:
-  - `variant` (required)
-  - `intensity?: "subtle" | "balanced" | "vivid"` — scales the glow opacity (matches the `TWEAK_DEFAULTS.aurora` values from the source: subtle/balanced/vivid map to 0.6× / 1× / 1.4× opacity).
-  - `accent?: "brand" | "green"` — swaps the magenta stop for `--brand-cyan` / green, matching the `accent` tweak.
-  - `animated?: boolean` (default true for hero-aurora, false otherwise) — turns off the float keyframes; auto-off under `prefers-reduced-motion`.
-  - `className?`, `style?` for positioning tweaks.
+### 1. `CHANGELOG.md` — prepend v1.5.0 entry
+- New `ThemeBackground` component (variants: `page-aurora`, `hero-aurora`, `grid-glow`, `dot-field`, `spotlight`; props `intensity`, `accent`, `fixed`).
+- New Tailwind v4 utilities: `bg-page-aurora`, `bg-grid-glow`, `bg-dot-field`, `bg-spotlight-top`, `bg-spotlight-corners`.
+- New keyframes/animations: `animate-np-float-1|2|3`.
 
-### Utility classes in `src/styles.css`
-Add lightweight `@utility` classes so the same effects are usable in plain className usage without the component:
-- `bg-page-aurora` — the noise-dot + dual radial glow (no fixed positioning; consumer decides).
-- `bg-grid-glow` — grid-line background + radial ellipse mask.
-- `bg-dot-field` — dot-pattern background + radial ellipse mask.
-- `bg-spotlight-top`, `bg-spotlight-corners` — single/dual radial brand glow.
+### 2. `README.md`
+- Bump version examples from `1.3.3` → `1.5.0`.
+- Add `ThemeBackground` row to the Components table.
+- Add a short "Backgrounds" section with 3 snippets (component, utility, custom accent) plus the "wrap content in `relative z-10`" note.
+- Update the "Key utilities" list to include the new `bg-*` background utilities and `animate-np-float-*`.
 
-The hero-aurora stays component-only (3 animated children can't live in one utility).
+### 3. New `docs/usage-backgrounds.md`
+Focused how-to for consumers:
+- When to use each variant (page shell, hero, feature section, product stage, calm section).
+- Full working example: hero section with `hero-aurora` + content on `relative z-10`.
+- Re-theming via `--brand-start` / `--brand-end` override on `:root`.
+- Performance/accessibility notes: layers are `pointer-events-none`, honor `prefers-reduced-motion` (hero-aurora animations should be paused — verify current component and note the fix if missing).
 
-### Keyframes
-Add `@keyframes np-float-1/2/3` (translate + scale, 22s/28s/32s, ease-in-out infinite) to `src/styles.css`, ported verbatim from source. Disable inside `@media (prefers-reduced-motion: reduce)`.
+### 4. New `docs/consumer-quickstart.md`
+Extract the "Quick start in a consumer project" section from README into a longer standalone doc that also covers:
+- Font loading (`<link>` vs `@fontsource-variable/geist`).
+- Dark mode toggle (add/remove `.dark` on `<html>`).
+- Tree-shaking with subpath imports.
+- Upgrading (version pinning, semver).
+- Troubleshooting (missing utilities → `@source` path; unstyled components → `tokens.css` not imported).
 
-## Showcase route: `src/routes/_showcase.backgrounds.tsx`
-New sidebar entry under **Foundations** (after Spacing & shadows). One `Section` per variant, each rendering a bordered stage (h ~360px) with the background and a small caption. Include:
-- Live preview of each of the 5 variants.
-- Intensity toggle (subtle / balanced / vivid) — reuse existing `Segmented` component.
-- Accent toggle (brand / green) — Segmented.
-- Copy-paste code snippet under each preview (both `<ThemeBackground>` and utility form where applicable).
+Link both new docs from README under a new "Documentation" section.
 
-Add to `showcase-sidebar.tsx` Foundations group.
-
-## Exports
-- Add `export * from "./components/ui/theme-background"` to `src/index.ts`.
-
-## Tokens
-No new color tokens — all effects already resolve from `--brand-start`, `--brand-end`, `--brand-cyan`, `--background`. Keep opacity values inline (matches the source's approach so brand token changes cascade naturally).
-
-## Versioning + release
-- Bump `package.json` `1.4.0` → `1.5.0` (new feature).
-- Rebuild `dist/` via `bun run build:lib`.
-- Update `README.md` component list with the new `ThemeBackground` entry.
-- The version pill in the sidebar/brand page updates automatically via `src/lib/version.ts`.
+### 5. Rebuild + publish
+- Run `bun run build:lib` to refresh `dist/` (picks up any README/token comment changes bundled in the CSS).
+- GitHub side (user action, since I can't push git): commit + tag `v1.5.0`; the existing publish workflow will push to npm. I'll spell the exact commands out at the end.
 
 ## Out of scope
-- Not porting the Spline 3D scene — that's an external asset, not a background style.
-- Not touching existing card components or the DocPage shell.
-- No git push/tag — user does that step manually as before.
+
+- No component behavior changes — v1.5.0 code is already merged.
+- No new components beyond `ThemeBackground`.
+- No changes to the showcase site beyond what's already at `/backgrounds`.
