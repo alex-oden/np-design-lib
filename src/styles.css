@@ -188,6 +188,13 @@
 @utility animate-np-float-2 { animation: np-float-2 28s ease-in-out infinite; }
 @utility animate-np-float-3 { animation: np-float-3 32s ease-in-out infinite; }
 
+/* Respect users who ask for less motion — freeze aurora blobs. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-np-float-1,
+  .animate-np-float-2,
+  .animate-np-float-3 { animation: none !important; }
+}
+
 /* Themed background utilities — single-layer versions of ThemeBackground.
    For layered/animated effects (hero-aurora), use the <ThemeBackground/> component. */
 @utility bg-page-aurora {
