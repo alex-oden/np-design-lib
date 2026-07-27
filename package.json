@@ -32,7 +32,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "build:lib": "rm -rf dist && vite build --config vite.lib.config.ts",
-    "typecheck": "tsgo -p tsconfig.lib.json",
+    "typecheck": "tsc -p tsconfig.lib.json --noEmit",
     "release": "bun run build:lib && echo '\\nNow run: git add -A && git commit -m \"release: v'\"$(node -p \"require('./package.json').version\")\"'\" && git tag v'\"$(node -p \"require('./package.json').version\")\"' && git push origin main --tags'"
   },
   "peerDependencies": {
