@@ -229,19 +229,22 @@ Follows semver. See [CHANGELOG.md](./CHANGELOG.md). Pin an exact version
 
 ## Releasing
 
-Publishing is automated. Bump `version` in `package.json`, then push a
-matching git tag — GitHub Actions builds and publishes to npm:
+Fully automated, no terminal required.
 
-```bash
-# after bumping package.json version
-git add -A && git commit -m "release: v1.5.0"
-git tag v1.5.0
-git push origin main --tags
-```
+1. Bump `version` in `package.json` (and add an entry to `CHANGELOG.md`).
+2. On GitHub, open **Actions → Release → Run workflow**, pick `main`, click **Run workflow**.
 
-The `Publish package` workflow triggers on any `v*` tag, runs
-`bun run build:lib`, and calls `npm publish` with `NPM_TOKEN`. If the
-version already exists on npm the publish step no-ops instead of failing.
+The `Release` workflow:
+
+- verifies the `vX.Y.Z` tag doesn't already exist,
+- runs `bun run typecheck` + `bun run build:lib`,
+- commits the rebuilt `dist/` back to `main` if it changed,
+- creates and pushes the `vX.Y.Z` tag.
+
+Pushing the tag triggers the `Publish package` workflow, which runs
+`npm publish` with `NPM_TOKEN`. If the version already exists on npm the
+publish step no-ops instead of failing. Requires the repo secret
+`NPM_TOKEN` (npmjs.com → Access Tokens → Automation).
 
 ## License
 

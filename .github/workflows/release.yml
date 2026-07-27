@@ -1,9 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:
 
 jobs:
   release:
@@ -12,17 +10,47 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
+      - name: Read version from package.json
+        id: pkg
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Releasing version: v$VERSION"
+      - name: Fail if tag already exists
+        run: |
+          TAG="${{ steps.pkg.outputs.tag }}"
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            echo "Tag $TAG already exists locally. Bump the version in package.json and re-run."
+            exit 1
+          fi
+          if git ls-remote --exit-code --tags origin "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists on origin. Bump the version in package.json and re-run."
+            exit 1
+          fi
       - run: bun install --frozen-lockfile
       - run: bun run typecheck
       - run: bun run build:lib
-      - name: Package tarball
-        run: bun pm pack
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            dist/**
-            *.tgz
-          generate_release_notes: true
+      - name: Commit rebuilt dist (if changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f dist
+          if git diff --cached --quiet; then
+            echo "No dist changes to commit."
+          else
+            git commit -m "chore: release ${{ steps.pkg.outputs.tag }} (dist)"
+            git push origin HEAD:main
+          fi
+      - name: Tag and push
+        run: |
+          TAG="${{ steps.pkg.outputs.tag }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          echo "Pushed $TAG — the Publish package workflow will now push to npm."

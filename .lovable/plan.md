@@ -1,52 +1,39 @@
 ## Goal
 
-Ship `@alex-oden/ui@1.5.0` to npm, sync GitHub, and add automation so future library updates publish automatically when I bump the version.
+Zero-terminal releases. When I ask "update the library", I edit code + bump `package.json`, and a GitHub Actions workflow you trigger from the browser tags the commit and publishes to npm — no local git, no Codespaces.
 
-## Steps
+## How it will work
 
-### 1. Automate publishing on version bump
+Add a new workflow `.github/workflows/release.yml` with a `workflow_dispatch` trigger (a "Run workflow" button on GitHub → Actions). It:
 
-Rewrite `.github/workflows/publish.yml` to trigger on tag push (`v*`) in addition to `workflow_dispatch`, so pushing a `v1.5.0` tag publishes automatically. Add a guard: `npm publish` uses `--tag latest` and skips if the version already exists on npm (`npm view ... version` check) to avoid failed reruns.
+1. Reads `version` from `package.json` on the current `main`.
+2. Fails early if a matching `vX.Y.Z` tag already exists (prevents accidental re-release).
+3. Runs `bun install`, `bun run build:lib`, force-adds `dist/`, commits `chore: release vX.Y.Z` if there are changes.
+4. Creates and pushes the `vX.Y.Z` tag.
+5. Tag push automatically fires the existing `.github/workflows/publish.yml`, which publishes `@alex-oden/ui@X.Y.Z` to npm via `NPM_TOKEN`.
 
-### 2. Add a "release" script
+Also tighten the existing publish workflow so it fails loudly (instead of silently skipping) if `NPM_TOKEN` is missing, and update `README.md` "Releasing" section to describe the new one-click flow.
 
-Add a `scripts.release` entry to `package.json` that runs `bun run build:lib` locally as a sanity step, and document (in README) the one-command flow for future updates:
+## Your flow from now on
 
-```
-# bump version in package.json, then:
-git add -A && git commit -m "release: v<x.y.z>"
-git tag v<x.y.z>
-git push origin main --tags
-```
+1. You ask me to update the library.
+2. I make the code changes + bump `package.json` version + update `CHANGELOG.md`.
+3. You open GitHub → Actions → **Release** → **Run workflow** → pick `main` → Run. Done. npm gets the new version within ~2 minutes.
 
-Tag push → GitHub Actions builds + publishes to npm automatically. `update-dist.yml` keeps `dist/` committed on `main`.
+No terminal, no local clone, no Codespaces.
 
-### 3. Publish v1.5.0 now
+## Files to change
 
-Because I can't run git from here, the user runs (one time):
+- `.github/workflows/release.yml` — new, manual trigger, tags + pushes.
+- `.github/workflows/publish.yml` — small hardening: explicit `NPM_TOKEN` presence check.
+- `README.md` — replace the "Releasing" section with the click-to-release instructions.
 
-```
-git add -A
-git commit -m "release: v1.5.0 — ThemeBackground + docs + auto-publish"
-git tag v1.5.0
-git push origin main --tags
-```
+## Prerequisite (one-time, already done in your repo)
 
-The updated workflow then publishes `@alex-oden/ui@1.5.0` to npmjs.com using the existing `NPM_TOKEN` secret. Verify with `npm view @alex-oden/ui version` → `1.5.0`.
-
-### 4. Future updates (the "automatic" part you asked for)
-
-From next time on, when you ask me to update the library, I will:
-1. Make the code changes
-2. Bump `version` in `package.json`
-3. Update `CHANGELOG.md` + `README.md`
-4. Rebuild `dist/`
-5. Give you a single `git tag vX.Y.Z && git push --tags` command
-
-The tag push publishes to npm without any manual "Run workflow" click.
+- `NPM_TOKEN` secret exists in the GitHub repo settings. ✅ (used by current publish workflow)
+- The release workflow needs `contents: write` permission — included in the workflow file, no repo-setting change needed.
 
 ## Out of scope
 
-- Changing the npm package name or scope.
-- Setting up an npm-side automation account (uses the existing `NPM_TOKEN`).
-- Auto-bumping the version from commit messages (semantic-release) — heavier setup; can add later if you want fully hands-off releases.
+- Auto-bumping the version from commit messages (semantic-release). Heavier setup; can add later.
+- Publishing prereleases / `next` dist-tag. Current flow always publishes `latest`.
